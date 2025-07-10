@@ -13,7 +13,9 @@ import RegisterLanding from "../pages/Register/RegisterLanding";
 import NewRegistration from "../pages/Register/NewRegistration";
 import CheckAllotment from "../pages/Register/CheckAllotment";
 
+import AdminLayout from "../layouts/AdminLayout";
 import AdminLogin from "../pages/Admin/AdminLogin";
+import AdminDashboard from "../pages/Admin/Dashboard";
 import AdminCommittees from "../pages/Admin/Committees";
 import AdminEBs from "../pages/Admin/EBs";
 import AdminTeams from "../pages/Admin/Teams";
@@ -44,11 +46,14 @@ const Router = () => {
       <Route path="/admin" element={<AdminLogin />} />
 
       <Route element={<ProtectedRoute />}>
-        <Route path="/admin/committees" element={<AdminCommittees />} />
-        <Route path="/admin/ebs" element={<AdminEBs />} />
-        <Route path="/admin/teams" element={<AdminTeams />} />
-        <Route path="/admin/sponsors" element={<AdminSponsors />} />
-        <Route path="/admin/faq" element={<AdminFAQ />} />
+        <Route element={<AdminLayout />}>
+          <Route path="/admin/dashboard" element={<AdminDashboard />} />
+          <Route path="/admin/committees" element={<AdminCommittees />} />
+          <Route path="/admin/ebs" element={<AdminEBs />} />
+          <Route path="/admin/teams" element={<AdminTeams />} />
+          <Route path="/admin/sponsors" element={<AdminSponsors />} />
+          <Route path="/admin/faq" element={<AdminFAQ />} />
+        </Route>
       </Route>
 
       <Route path="*" element={<NotFoundPage />} />
