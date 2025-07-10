@@ -1,7 +1,9 @@
 
 const CommitteesPage = () => {
   return (
-    <div>CommitteesPage</div>
+    <div className="">
+      dsdsvss
+    </div>
   )
 }
 

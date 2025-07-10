@@ -110,6 +110,10 @@
   --sidebar-ring: oklch(0.556 0 0);
 }
 
+nav div {
+  width: 60%;
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;
