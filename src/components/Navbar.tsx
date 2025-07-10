@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import {
   NavigationMenu,
@@ -6,62 +7,66 @@ import {
   NavigationMenuList,
   navigationMenuTriggerStyle,
 } from '@/components/ui/navigation-menu';
+import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
+import { MenuIcon } from 'lucide-react';
+import { DialogTitle } from '@radix-ui/react-dialog';
+
+const navItems = [
+  { label: 'Home', path: '/' },
+  { label: 'Committees', path: '/committees' },
+  { label: 'EBs', path: '/ebs' },
+  { label: 'Teams', path: '/teams' },
+  { label: 'Sponsors', path: '/sponsors' },
+  { label: 'FAQ', path: '/faq' },
+  { label: 'CA Portal', path: '/ca' },
+  { label: 'Register', path: '/register' },
+];
 
 const Navbar = () => {
+  const [isOpen, setIsOpen] = useState(false);
+
+  const closeDialog = () => setIsOpen(false);
+
   return (
-    <NavigationMenu className='py-6 w-full max-w-none '>
-      <NavigationMenuList className='flex justify-between w-full max-w-none'>
+    <nav className="w-full py-6 px-4">
+      {/* Desktop Menu */}
+      <div className="hidden md:flex justify-between items-center">
+        <NavigationMenu className="w-full max-w-none">
+          <NavigationMenuList className="flex justify-between w-full max-w-none">
+            {navItems.map(({ label, path }) => (
+              <NavigationMenuItem key={path}>
+                <NavigationMenuLink asChild className={navigationMenuTriggerStyle()}>
+                  <Link to={path}>{label}</Link>
+                </NavigationMenuLink>
+              </NavigationMenuItem>
+            ))}
+          </NavigationMenuList>
+        </NavigationMenu>
+      </div>
 
-        <NavigationMenuItem>
-          <NavigationMenuLink asChild className={navigationMenuTriggerStyle()}>
-            <Link to="/">Home</Link>
-          </NavigationMenuLink>
-        </NavigationMenuItem>
-
-        <NavigationMenuItem>
-          <NavigationMenuLink asChild className={navigationMenuTriggerStyle()}>
-            <Link to="/committees">Committees</Link>
-          </NavigationMenuLink>
-        </NavigationMenuItem>
-
-        <NavigationMenuItem>
-          <NavigationMenuLink asChild className={navigationMenuTriggerStyle()}>
-            <Link to="/ebs">EBs</Link>
-          </NavigationMenuLink>
-        </NavigationMenuItem>
-
-        <NavigationMenuItem>
-          <NavigationMenuLink asChild className={navigationMenuTriggerStyle()}>
-            <Link to="/teams">Teams</Link>
-          </NavigationMenuLink>
-        </NavigationMenuItem>
-
-        <NavigationMenuItem>
-          <NavigationMenuLink asChild className={navigationMenuTriggerStyle()}>
-            <Link to="/sponsors">Sponsors</Link>
-          </NavigationMenuLink>
-        </NavigationMenuItem>
-
-        <NavigationMenuItem>
-          <NavigationMenuLink asChild className={navigationMenuTriggerStyle()}>
-            <Link to="/faq">FAQ</Link>
-          </NavigationMenuLink>
-        </NavigationMenuItem>
-
-        <NavigationMenuItem>
-          <NavigationMenuLink asChild className={navigationMenuTriggerStyle()}>
-            <Link to="/ca">CA Portal</Link>
-          </NavigationMenuLink>
-        </NavigationMenuItem>
-
-        <NavigationMenuItem>
-          <NavigationMenuLink asChild className={navigationMenuTriggerStyle()}>
-            <Link to="/register">Register</Link>
-          </NavigationMenuLink>
-        </NavigationMenuItem>
-
-      </NavigationMenuList>
-    </NavigationMenu>
+      {/* Mobile Menu */}
+      <div className="flex justify-between items-center md:hidden">
+        <div className="text-xl font-bold">RJMUN</div>
+        <Dialog open={isOpen} onOpenChange={setIsOpen}>
+          <DialogTrigger className="focus:outline-none">
+            <MenuIcon className="w-6 h-6" />
+          </DialogTrigger>
+          <DialogContent className="p-6 space-y-4">
+            <DialogTitle className="text-xl font-semibold mb-2">Menu</DialogTitle>
+            {navItems.map(({ label, path }) => (
+              <Link
+                to={path}
+                key={path}
+                onClick={closeDialog}
+                className="block text-lg font-medium hover:underline"
+              >
+                {label}
+              </Link>
+            ))}
+          </DialogContent>
+        </Dialog>
+      </div>
+    </nav>
   );
 };
 
