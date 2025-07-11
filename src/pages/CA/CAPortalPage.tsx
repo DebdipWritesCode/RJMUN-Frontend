@@ -1,4 +1,4 @@
-import CaForm from "@/components/ca/CaFORM"
+import CaForm from "@/components/ca/CaForm"
 import { ToastContainer } from "react-toastify"
 
 const CAPortalPage = () => {

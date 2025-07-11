@@ -1,7 +1,10 @@
+import CheckAllot from "@/components/registration/CheckAllot"
 
 const CheckAllotment = () => {
   return (
-    <div>CheckAllotment</div>
+    <div>
+      <CheckAllot />
+    </div>
   )
 }
 

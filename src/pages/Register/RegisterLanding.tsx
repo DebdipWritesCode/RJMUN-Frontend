@@ -1,7 +1,10 @@
+import Landing from "@/components/registration/Landing"
 
 const RegisterLanding = () => {
   return (
-    <div>RegisterLanding</div>
+    <div>
+      <Landing />
+    </div>
   )
 }
 
