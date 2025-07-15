@@ -23,6 +23,7 @@ import AdminSponsors from "../pages/Admin/Sponsors";
 import AdminFAQ from "../pages/Admin/FAQs";
 import Coupons from "@/pages/Admin/Coupons";
 import Portfolios from "@/pages/Admin/Portfolios";
+import Allotments from "@/pages/Admin/Allotments";
 
 import ProtectedRoute from "./ProtectedRoute";
 
@@ -57,6 +58,7 @@ const Router = () => {
           <Route path="/admin/faq" element={<AdminFAQ />} />
           <Route path="/admin/coupons" element={<Coupons />} />
           <Route path="/admin/portfolios" element={<Portfolios />} />
+          <Route path="/admin/allotments" element={<Allotments />} />
         </Route>
       </Route>
 

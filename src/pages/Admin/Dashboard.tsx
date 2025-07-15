@@ -8,6 +8,7 @@ import {
   BotIcon,
   Building,
   HelpCircle,
+  FileSpreadsheet,
 } from "lucide-react";
 
 const Dashboard = () => {
@@ -21,6 +22,11 @@ const Dashboard = () => {
     { label: "Manage FAQs", path: "/admin/faq", icon: HelpCircle },
     { label: "Manage Coupons", path: "/admin/coupons", icon: Tag },
     { label: "Manage Portfolios", path: "/admin/portfolios", icon: BotIcon },
+    {
+      label: "Manage Allotments",
+      path: "/admin/allotments",
+      icon: FileSpreadsheet,
+    },
   ];
 
   return (
