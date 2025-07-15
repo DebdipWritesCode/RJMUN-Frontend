@@ -22,6 +22,8 @@ import type {
 import { toast } from "react-toastify";
 import api from "@/api/axios";
 import { Button } from "@/components/ui/button";
+import { useState } from "react";
+import { Loader2 } from "lucide-react";
 
 interface AllotmentTableProps {
   registrants: RegistrantRow[];
@@ -36,6 +38,8 @@ const AllotmentTable: React.FC<AllotmentTableProps> = ({
   allotments,
   setAllotments,
 }) => {
+  const [loading, setLoading] = useState(false);
+
   const handleCommitteeChange = (registrationId: string, value: string) => {
     setAllotments((prev: UpdateAllotments[]) =>
       prev.map((a: UpdateAllotments) =>
@@ -71,6 +75,7 @@ const AllotmentTable: React.FC<AllotmentTableProps> = ({
     }
 
     try {
+      setLoading(true);
       const res = await api.patch("/registration/allot", { allotments });
       toast.success(`Updated ${res.data.updated} allotments`);
       if (res.data.failed.length > 0) {
@@ -78,17 +83,40 @@ const AllotmentTable: React.FC<AllotmentTableProps> = ({
       }
     } catch (err) {
       toast.error("Update failed");
+    } finally {
+      setLoading(false);
     }
   };
 
   const handleSendAllotmentEmails = async () => {
-    // TO DO: Implement email sending logic
+    try {
+      setLoading(true);
+      toast.info("Sending allotment emails...");
+      const res = await api.post("/registration/send-allotment-emails");
+      console.log(res.data);
+      toast.success(`Sent ${res.data.sent} emails`);
+      if (res.data.failed.length) {
+        toast.error(`Failed for: ${res.data.failed.join(", ")}`);
+      }
+    } catch (err) {
+      toast.error("Failed to send allotment emails");
+    } finally {
+      setLoading(false);
+    }
   };
 
   const getAvailablePortfolios = (committeeName: string) => {
     const committee = committees.find((c) => c.name === committeeName);
     return committee?.portfolios ?? [];
   };
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center h-64">
+        <Loader2 className="animate-spin w-8 h-8 text-blue-500" />
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-4">
@@ -176,7 +204,10 @@ const AllotmentTable: React.FC<AllotmentTableProps> = ({
       </Table>
 
       <div className="flex justify-end gap-4 mt-6">
-        <Button variant="outline" onClick={handleSendAllotmentEmails} className="border-blue-500 text-blue-500">
+        <Button
+          variant="outline"
+          onClick={handleSendAllotmentEmails}
+          className="border-blue-500 text-blue-500">
           Send Allotment Emails
         </Button>
 
