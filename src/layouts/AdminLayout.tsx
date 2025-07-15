@@ -1,4 +1,5 @@
 import { Outlet, Link } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
 
 const AdminLayout = () => {
   return (
@@ -18,6 +19,18 @@ const AdminLayout = () => {
       <main className="flex-1 p-6">
         <Outlet />
       </main>
+
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
     </div>
   );
 };
