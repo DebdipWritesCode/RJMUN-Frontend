@@ -11,6 +11,7 @@ const Dashboard = () => {
     { label: 'Manage Teams', path: '/admin/teams', icon: Users },
     { label: 'Manage Sponsors', path: '/admin/sponsors', icon: Building },
     { label: 'Manage FAQs', path: '/admin/faq', icon: HelpCircle },
+    { label: 'Manage Coupons', path: '/admin/coupons', icon: Settings },
   ];
 
   return (
