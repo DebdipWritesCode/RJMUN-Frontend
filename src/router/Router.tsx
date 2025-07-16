@@ -8,6 +8,7 @@ import TeamsPage from "../pages/Teams/TeamsPage";
 import SponsorsPage from "../pages/Sponsors/SponsorsPage";
 import FAQPage from "../pages/FAQ/FAQsPage";
 import CAPortalPage from "../pages/CA/CAPortalPage";
+import WhyCA from "@/pages/CA/WhyCA";
 
 import RegisterLanding from "../pages/Register/RegisterLanding";
 import NewRegistration from "../pages/Register/NewRegistration";
@@ -41,6 +42,7 @@ const Router = () => {
         <Route path="/sponsors" element={<SponsorsPage />} />
         <Route path="/faq" element={<FAQPage />} />
         <Route path="/ca" element={<CAPortalPage />} />
+        <Route path="/why-ca" element={<WhyCA />} />
         <Route path="/register" element={<RegisterLanding />} />
         <Route path="/register/new" element={<NewRegistration />} />
         <Route path="/register/check" element={<CheckAllotment />} />

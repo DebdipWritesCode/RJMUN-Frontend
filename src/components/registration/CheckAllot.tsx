@@ -36,7 +36,7 @@ const CheckAllot = () => {
   return (
     <div className="flex items-center justify-center p-4">
       <div className="bg-white shadow-lg rounded-xl p-6 max-w-md w-full text-center space-y-6">
-        <h1 className="text-2xl font-bold text-gray-800">Check Allotment Status</h1>
+        <h1 className="text-2xl font-bold text-[#1c2d27]">Check Allotment Status</h1>
 
         {!allotment ? (
           <>
@@ -48,7 +48,7 @@ const CheckAllot = () => {
             />
             <Button
               onClick={handleSubmit}
-              className="w-full"
+              className="w-full bg-[#1c2d27] text-[#9e9776] font-semibold py-3 rounded-xl shadow-md transition-all duration-300 disabled:opacity-50"
               disabled={loading}
             >
               {loading ? 'Checking...' : 'Check Status'}
@@ -74,7 +74,7 @@ const CheckAllot = () => {
                 </p>
               </>
             )}
-            <Button variant="outline" onClick={() => setAllotment(null)}>
+            <Button variant="outline" className='border-[#1c2d27] text-[#1c2d27] hover:bg-[#1c2d27] hover:text-[#9e9776]' onClick={() => setAllotment(null)}>
               Check Another ID
             </Button>
           </>

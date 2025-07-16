@@ -18,7 +18,7 @@ const navItems = [
   { label: 'Teams', path: '/teams' },
   { label: 'Sponsors', path: '/sponsors' },
   { label: 'FAQ', path: '/faq' },
-  { label: 'CA Portal', path: '/ca' },
+  { label: 'CA Portal', path: '/why-ca' },
   { label: 'Register', path: '/register' },
 ];
 
@@ -31,7 +31,7 @@ const Navbar = () => {
     <nav className="w-full py-6 px-4 bg-primary-background shadow-lg shadow-gray-900">
       {/* Desktop Menu */}
       <div className="hidden md:flex justify-between items-center">
-        <img src="./images/NavLogo.png" className='h-[60px]' alt="RJMUN Logo" />
+        <img src="./images/event-logo.png" className='h-[60px] w-[90px]' alt="RJMUN Logo" />
         <NavigationMenu className="w-full max-w-none">
           <NavigationMenuList className="flex justify-between w-full max-w-none">
             {navItems.map(({ label, path }) => (

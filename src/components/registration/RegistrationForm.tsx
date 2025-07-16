@@ -127,8 +127,8 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ portfolios }) => {
     toast.error("Failed to load Razorpay. Please try again later.");
   }
   return (
-    <div className="max-w-xl mx-auto mt-10 bg-white p-8 rounded-xl shadow-lg">
-      <h2 className="text-2xl font-bold mb-6 text-gray-800">
+    <div className="max-w-xl mx-auto mt-10 bg-gray-100 p-8 rounded-xl shadow-lg">
+      <h2 className="text-2xl font-bold mb-6 text-[#1c2d27] text-center">
         Delegate Application Form
       </h2>
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
@@ -383,7 +383,7 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ portfolios }) => {
         <Button
           type="submit"
           disabled={isSubmitting}
-          className="w-full bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white font-semibold py-3 rounded-xl shadow-md transition-all duration-300 disabled:opacity-50">
+          className="w-full bg-[#1c2d27] text-[#9e9776] font-semibold py-3 rounded-xl shadow-md transition-all duration-300 disabled:opacity-50">
           {isSubmitting ? "Submitting..." : "Submit Application"}
         </Button>
       </form>

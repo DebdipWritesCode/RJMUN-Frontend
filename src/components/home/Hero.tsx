@@ -57,9 +57,9 @@ const Hero = () => {
           className="
             hidden md:block
             absolute
-            top-[-200px]
-            right-[-300px]
-            h-[800px]
+            top-[-80px]
+            right-[-250px]
+            h-[600px]
             z-20
           "
           alt="Mic"

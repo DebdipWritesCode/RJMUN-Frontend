@@ -6,23 +6,24 @@ export const EVENT_CITY = "Aurangabad";
 export const EVENT_COUNTRY = "India";
 export const EVENT_STATE = "Maharashtra";
 export const EVENT_PINCODE = "431001";
-export const EVENT_MAIL = "info@rjmun.com";
-export const EVENT_INSTAGRAM = "https://www.instagram.com/rjmunofficial/";
+export const EVENT_MAIL = "rjmun2025@gmail.com";
+export const EVENT_INSTAGRAM =
+  "https://www.instagram.com/rjmun2025?igsh=enc4ZG9md2kxZGFq";
 export const EVENT_CONTACTS = [
   {
-    name: "Rohan Jadhav",
-    role: "Event Coordinator",
-    phone: "+91 12345 67890",
+    name: "Mrs. Shivangi Jha",
+    role: "Faculty Coordinator",
+    phone: "+91 93401 87056",
   },
   {
-    name: "Aditi Patil",
-    role: "Logistics Head",
-    phone: "+91 98765 43210",
+    name: "Bhargav Bidkar",
+    role: "Secretary General",
+    phone: "+91 78208 34044",
   },
   {
-    name: "Siddharth Deshmukh",
-    role: "Sponsorship Manager",
-    phone: "+91 11223 44556",
+    name: "Aarohi Deolgaonkar",
+    role: "Deputy Secretary General",
+    phone: "+91 96993 75537",
   },
 ];
 export const EVENT_LOGO_PATH = "./images/event-logo.png";
