@@ -21,7 +21,7 @@ const Hero = () => {
           z-10
           relative
         ">
-        <div className="absolute flex flex-col gap-3 items-center justify-center h-full px-15 py-3 text-[#1c2d27]">
+        <div className="absolute flex flex-col gap-3 items-center justify-center h-full px-5 sm:px-15 py-3 text-[#1c2d27]">
           <h3 className="text-3xl text-center">WELCOME TO</h3>
           <h1 className="font-bold text-7xl text-center">RJMUN</h1>
           <p className="mt-4 sm:mt-8 text-xl text-center">
