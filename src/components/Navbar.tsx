@@ -28,9 +28,10 @@ const Navbar = () => {
   const closeDialog = () => setIsOpen(false);
 
   return (
-    <nav className="w-full py-6 px-4 bg-primary-background">
+    <nav className="w-full py-6 px-4 bg-primary-background shadow-lg shadow-gray-900">
       {/* Desktop Menu */}
       <div className="hidden md:flex justify-between items-center">
+        <img src="./images/NavLogo.png" className='h-[60px]' alt="RJMUN Logo" />
         <NavigationMenu className="w-full max-w-none">
           <NavigationMenuList className="flex justify-between w-full max-w-none">
             {navItems.map(({ label, path }) => (
