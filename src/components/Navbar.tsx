@@ -28,7 +28,7 @@ const Navbar = () => {
   const closeDialog = () => setIsOpen(false);
 
   return (
-    <nav className="w-full py-6 px-4">
+    <nav className="w-full py-6 px-4 bg-primary-background">
       {/* Desktop Menu */}
       <div className="hidden md:flex justify-between items-center">
         <NavigationMenu className="w-full max-w-none">
@@ -36,7 +36,7 @@ const Navbar = () => {
             {navItems.map(({ label, path }) => (
               <NavigationMenuItem key={path}>
                 <NavigationMenuLink asChild className={navigationMenuTriggerStyle()}>
-                  <Link to={path}>{label}</Link>
+                  <Link className='bg-primary-background' to={path}>{label}</Link>
                 </NavigationMenuLink>
               </NavigationMenuItem>
             ))}

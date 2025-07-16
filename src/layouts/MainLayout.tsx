@@ -4,9 +4,16 @@ import { ToastContainer } from "react-toastify";
 
 const MainLayout = () => {
   return (
-    <div className="bg-background text-foreground flex flex-col w-full">
+    <div
+      className="text-[#b1aa8c] flex flex-col w-full min-h-screen"
+      style={{
+        backgroundImage: "url('/images/BG.png')",
+        backgroundSize: "auto", // or "100px 100px" based on image size
+        backgroundPosition: "top left",
+        backgroundRepeat: "repeat",
+      }}>
       <Navbar />
-      <main className="flex-1 container mx-auto px-4 py-6">
+      <main className="flex-1 container mx-auto px-4 py-6 bg-opacity-80">
         <Outlet />
       </main>
 
