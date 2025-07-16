@@ -7,7 +7,7 @@ import { about } from "@/utils/about";
 
 const HomePage = () => {
   return (
-    <div className="flex flex-col items-center h-800 mt-4">
+    <div className="flex flex-col items-center mt-4">
       <Hero />
       <Timer />
       <Date />
@@ -33,7 +33,7 @@ const HomePage = () => {
           }
         />
       </div>
-      <div className="mt-15">
+      <div className="mt-15 mb-10">
         <InfoCard
           heading="About Us"
           children={
