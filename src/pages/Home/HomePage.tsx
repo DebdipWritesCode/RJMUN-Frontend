@@ -18,7 +18,7 @@ const HomePage = () => {
             <img
               src="/images/Committees.png"
               alt="Committees"
-              className="w-full h-auto"
+              className="w-full h-auto mt-6"
             />
           }
         />
@@ -27,7 +27,7 @@ const HomePage = () => {
         <InfoCard
           heading="Letter from Secretary General"
           children={
-            <p className="text-justify bg-[#c0b8a2] mt-8 font-bold font-serif text-lg text-primary-background">
+            <p className="text-justify bg-[#c0b8a2] mt-15 font-bold font-serif text-lg text-primary-background">
               {letterFromSecGen}
             </p>
           }
