@@ -19,7 +19,7 @@ const Footer = () => {
   return (
     <footer
       style={{ backgroundColor: BG_COLOR, color: TEXT_COLOR }}
-      className="py-8 px-6 md:px-20">
+      className="py-8 px-6 md:px-20 mt-8">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-10">
         <div className="flex flex-col items-start gap-3">
           <img src={EVENT_LOGO_PATH} alt="Event Logo" className="w-20 h-auto" />
