@@ -27,7 +27,7 @@ const HomePage = () => {
         <InfoCard
           heading="Letter from Secretary General"
           children={
-            <p className="text-justify bg-[#c0b8a2] mt-8 font-bold font-serif text-lg text-primary-background">
+            <p className="text-justify bg-[#c0b8a2] sm:mt-8 mt-20 font-bold font-serif text-lg text-primary-background">
               {letterFromSecGen}
             </p>
           }
