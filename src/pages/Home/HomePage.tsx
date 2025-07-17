@@ -17,7 +17,7 @@ const HomePage = () => {
           heading="Committees"
           children={
             <img
-              src="/images/Committees2.png"
+              src="/images/Committees.png"
               alt="Committees"
               className="w-full h-auto sm:mt-6 mt-[-70px]"
             />
