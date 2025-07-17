@@ -18,7 +18,7 @@ const HomePage = () => {
             <img
               src="/images/Committees.png"
               alt="Committees"
-              className="w-full h-auto mt-6"
+              className="w-full h-auto sm:mt-6 mt-[-50px]"
             />
           }
         />
