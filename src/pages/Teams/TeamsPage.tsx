@@ -3,6 +3,7 @@ import api from "@/api/axios";
 import type { TeamMember } from "@/utils/interfaces";
 import { Loader2 } from "lucide-react";
 import ProfileCard from "@/components/cards/ProfileCard";
+import EmptyFallback from "@/components/EmptyFallback"; // <-- Import
 
 const TeamsPage = () => {
   const [teams, setTeams] = useState<TeamMember[]>([]);
@@ -43,7 +44,7 @@ const TeamsPage = () => {
           imageSrc={
             member.image && member.imageMimeType
               ? `data:${member.imageMimeType};base64,${member.image}`
-              : "/default-profile.png" // fallback image
+              : "/default-profile.png"
           }
         />
       ))}
@@ -56,11 +57,14 @@ const TeamsPage = () => {
         <div className="flex justify-center items-center min-h-[200px]">
           <Loader2 className="h-6 w-6 animate-spin text-blue-600" />
         </div>
+      ) : teams.length === 0 ? (
+        <EmptyFallback />
       ) : (
         <div className="flex flex-col items-center w-full">
           <h1 className="font-bold sm:text-[100px] text-[40px] sm:mb-20 mb-10 text-center">
             MEET THE TEAM
           </h1>
+
           {renderTeamGroup(firstGroup)}
 
           {secondGroup.length > 0 && (

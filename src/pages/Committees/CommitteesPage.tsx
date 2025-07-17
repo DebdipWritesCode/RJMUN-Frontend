@@ -3,6 +3,7 @@ import api from "@/api/axios";
 import type { Committee } from "@/utils/interfaces";
 import { Loader2 } from "lucide-react";
 import InfoCard from "@/components/cards/InfoCard";
+import EmptyFallback from "@/components/EmptyFallback";
 
 const CommitteesPage = () => {
   const [committees, setCommittees] = useState<Committee[]>([]);
@@ -27,8 +28,10 @@ const CommitteesPage = () => {
     <div className="flex justify-center items-center min-h-[200px]">
       {loading ? (
         <Loader2 className="h-6 w-6 animate-spin text-blue-600" />
+      ) : committees.length === 0 ? (
+        <EmptyFallback />
       ) : (
-        <div className="">
+        <div>
           <h1 className="font-bold sm:text-[100px] text-[40px] sm:mb-20 mb-15 text-center">
             COMMITTEES
           </h1>
@@ -45,14 +48,17 @@ const CommitteesPage = () => {
                   )}
 
                   <div className="text-left space-y-4 flex flex-col justify-between h-full">
-                    <p className="text-lg font-bold text-center bg-[#c0b8a2] text-primary-background">{committee.agenda}</p>
+                    <p className="text-2xl font-serif font-bold text-center bg-[#c0b8a2] text-primary-background">
+                      {committee.agenda}
+                    </p>
 
                     {committee.backgroundGuideURL && (
                       <a
                         href={committee.backgroundGuideURL}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="inline-block px-4 py-2 mt-2 text-white bg-[#1C1F26] hover:bg-black rounded-2xl transition">
+                        className="inline-block px-4 py-2 mt-2 text-white bg-[#1C1F26] hover:bg-black rounded-2xl transition"
+                      >
                         View Background Guide
                       </a>
                     )}

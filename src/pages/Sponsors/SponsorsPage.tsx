@@ -3,6 +3,7 @@ import api from "@/api/axios";
 import type { Sponsor } from "@/utils/interfaces";
 import { Loader2 } from "lucide-react";
 import InfoCard from "@/components/cards/InfoCard";
+import EmptyFallback from "@/components/EmptyFallback"; // <-- Import the fallback
 
 const SponsorsPage = () => {
   const [sponsors, setSponsors] = useState<Sponsor[]>([]);
@@ -26,15 +27,12 @@ const SponsorsPage = () => {
   const groupSponsorsByType = (type: Sponsor["type"]) =>
     sponsors.filter((sponsor) => sponsor.type === type);
 
-  const renderSponsorsSection = (
-    title: string,
-    type: Sponsor["type"]
-  ) => {
+  const renderSponsorsSection = (title: string, type: Sponsor["type"]) => {
     const group = groupSponsorsByType(type);
     if (group.length === 0) return null;
 
     return (
-      <div className="mt-16">
+      <div className="mt-16 w-full max-w-4xl">
         <InfoCard heading={title}>
           <div className="mt-15">
             {group.map((sponsor) => (
@@ -55,6 +53,8 @@ const SponsorsPage = () => {
     );
   };
 
+  const hasSponsors = sponsors.length > 0;
+
   return (
     <div className="flex flex-col items-center min-h-[200px] px-4">
       {loading ? (
@@ -67,9 +67,15 @@ const SponsorsPage = () => {
             SPONSORS
           </h1>
 
-          {renderSponsorsSection("Our Partners", "partner")}
-          {renderSponsorsSection("Our Collabs", "college")}
-          {renderSponsorsSection("Endorsements", "endorsement")}
+          {hasSponsors ? (
+            <>
+              {renderSponsorsSection("Our Partners", "partner")}
+              {renderSponsorsSection("Our Collabs", "college")}
+              {renderSponsorsSection("Endorsements", "endorsement")}
+            </>
+          ) : (
+            <EmptyFallback />
+          )}
         </div>
       )}
     </div>
