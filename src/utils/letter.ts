@@ -1,2 +1,22 @@
-export const letterFromSecGen =
-  "IRMUN was founded in 2021 by a group of students of IIT Roorkee and since then, it has continuously conducted in-campus MUNs at Thomso, Cognizance, Cultural General Championship, Social Summit and E-Summit. Several teams from IRMUN have attended inter-collegiate events in different colleges in the past and acquired different levels of prizes in many of them too. The exposure to other MUN societies helped us realize the positive impact that these events have on the development of young people. MUN provides a common ground for students of different ethnicities, backgrounds, and cultures to learn from each other, collaborate and come up with solutions to make changes to our country and the world. MUN experiences teach participants how to negotiate, build consensus and resolve conflicts—skills that are not only invaluable in the realm of international relations but also transferable to personal and professional growth. We are proud to have a talented Organising Team of IRMUN which made this event a possibility. MUNarchy will be the first MUN event on campus dedicated towards celebrating diplomacy, leadership and collaboration. This event aims to encourage fruitful debates and global awareness as a new generation of enthusiasts steps into the world of global politics. Together, we aspire to make MUNarchy a success and a stepping stone for the future events of IRMUN.";
+export const letterFromSecGen = `
+**Dear Delegates, Executive Board Members, and Honoured Guests,**
+
+It is my absolute pleasure to welcome you to **RJMUN 2.0** — a space where ideas meet action, perspectives collide respectfully, and diplomacy takes center stage.
+
+Whether you're stepping into a committee room for the first time or returning as a seasoned delegate, I want you to know — *you belong here*. RJMUN has always stood for inclusivity, intellect, and intensity (with a sprinkle of humour and a lot of caffeine behind the scenes).
+
+This conference is more than an academic simulation. It's a shared experience. A platform to voice bold opinions, craft clever resolutions, and maybe even make a few friends who argue as passionately as you do.
+
+Behind this event is a team that’s poured its heart into creating something memorable — from curating thoughtful agendas to ensuring the Wi-Fi doesn’t crash mid-speech (fingers crossed). We’ve tried our best to make **RJMUN 2.0** not just a conference, but a community.
+
+So walk in with confidence, curiosity, and an open mind. Debate with respect, speak with purpose, and don’t forget to enjoy the chaos along the way.
+
+And remember — diplomacy is serious business… but that doesn’t mean you can’t have a little fun while doing it.
+
+Looking forward to seeing all of you in action.
+
+**With warmest regards,**  
+**Bhargav Bidkar**  
+Secretary-General  
+**RJMUN 2.0**
+`;

@@ -2,7 +2,8 @@ import InfoCard from "@/components/cards/InfoCard";
 import Date from "@/components/home/Date";
 import Hero from "@/components/home/Hero";
 import Timer from "@/components/home/Timer";
-import { letterFromSecGen } from "@/utils/letter"
+import LetterComponent from "@/components/home/LetterComponent";
+import { letterFromSecGen } from "@/utils/letter";
 import { about } from "@/utils/about";
 
 const HomePage = () => {
@@ -26,21 +27,13 @@ const HomePage = () => {
       <div className="mt-15">
         <InfoCard
           heading="Letter from Secretary General"
-          children={
-            <p className="text-justify bg-[#c0b8a2] sm:mt-8 mt-[-20px] font-bold font-serif text-lg text-primary-background">
-              {letterFromSecGen}
-            </p>
-          }
+          children={<LetterComponent content={letterFromSecGen} />}
         />
       </div>
       <div className="mt-15">
         <InfoCard
           heading="Letter from Principal"
-          children={
-            <p className="text-justify bg-[#c0b8a2] sm:mt-8 mt-[-20px] font-bold font-serif text-lg text-primary-background">
-              {letterFromSecGen}
-            </p>
-          }
+          children={<LetterComponent content={letterFromSecGen} />}
         />
       </div>
       <div className="mt-15 mb-10">
