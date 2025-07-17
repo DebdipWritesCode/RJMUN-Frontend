@@ -28,8 +28,7 @@ const Hero = () => {
             Step into the arena of diplomacy, dialogue, and debate. At RJMUN, we
             don’t just simulate global affairs — we shape perspectives,
             challenge narratives, and empower voices. This is your platform to
-            think, speak, and lead. Ad ideam. Ad vocem. Ad futurum. (To thought.
-            To voice. To the future.)
+            think, speak, and lead.
           </p>
           <Button
             className="mt-4 sm:mt-8 text-[#d1c19e] bg-[#1c2d27] rounded-2xl text-2xl px-10 py-6"
