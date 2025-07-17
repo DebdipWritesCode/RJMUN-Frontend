@@ -73,11 +73,48 @@ const Allotments = () => {
   }, [registrants]);
 
   if (loading) return <div>Loading...</div>;
-
   if (error) return <div>Error: {error}</div>;
 
+  // 📊 Calculate the number of allotments per committee
+  const committeeAllotmentCount = committees.map((committee) => {
+    const count = allotments.filter(
+      (a) => a.allottedCommittee === committee.name
+    ).length;
+    return { name: committee.name, count };
+  });
+
   return (
-    <div className="">
+    <div className="p-4 space-y-4">
+      <div className="bg-white shadow rounded-lg p-4">
+        <h2 className="text-lg font-semibold mb-2">Allotment Summary</h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 text-sm">
+          {committeeAllotmentCount.map((item, index) => {
+            const colors = [
+              "bg-blue-100 text-blue-800",
+              "bg-green-100 text-green-800",
+              "bg-yellow-100 text-yellow-800",
+              "bg-purple-100 text-purple-800",
+              "bg-pink-100 text-pink-800",
+              "bg-red-100 text-red-800",
+              "bg-orange-100 text-orange-800",
+              "bg-gray-100 text-gray-800",
+              "bg-teal-100 text-teal-800",
+              "bg-lime-100 text-lime-800",
+            ];
+            const color = colors[index % colors.length];
+
+            return (
+              <div
+                key={item.name}
+                className={`px-3 py-2 rounded-md ${color} text-center`}>
+                <span className="font-medium">{item.name}:</span>{" "}
+                <span className="font-semibold">{item.count}</span>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+
       <AllotmentTable
         registrants={registrants}
         committees={committees}

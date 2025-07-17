@@ -170,7 +170,7 @@ const AllotmentTable: React.FC<AllotmentTableProps> = ({
                     <SelectContent>
                       {committees.map((committee) => (
                         <SelectItem key={committee._id} value={committee.name}>
-                          {committee.name}
+                          <p className="max-w-[140px]">{committee.name}</p>
                         </SelectItem>
                       ))}
                     </SelectContent>
@@ -191,7 +191,7 @@ const AllotmentTable: React.FC<AllotmentTableProps> = ({
                         allotment?.allottedCommittee || ""
                       ).map((portfolio) => (
                         <SelectItem key={portfolio} value={portfolio}>
-                          {portfolio}
+                          <p className="max-w-[150px]">{portfolio}</p>
                         </SelectItem>
                       ))}
                     </SelectContent>
