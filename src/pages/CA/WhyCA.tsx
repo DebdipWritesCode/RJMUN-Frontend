@@ -39,11 +39,17 @@ const WhyCA = () => {
         </Link>
       </Button>
 
-      <div className="flex flex-col gap-12 w-full max-w-6xl">
+      <ul className="flex flex-col gap-4 list-disc text-[#d1c19e] font-mono text-lg sm:hidden max-w-xl px-6">
+        {benefits.map((item, index) => (
+          <li key={index}>{item.text}</li>
+        ))}
+      </ul>
+
+      <div className="hidden sm:flex flex-col gap-12 w-full max-w-6xl">
         {benefits.map((item, index) => (
           <div
             key={index}
-            className={`flex flex-col sm:flex-row ${
+            className={`flex sm:flex-row ${
               item.alignment === "left" ? "sm:flex-row" : "sm:flex-row-reverse"
             } items-center gap-2`}>
             <img
@@ -51,7 +57,7 @@ const WhyCA = () => {
               alt={`CA Benefit ${index + 1}`}
               className="w-[80px] h-[80px] sm:w-[150px] sm:h-[150px]"
             />
-            <p className="text-[#d1c19e] font-mono text-lg sm:text-2xl text-center sm:text-left max-w-xl leading-relaxed">
+            <p className="text-[#d1c19e] font-mono text-lg sm:text-2xl text-left max-w-xl leading-relaxed">
               {item.text}
             </p>
             <div className="w-[60px] h-[60px] sm:w-[80px] sm:h-[80px] invisible sm:visible" />
