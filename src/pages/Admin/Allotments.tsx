@@ -108,7 +108,7 @@ const Allotments = () => {
                 key={item.name}
                 className={`px-3 py-2 rounded-md ${color} text-center`}>
                 <span className="font-medium">{item.name}:</span>{" "}
-                <span className="font-semibold">{item.count}</span>
+                <span className="font-bold text-black">{item.count}</span>
               </div>
             );
           })}
