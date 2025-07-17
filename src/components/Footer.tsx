@@ -24,14 +24,14 @@ const Footer = () => {
         <div className="flex flex-col items-start gap-3">
           <img src={EVENT_LOGO_PATH} alt="Event Logo" className="w-20 h-auto" />
           <a
-            href="https://maps.google.com"
+            href="https://maps.app.goo.gl/jBKf68bn6moy17hm8"
             className="underline text-lg font-medium"
             target="_blank"
             rel="noopener noreferrer">
             Get Direction
           </a>
           <div className="text-sm leading-relaxed">
-            RJMUN Office, Student Activity Centre
+            V83J+54X, Shiv Krupa Colony, PWD Colony
             <br />
             {INSTITUTION_NAME}
             <br />
