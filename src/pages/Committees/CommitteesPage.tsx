@@ -48,7 +48,7 @@ const CommitteesPage = () => {
                   )}
 
                   <div className="text-left space-y-4 flex flex-col justify-between h-full">
-                    <p className="text-2xl font-serif font-bold text-center bg-[#c0b8a2] text-primary-background">
+                    <p className="text-2xl font-bold text-justify bg-[#c0b8a2] text-primary-background">
                       {committee.agenda}
                     </p>
 

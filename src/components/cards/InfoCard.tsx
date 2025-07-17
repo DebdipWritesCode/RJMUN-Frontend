@@ -4,7 +4,7 @@ interface InfoCardProps {
 }
 
 const InfoCard: React.FC<InfoCardProps> = ({ heading, children }) => {
-  const marginTopClass = heading.length > 50 ? "sm:mt-20 mt-40" : "mt-20";
+  const marginTopClass = heading.length > 50 ? "sm:mt-20 mt-40" : "sm:mt-6 mt-20";
 
   return (
     <div
