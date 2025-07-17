@@ -8,17 +8,17 @@ const benefits = [
     alignment: "left",
   },
   {
-    text: "Campus Ambassador at our fest gets the chance to represent their college in our fest.",
+    text: "Campus Ambassador at our events gets the chance to represent their institution in our events.",
     image: "/images/ca-props/1.png",
     alignment: "right",
   },
   {
-    text: "Free entry for the Campus Ambassador on 30+ participation.",
+    text: "Free entry for the Campus Ambassador on 15+ participation.",
     image: "/images/ca-props/2.png",
     alignment: "left",
   },
   {
-    text: "You can use this experience to grab internship opportunities from our sponsors.",
+    text: "Connect with MUN enthusiasts, gain campus visibility, and build your personal brand",
     image: "/images/ca-props/1.png",
     alignment: "right",
   },
@@ -32,7 +32,9 @@ const WhyCA = () => {
       </h1>
 
       <Button className="mb-10">
-        <Link to="/ca" className="text-[#d1c19e] font-semibold text-lg py-10 px-4">
+        <Link
+          to="/ca"
+          className="text-[#d1c19e] font-semibold text-lg py-10 px-4">
           Register as CA
         </Link>
       </Button>
@@ -43,8 +45,7 @@ const WhyCA = () => {
             key={index}
             className={`flex flex-col sm:flex-row ${
               item.alignment === "left" ? "sm:flex-row" : "sm:flex-row-reverse"
-            } items-center gap-2`}
-          >
+            } items-center gap-2`}>
             <img
               src={item.image}
               alt={`CA Benefit ${index + 1}`}
