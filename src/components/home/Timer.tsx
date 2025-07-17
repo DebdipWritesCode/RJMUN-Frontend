@@ -1,20 +1,13 @@
 import { useEffect, useState } from 'react';
 
 const Timer = () => {
-  // Get current IST time
-  const getISTDateNow = () => {
-    const nowUTC = new Date();
-    const offsetIST = 5.5 * 60; // 5 hours 30 minutes offset
-    const istTime = new Date(nowUTC.getTime() + offsetIST * 60 * 1000);
-    return istTime;
-  };
-
-  // Target time: 12 Sep 2025, 00:00 IST => in UTC: 2025-09-11 18:30:00Z
-  const targetDateIST = new Date('2025-09-11T18:30:00Z');
+  // Target time in UTC: 2025-09-11 18:30:00Z (12 Sep 2025, 00:00 IST)
+  const targetDateUTC = new Date('2025-09-11T18:30:00Z');
 
   const calculateTimeLeft = () => {
-    const now = getISTDateNow();
-    const difference = targetDateIST.getTime() - now.getTime();
+    const nowUTC = new Date();
+
+    const difference = targetDateUTC.getTime() - nowUTC.getTime();
 
     if (difference <= 0) {
       return { days: 0, hours: 0, minutes: 0, seconds: 0 };
