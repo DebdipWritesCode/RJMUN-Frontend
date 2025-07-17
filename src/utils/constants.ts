@@ -1,3 +1,4 @@
+export const INSTITUTION_ADDRESS = "V83J+54X, Shiv Krupa Colony, PWD Colony"
 export const INSTITUTION_NAME = "RJ International School";
 export const EVENT_NAME = "RJMUN 2.0";
 export const EVENT_YEAR = "2025";

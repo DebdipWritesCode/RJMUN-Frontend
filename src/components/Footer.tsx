@@ -1,4 +1,5 @@
 import {
+  INSTITUTION_ADDRESS,
   EVENT_CITY,
   EVENT_CONTACTS,
   EVENT_COUNTRY,
@@ -31,7 +32,7 @@ const Footer = () => {
             Get Direction
           </a>
           <div className="text-sm leading-relaxed">
-            V83J+54X, Shiv Krupa Colony, PWD Colony
+            {INSTITUTION_ADDRESS}
             <br />
             {INSTITUTION_NAME}
             <br />
