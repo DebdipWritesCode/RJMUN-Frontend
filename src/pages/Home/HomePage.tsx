@@ -18,7 +18,7 @@ const HomePage = () => {
             <img
               src="/images/Committees2.png"
               alt="Committees"
-              className="w-full h-auto sm:mt-6 mt-[-50px]"
+              className="w-full h-auto sm:mt-6 mt-[-70px]"
             />
           }
         />
@@ -27,7 +27,17 @@ const HomePage = () => {
         <InfoCard
           heading="Letter from Secretary General"
           children={
-            <p className="text-justify bg-[#c0b8a2] sm:mt-8 mt-24 font-bold font-serif text-lg text-primary-background">
+            <p className="text-justify bg-[#c0b8a2] sm:mt-8 mt-[-20px] font-bold font-serif text-lg text-primary-background">
+              {letterFromSecGen}
+            </p>
+          }
+        />
+      </div>
+      <div className="mt-15">
+        <InfoCard
+          heading="Letter from Principal"
+          children={
+            <p className="text-justify bg-[#c0b8a2] sm:mt-8 mt-[-20px] font-bold font-serif text-lg text-primary-background">
               {letterFromSecGen}
             </p>
           }
@@ -37,7 +47,7 @@ const HomePage = () => {
         <InfoCard
           heading="About Us"
           children={
-            <p className="text-justify bg-[#c0b8a2] mt-8 font-bold font-serif text-lg text-primary-background">
+            <p className="text-justify bg-[#c0b8a2] sm:mt-2 mt-[-30px] font-bold font-serif text-lg text-primary-background">
               {about}
             </p>
           }

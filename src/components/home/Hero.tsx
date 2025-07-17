@@ -25,10 +25,10 @@ const Hero = () => {
           <h3 className="text-3xl text-center">WELCOME TO</h3>
           <h1 className="font-bold text-7xl text-center">RJMUN</h1>
           <p className="mt-4 sm:mt-8 text-xl text-center">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt
-            necessitatibus totam illo laborum, ipsam provident dolorum excepturi
-            eligendi amet ducimus non, modi velit labore dicta doloribus
-            veritatis tenetur! Ad, eveniet.
+            Step into the arena of diplomacy, dialogue, and debate. At RJMUN, we
+            don’t just simulate global affairs — we shape perspectives,
+            challenge narratives, and empower voices. This is your platform to
+            think, speak, and lead.
           </p>
           <Button
             className="mt-4 sm:mt-8 text-[#d1c19e] bg-[#1c2d27] rounded-2xl text-2xl px-10 py-6"
