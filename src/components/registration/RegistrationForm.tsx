@@ -195,7 +195,9 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ portfolios }) => {
                 <SelectContent>
                   {portfolios.map((c) => (
                     <SelectItem key={c.id} value={c.committee} className="whitespace-normal break-words">
-                      {c.committee}
+                      <p className="sm:w-full w-[180px]">
+                        {c.committee}
+                      </p>
                     </SelectItem>
                   ))}
                 </SelectContent>
@@ -226,7 +228,9 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ portfolios }) => {
                   {getPortfoliosByCommittee(watchCommittee1).map(
                     (portfolio) => (
                       <SelectItem key={portfolio} value={portfolio} className="whitespace-normal break-words">
-                        {portfolio}
+                        <p className="sm:w-full w-[180px]">
+                          {portfolio}
+                        </p>
                       </SelectItem>
                     )
                   )}
@@ -258,7 +262,9 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ portfolios }) => {
                   {getPortfoliosByCommittee(watchCommittee1).map(
                     (portfolio) => (
                       <SelectItem key={portfolio} value={portfolio} className="whitespace-normal break-words">
-                        {portfolio}
+                        <p className="sm:w-full w-[180px]">
+                          {portfolio}
+                        </p>
                       </SelectItem>
                     )
                   )}
@@ -291,7 +297,9 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ portfolios }) => {
                     .filter((c) => c.committee !== watchCommittee1)
                     .map((c) => (
                       <SelectItem key={c.id} value={c.committee} className="whitespace-normal break-words">
-                        {c.committee}
+                        <p className="sm:w-full w-[180px]">
+                          {c.committee}
+                        </p>
                       </SelectItem>
                     ))}
                 </SelectContent>
@@ -322,7 +330,9 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ portfolios }) => {
                   {getPortfoliosByCommittee(watchCommittee2).map(
                     (portfolio) => (
                       <SelectItem key={portfolio} value={portfolio} className="whitespace-normal break-words">
-                        {portfolio}
+                        <p className="sm:w-full w-[180px]">
+                          {portfolio}
+                        </p>
                       </SelectItem>
                     )
                   )}
@@ -353,7 +363,9 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ portfolios }) => {
                   {getPortfoliosByCommittee(watchCommittee2).map(
                     (portfolio) => (
                       <SelectItem key={portfolio} value={portfolio} className="whitespace-normal break-words">
-                        {portfolio}
+                        <p className="sm:w-full w-[180px]">
+                          {portfolio}
+                        </p>
                       </SelectItem>
                     )
                   )}
