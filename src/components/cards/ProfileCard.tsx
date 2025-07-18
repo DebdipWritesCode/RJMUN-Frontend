@@ -17,7 +17,7 @@ const ProfileCard: React.FC<ProfileCardProps> = ({
         <img
           src={imageSrc}
           alt={heading}
-          className="max-h-72 w-auto object-contain absolute top-[-25px]"
+          className="h-72 w-auto object-contain absolute top-[-20px]"
         />
       </div>
       <div className="mt-4 rounded-lg bg-[#1C1F26] border-6 border-[#b1aa8c] w-[108%] absolute bottom-[-40px] px-4 py-2 text-white">

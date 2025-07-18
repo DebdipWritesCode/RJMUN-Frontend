@@ -9,8 +9,8 @@ const TeamsPage = () => {
   const [teams, setTeams] = useState<TeamMember[]>([]);
   const [loading, setLoading] = useState(true);
 
-  const FIRST_SPLIT_INDEX = 2;
-  const SECOND_SPLIT_INDEX = 4;
+  const FIRST_SPLIT_INDEX = 3;
+  const SECOND_SPLIT_INDEX = 7;
 
   useEffect(() => {
     const fetchTeams = async () => {
@@ -27,12 +27,15 @@ const TeamsPage = () => {
     fetchTeams();
   }, []);
 
-  const canSplit =
-    teams.length > FIRST_SPLIT_INDEX && teams.length > SECOND_SPLIT_INDEX;
+  const canSplitFirst = teams.length > FIRST_SPLIT_INDEX;
+  const canSplitSecond = teams.length >= SECOND_SPLIT_INDEX;
+  const canSplitThird = teams.length > SECOND_SPLIT_INDEX;
 
-  const firstGroup = canSplit ? teams.slice(0, FIRST_SPLIT_INDEX) : teams;
-  const secondGroup = canSplit ? teams.slice(FIRST_SPLIT_INDEX, SECOND_SPLIT_INDEX) : [];
-  const thirdGroup = canSplit ? teams.slice(SECOND_SPLIT_INDEX) : [];
+  const firstGroup = canSplitFirst ? teams.slice(0, FIRST_SPLIT_INDEX) : teams;
+  const secondGroup = canSplitSecond
+    ? teams.slice(FIRST_SPLIT_INDEX, SECOND_SPLIT_INDEX)
+    : [];
+  const thirdGroup = canSplitThird ? teams.slice(SECOND_SPLIT_INDEX) : [];
 
   const renderTeamGroup = (group: TeamMember[]) => (
     <div className="flex md:flex-row flex-col md:gap-20 flex-wrap gap-20 justify-center">
