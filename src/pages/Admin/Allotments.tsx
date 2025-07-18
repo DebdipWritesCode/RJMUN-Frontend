@@ -7,6 +7,7 @@ export interface RegistrantRow {
   registrationId: string;
   fullName: string;
   institution: string;
+  numberOfMUNsParticipated: number;
   committeePreference1: string;
   committeePreference2: string;
   portfolioPreference1ForCommitteePreference1: string;

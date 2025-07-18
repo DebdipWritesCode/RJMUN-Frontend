@@ -31,6 +31,7 @@ const schema = z
       .string()
       .regex(/^[0-9]{10}$/, "Phone number must be exactly 10 digits"),
     institution: z.string().min(1, "Institution is required"),
+    numberOfMUNsParticipated: z.number().min(0, "Must be a positive number"),
     committeePreference1: z.string().min(1, "Please select a committee"),
     portfolioPreference1ForCommitteePreference1: z
       .string()
@@ -179,6 +180,25 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ portfolios }) => {
           )}
         </div>
 
+        {/* Number of MUNs Participated */}
+        <div>
+          <label className="block mb-1 text-sm font-medium">
+            Number of MUNs Participated
+          </label>
+          <Input
+            {...register("numberOfMUNsParticipated", {
+              valueAsNumber: true,
+            })}
+            type="number"
+            placeholder="0"
+          />
+          {errors.numberOfMUNsParticipated && (
+            <p className="text-sm text-red-500 mt-1">
+              {errors.numberOfMUNsParticipated.message}
+            </p>
+          )}
+        </div>
+
         {/* Committee Preference 1 */}
         <div>
           <label className="block mb-1 text-sm font-medium">
@@ -194,10 +214,11 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ portfolios }) => {
                 </SelectTrigger>
                 <SelectContent>
                   {portfolios.map((c) => (
-                    <SelectItem key={c.id} value={c.committee} className="whitespace-normal break-words">
-                      <p className="sm:w-full max-w-[180px]">
-                        {c.committee}
-                      </p>
+                    <SelectItem
+                      key={c.id}
+                      value={c.committee}
+                      className="whitespace-normal break-words">
+                      <p className="sm:w-full max-w-[180px]">{c.committee}</p>
                     </SelectItem>
                   ))}
                 </SelectContent>
@@ -227,10 +248,11 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ portfolios }) => {
                 <SelectContent>
                   {getPortfoliosByCommittee(watchCommittee1).map(
                     (portfolio) => (
-                      <SelectItem key={portfolio} value={portfolio} className="whitespace-normal break-words">
-                        <p className="sm:w-full max-w-[180px]">
-                          {portfolio}
-                        </p>
+                      <SelectItem
+                        key={portfolio}
+                        value={portfolio}
+                        className="whitespace-normal break-words">
+                        <p className="sm:w-full max-w-[180px]">{portfolio}</p>
                       </SelectItem>
                     )
                   )}
@@ -261,10 +283,11 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ portfolios }) => {
                 <SelectContent>
                   {getPortfoliosByCommittee(watchCommittee1).map(
                     (portfolio) => (
-                      <SelectItem key={portfolio} value={portfolio} className="whitespace-normal break-words">
-                        <p className="sm:w-full max-w-[180px]">
-                          {portfolio}
-                        </p>
+                      <SelectItem
+                        key={portfolio}
+                        value={portfolio}
+                        className="whitespace-normal break-words">
+                        <p className="sm:w-full max-w-[180px]">{portfolio}</p>
                       </SelectItem>
                     )
                   )}
@@ -296,10 +319,11 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ portfolios }) => {
                   {portfolios
                     .filter((c) => c.committee !== watchCommittee1)
                     .map((c) => (
-                      <SelectItem key={c.id} value={c.committee} className="whitespace-normal break-words">
-                        <p className="sm:w-full max-w-[180px]">
-                          {c.committee}
-                        </p>
+                      <SelectItem
+                        key={c.id}
+                        value={c.committee}
+                        className="whitespace-normal break-words">
+                        <p className="sm:w-full max-w-[180px]">{c.committee}</p>
                       </SelectItem>
                     ))}
                 </SelectContent>
@@ -329,10 +353,11 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ portfolios }) => {
                 <SelectContent>
                   {getPortfoliosByCommittee(watchCommittee2).map(
                     (portfolio) => (
-                      <SelectItem key={portfolio} value={portfolio} className="whitespace-normal break-words">
-                        <p className="sm:w-full max-w-[180px]">
-                          {portfolio}
-                        </p>
+                      <SelectItem
+                        key={portfolio}
+                        value={portfolio}
+                        className="whitespace-normal break-words">
+                        <p className="sm:w-full max-w-[180px]">{portfolio}</p>
                       </SelectItem>
                     )
                   )}
@@ -362,10 +387,11 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ portfolios }) => {
                 <SelectContent>
                   {getPortfoliosByCommittee(watchCommittee2).map(
                     (portfolio) => (
-                      <SelectItem key={portfolio} value={portfolio} className="whitespace-normal break-words">
-                        <p className="sm:w-full max-w-[180px]">
-                          {portfolio}
-                        </p>
+                      <SelectItem
+                        key={portfolio}
+                        value={portfolio}
+                        className="whitespace-normal break-words">
+                        <p className="sm:w-full max-w-[180px]">{portfolio}</p>
                       </SelectItem>
                     )
                   )}

@@ -125,6 +125,7 @@ const AllotmentTable: React.FC<AllotmentTableProps> = ({
           <TableRow>
             <TableHead>Name</TableHead>
             <TableHead>Institution</TableHead>
+            <TableHead>MUN Count</TableHead>
             <TableHead>Preferences</TableHead>
             <TableHead>Allotted Committee</TableHead>
             <TableHead>Allotted Portfolio</TableHead>
@@ -140,6 +141,7 @@ const AllotmentTable: React.FC<AllotmentTableProps> = ({
               <TableRow key={reg.registrationId}>
                 <TableCell className="font-medium">{reg.fullName}</TableCell>
                 <TableCell>{reg.institution}</TableCell>
+                <TableCell>{reg.numberOfMUNsParticipated}</TableCell>
                 <TableCell>
                   <div className="text-xs space-y-1">
                     <div>Committee 1: {reg.committeePreference1}</div>
