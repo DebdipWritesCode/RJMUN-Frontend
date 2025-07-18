@@ -39,11 +39,7 @@ const HomePage = () => {
       <div className="mt-15 mb-10">
         <InfoCard
           heading="About Us"
-          children={
-            <p className="text-justify bg-[#c0b8a2] sm:mt-2 mt-[-30px] font-bold font-serif text-lg text-primary-background">
-              {about}
-            </p>
-          }
+          children={<LetterComponent content={about} />}
         />
       </div>
     </div>
