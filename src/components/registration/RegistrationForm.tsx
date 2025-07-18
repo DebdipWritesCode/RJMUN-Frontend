@@ -98,7 +98,7 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ portfolios }) => {
         amount: finalAmount * 100,
         currency,
         name: "RJMUN 2.0 Registration Fee",
-        description: "Individual Delegate Registration for RJMUN 2.0",
+        description: "Individual Delegate Registration for RJMUN 2.0 by" + ` ${formData.fullName}`,
         order_id: order.id,
         handler: (_: any) => {
           toast.success(
