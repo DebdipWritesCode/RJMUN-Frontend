@@ -105,6 +105,21 @@ const AllotmentTable: React.FC<AllotmentTableProps> = ({
     }
   };
 
+  const handleUpdateSheets = async () => {
+    try {
+      setLoading(true);
+      toast.info("Updating Google Sheets with latest allotments...");
+      const res = await api.post("/registration/update-allotments-sheets");
+      console.log(res.data);
+      toast.success(res.data.message || "Sheets updated successfully");
+    } catch (err) {
+      console.error(err);
+      toast.error("Failed to update allotment sheets");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const getAvailablePortfolios = (committeeName: string) => {
     const committee = committees.find((c) => c.name === committeeName);
     return committee?.portfolios ?? [];
@@ -206,6 +221,12 @@ const AllotmentTable: React.FC<AllotmentTableProps> = ({
       </Table>
 
       <div className="flex justify-end gap-4 mt-6">
+        <Button
+          onClick={handleUpdateSheets}
+          className="bg-green-600 hover:bg-green-700 text-white">
+          Update Sheets
+        </Button>
+
         <Button
           variant="outline"
           onClick={handleSendAllotmentEmails}
