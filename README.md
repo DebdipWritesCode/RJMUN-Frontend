@@ -7,7 +7,7 @@ This is the **frontend** for the [RJMUN](https://rjmun.in) (Ramakrishna Junior M
 
 ---
 
-## 🚀 Tech Stack
+## 🚀 Tech Stack 
 
 * [React](https://reactjs.org/)
 * [TypeScript](https://www.typescriptlang.org/)
