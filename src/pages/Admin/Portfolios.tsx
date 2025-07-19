@@ -15,6 +15,9 @@ const Portfolios = () => {
   const [committees, setCommittees] = useState<Committee[]>([]);
   const [editingId, setEditingId] = useState<string | null>(null);
 
+  // NEW: Track expanded committees
+  const [expandedCommittees, setExpandedCommittees] = useState<Record<string, boolean>>({});
+
   const fetchPortfolios = async () => {
     try {
       const res = await api.get("/committees/get-portfolios");
@@ -27,6 +30,14 @@ const Portfolios = () => {
   useEffect(() => {
     fetchPortfolios();
   }, []);
+
+  // Toggle expand/collapse
+  const toggleExpand = (id: string) => {
+    setExpandedCommittees((prev) => ({
+      ...prev,
+      [id]: !prev[id],
+    }));
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 p-6">
@@ -50,49 +61,65 @@ const Portfolios = () => {
         </div>
 
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {committees.map((committee, index) => (
-            <div
-              key={committee._id}
-              className="group relative bg-white/80 backdrop-blur-lg border border-white/20 rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 overflow-hidden"
-              style={{
-                animationDelay: `${index * 100}ms`,
-                animation: "fadeInUp 0.6s ease-out forwards",
-              }}>
-              <div className="p-6">
-                <h2 className="text-xl font-bold text-gray-800 mb-3 line-clamp-2">
-                  {committee.name}
-                </h2>
-                <ul className="text-gray-600 text-sm mb-4 list-disc ml-5">
-                  {committee.portfolios.map((p, i) => (
-                    <li key={i}>{p}</li>
-                  ))}
-                </ul>
-              </div>
+          {committees.map((committee, index) => {
+            const isExpanded = expandedCommittees[committee._id];
+            const portfoliosToShow = isExpanded
+              ? committee.portfolios
+              : committee.portfolios.slice(0, 7);
 
-              <div className="px-6 pb-6">
-                <Button
-                  variant="outline"
-                  onClick={() => setEditingId(committee._id)}
-                  className="w-full bg-white/50 hover:bg-white/80 border-gray-200/50 hover:border-gray-300/50 text-gray-700 hover:text-gray-900 transition-all duration-200 rounded-xl">
-                  <Edit className="w-4 h-4 mr-2" />
-                  Edit Portfolios
-                </Button>
-              </div>
+            return (
+              <div
+                key={committee._id}
+                className="group relative bg-white/80 backdrop-blur-lg border border-white/20 rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 overflow-hidden"
+                style={{
+                  animationDelay: `${index * 100}ms`,
+                  animation: "fadeInUp 0.6s ease-out forwards",
+                }}>
+                <div className="p-6">
+                  <h2 className="text-xl font-bold text-gray-800 mb-3 line-clamp-2">
+                    {committee.name}
+                  </h2>
 
-              {editingId === committee._id && (
-                <div className="absolute inset-0 z-20 flex items-center justify-center bg-white/90 backdrop-blur-sm p-4 overflow-y-auto">
-                  <div className="w-full max-w-xl">
-                    <PortfolioForm
-                      initialPortfolios={committee.portfolios}
-                      committeeId={committee._id}
-                      onClose={() => setEditingId(null)}
-                      refresh={fetchPortfolios}
-                    />
-                  </div>
+                  <ul className="text-gray-600 text-sm mb-4 list-disc ml-5">
+                    {portfoliosToShow.map((p, i) => (
+                      <li key={i}>{p}</li>
+                    ))}
+                  </ul>
+
+                  {committee.portfolios.length > 7 && (
+                    <button
+                      onClick={() => toggleExpand(committee._id)}
+                      className="text-sm text-blue-600 hover:underline transition">
+                      {isExpanded ? "Show Less" : "Show More"}
+                    </button>
+                  )}
                 </div>
-              )}
-            </div>
-          ))}
+
+                <div className="px-6 pb-6">
+                  <Button
+                    variant="outline"
+                    onClick={() => setEditingId(committee._id)}
+                    className="w-full bg-white/50 hover:bg-white/80 border-gray-200/50 hover:border-gray-300/50 text-gray-700 hover:text-gray-900 transition-all duration-200 rounded-xl">
+                    <Edit className="w-4 h-4 mr-2" />
+                    Edit Portfolios
+                  </Button>
+                </div>
+
+                {editingId === committee._id && (
+                  <div className="absolute inset-0 z-20 flex items-center justify-center bg-white/90 backdrop-blur-sm p-4 overflow-y-auto">
+                    <div className="w-full max-w-xl">
+                      <PortfolioForm
+                        initialPortfolios={committee.portfolios}
+                        committeeId={committee._id}
+                        onClose={() => setEditingId(null)}
+                        refresh={fetchPortfolios}
+                      />
+                    </div>
+                  </div>
+                )}
+              </div>
+            );
+          })}
         </div>
 
         {committees.length === 0 && (
