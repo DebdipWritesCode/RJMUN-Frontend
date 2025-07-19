@@ -35,7 +35,7 @@ const Navbar = () => {
   const closeDialog = () => setIsOpen(false);
 
   return (
-    <nav className="w-full py-6 px-4 bg-primary-background shadow-lg shadow-gray-900">
+    <nav className="w-full py-6 px-4 bg-[#00a63e] shadow-lg shadow-gray-900">
       {/* Desktop Menu */}
       <div className="hidden md:flex justify-between items-center">
         <img
@@ -47,7 +47,7 @@ const Navbar = () => {
         <NavigationMenu className="w-full max-w-none">
           <NavigationMenuList className="flex justify-between flex-wrap w-full max-w-none">
             {navItems.map(({ label, path }) => (
-              <NavigationMenuItem key={path}>
+              <NavigationMenuItem className="" key={path}>
                 <NavigationMenuLink
                   asChild
                   className={navigationMenuTriggerStyle()}>
