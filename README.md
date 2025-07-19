@@ -1,60 +1,78 @@
-# React + TypeScript + Vite
+# RJMUN Website — Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This is the **frontend** for the [RJMUN](https://rjmun.in) (Ramakrishna Junior Model United Nations) website, built using **React**, **TypeScript**, and **Vite**. It includes hot module replacement, ESLint rules, and modern tooling for a fast development experience.
 
-Currently, two official gfplugins are avdacilable:
+> ⚠️ **Note**: This repository is **only one half** of the complete project. The backend is located here:
+> 👉 [https://github.com/DebdipWritesCode/RJMUN-Backend](https://github.com/DebdipWritesCode/RJMUN-Backend)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+---
 
-## Expanding the ESLint configuration
+## 🚀 Tech Stack
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+* [React](https://reactjs.org/)
+* [TypeScript](https://www.typescriptlang.org/)
+* [Vite](https://vitejs.dev/)
+* [ESLint](https://eslint.org/) with TypeScript support
+* [SWC](https://swc.rs/) or Babel for fast refresh (plugin-based)
+* [Razorpay](https://razorpay.com/) integration for payment handling
 
-```js
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+---
 
-      // Remove tseslint.configs.recommended and replace with this
-      ...tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      ...tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      ...tseslint.configs.stylisticTypeChecked,
+## 📦 Getting Started
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+### 1. Clone the Repository
+
+```bash
+git clone https://github.com/DebdipWritesCode/RJMUN-Frontend.git
+cd RJMUN-Frontend
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+### 2. Install Dependencies
 
-```js
-// eslint.config.js
+```bash
+npm install
+```
+
+### 3. Setup Environment Variables
+
+Create a `.env` file at the root of the project with the following values:
+
+```env
+VITE_BACKEND_URL=
+VITE_RAZORPAY_KEY_ID=
+VITE_RAZORPAY_KEY_SECRET=
+```
+
+> 📝 Fill in the values based on the backend server and Razorpay credentials.
+
+---
+
+### 4. Start the Development Server
+
+```bash
+npm run dev
+```
+
+This will spin up the app at [http://localhost:5173](http://localhost:5173) with hot module reloading enabled.
+
+---
+
+## 🔍 Linting & Code Quality
+
+This project uses a customizable ESLint configuration that supports type-aware lint rules with TypeScript. For production-quality apps, you can expand your configuration as needed:
+
+```ts
+// eslint.config.js (example snippet)
+import { tseslint } from 'typescript-eslint'
 import reactX from 'eslint-plugin-react-x'
 import reactDom from 'eslint-plugin-react-dom'
 
 export default tseslint.config([
-  globalIgnores(['dist']),
   {
     files: ['**/*.{ts,tsx}'],
     extends: [
-      // Other configs...
-      // Enable lint rules for React
+      ...tseslint.configs.recommendedTypeChecked,
       reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
       reactDom.configs.recommended,
     ],
     languageOptions: {
@@ -62,8 +80,31 @@ export default tseslint.config([
         project: ['./tsconfig.node.json', './tsconfig.app.json'],
         tsconfigRootDir: import.meta.dirname,
       },
-      // other options...
     },
   },
 ])
 ```
+
+---
+
+## 🛠 Build for Production
+
+```bash
+npm run build
+```
+
+The output will be placed in the `dist/` folder.
+
+---
+
+## 🧪 Preview the Production Build
+
+```bash
+npm run preview
+```
+
+---
+
+## 📫 Contact & Contribute
+
+If you'd like to contribute or report an issue, feel free to open a pull request or issue. For backend-related changes, check the [RJMUN Backend Repository](https://github.com/DebdipWritesCode/RJMUN-Backend).
