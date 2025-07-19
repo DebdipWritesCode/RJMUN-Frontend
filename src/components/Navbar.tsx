@@ -51,7 +51,7 @@ const Navbar = () => {
                 <NavigationMenuLink
                   asChild
                   className={navigationMenuTriggerStyle()}>
-                  <Link className="bg-primary-background" to={path}>
+                  <Link className="bg-secondary-background" to={path}>
                     {label}
                   </Link>
                 </NavigationMenuLink>

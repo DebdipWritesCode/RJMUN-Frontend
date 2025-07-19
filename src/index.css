@@ -40,12 +40,18 @@
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
   --color-primary-background: var(--primary-background);
+  --color-secondary-background: var(--secondary-background);
+  --color-tertiary: var(--tertiary);
+  --color-tertiary-dark: var(--tertiary-dark);
 }
 
 :root {
   --radius: 0.625rem;
   --background: oklch(1 0 0);
-  --primary-background: #00a63e;
+  --secondary-background: #00a63e;
+  --primary-background: #3f5a45;
+  --tertiary: #dad1ab;
+  --tertiary-dark: #a19978;
   --foreground: oklch(0.145 0 0);
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.145 0 0);

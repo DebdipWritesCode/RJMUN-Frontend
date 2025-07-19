@@ -12,12 +12,12 @@ const WhyCA = () => {
       <Button className="mb-10">
         <Link
           to="/ca"
-          className="text-[#d1c19e] font-semibold text-lg py-10 px-4">
+          className="text-tertiary font-semibold text-lg py-10 px-4">
           Register as CA
         </Link>
       </Button>
 
-      <ul className="flex flex-col gap-4 list-disc text-[#d1c19e] font-mono text-lg sm:hidden max-w-xl px-6">
+      <ul className="flex flex-col gap-4 list-disc text-tertiary font-mono text-lg sm:hidden max-w-xl px-6">
         {benefits.map((item, index) => (
           <li key={index}>{item.text}</li>
         ))}
@@ -35,7 +35,7 @@ const WhyCA = () => {
               alt={`CA Benefit ${index + 1}`}
               className="w-[80px] h-[80px] sm:w-[150px] sm:h-[150px]"
             />
-            <p className="text-[#d1c19e] font-mono text-lg sm:text-2xl text-left max-w-xl leading-relaxed">
+            <p className="text-tertiary font-mono text-lg sm:text-2xl text-left max-w-xl leading-relaxed">
               {item.text}
             </p>
             <div className="w-[60px] h-[60px] sm:w-[80px] sm:h-[80px] invisible sm:visible" />

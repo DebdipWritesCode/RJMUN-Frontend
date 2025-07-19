@@ -54,7 +54,7 @@ const FAQsPage = () => {
                   <AccordionTrigger className="px-6 py-4 text-lg font-semibold hover:no-underline hover:bg-[#2B2F36] transition-colors data-[state=open]:rounded-b-none">
                     {faq.question}
                   </AccordionTrigger>
-                  <AccordionContent className="bg-[#d1c19e] text-[#1c2d27] px-6 py-4 text-base leading-relaxed text-balance">
+                  <AccordionContent className="bg-tertiary text-[#1c2d27] px-6 py-4 text-base leading-relaxed text-balance">
                     <p>{faq.answer}</p>
                   </AccordionContent>
                 </AccordionItem>

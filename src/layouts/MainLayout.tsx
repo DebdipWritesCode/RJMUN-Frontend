@@ -6,7 +6,7 @@ import Footer from "@/components/Footer";
 const MainLayout = () => {
   return (
     <div
-      className="text-[#b1aa8c] flex flex-col w-full min-h-screen"
+      className="text-tertiary flex flex-col w-full min-h-screen"
       style={{
         backgroundImage: "url('/images/BG2.png')",
         backgroundSize: "auto",

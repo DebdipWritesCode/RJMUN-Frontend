@@ -13,7 +13,7 @@ const Hero = () => {
       {/* Main Box */}
       <div
         className="
-        bg-[#9e9776]
+        bg-tertiary
         w-[90%] max-w-[680px]
         h-[600px] lg:h-[500px]
         rounded-2xl shadow-2xl
@@ -32,7 +32,7 @@ const Hero = () => {
             think, speak, and lead.
           </p>
           <Button
-            className="mt-4 sm:mt-8 text-[#d1c19e] bg-[#1c2d27] rounded-2xl text-xl sm:text-2xl px-10 py-6"
+            className="mt-4 sm:mt-8 text-tertiary bg-[#1c2d27] rounded-2xl text-xl sm:text-2xl px-10 py-6"
             onClick={onRegisterClick}>
             REGISTER NOW
           </Button>
