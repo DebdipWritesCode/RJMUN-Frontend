@@ -124,3 +124,21 @@ button {
     @apply bg-background text-foreground;
   }
 }
+
+@media (640px <= width <= 1024px) {
+  .time-size {
+    @apply text-[60px];
+  }
+  .text-time-size {
+    @apply text-[30px];
+  }
+  .main-box {
+    @apply w-[60%];
+  }
+}
+
+@media (1024px < width <= 1280px) {
+  .main-box {
+    @apply w-[50%];
+  }
+}

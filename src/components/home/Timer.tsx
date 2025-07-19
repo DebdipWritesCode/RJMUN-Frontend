@@ -36,22 +36,22 @@ const Timer = () => {
   const timeSize = 'sm:text-[100px] text-[35px] sm:gap-30 gap-5';
 
   return (
-    <div className={`text-[#1c2d27] rounded-lg mt-20 flex font-mono ${timeSize} text-center font-bold`}>
+    <div className={`text-[#1c2d27] rounded-lg mt-20 flex font-mono ${timeSize} text-center font-bold time-size`}>
       <div>
         <div>{formatNumber(timeLeft.days)}</div>
-        <div className={`${timetextSize} text-center font-bold tracking-wide`}>DAYS</div>
+        <div className={`${timetextSize} text-center font-bold tracking-wide text-time-size`}>DAYS</div>
       </div>
       <div>
         <div>{formatNumber(timeLeft.hours)}</div>
-        <div className={`${timetextSize} text-center font-bold tracking-wide`}>HOURS</div>
+        <div className={`${timetextSize} text-center font-bold tracking-wide text-time-size`}>HOURS</div>
       </div>
       <div>
         <div>{formatNumber(timeLeft.minutes)}</div>
-        <div className={`${timetextSize} text-center font-bold tracking-wide`}>MINUTES</div>
+        <div className={`${timetextSize} text-center font-bold tracking-wide text-time-size`}>MINUTES</div>
       </div>
       <div>
         <div>{formatNumber(timeLeft.seconds)}</div>
-        <div className={`${timetextSize} text-center font-bold tracking-wide`}>SECONDS</div>
+        <div className={`${timetextSize} text-center font-bold tracking-wide text-time-size`}>SECONDS</div>
       </div>
     </div>
   );

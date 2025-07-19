@@ -13,14 +13,15 @@ const Hero = () => {
       {/* Main Box */}
       <div
         className="
-          bg-[#9e9776]
-          w-[90%] max-w-[680px]
-          h-[500px]
-          rounded-2xl shadow-2xl
-          shadow-black
-          z-10
-          relative
-        ">
+        bg-[#9e9776]
+        w-[90%] max-w-[680px]
+        h-[600px] lg:h-[500px]
+        rounded-2xl shadow-2xl
+        shadow-black
+        z-10
+        relative
+        main-box
+      ">
         <div className="absolute flex flex-col gap-3 items-center justify-center h-full px-5 sm:px-15 py-3 text-[#1c2d27]">
           <h3 className="text-3xl text-center">WELCOME TO</h3>
           <h1 className="font-bold text-7xl text-center">RJMUN</h1>
