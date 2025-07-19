@@ -45,7 +45,7 @@ const Navbar = () => {
           alt="RJMUN Logo"
         />
         <NavigationMenu className="w-full max-w-none">
-          <NavigationMenuList className="flex justify-between w-full max-w-none">
+          <NavigationMenuList className="flex justify-between flex-wrap w-full max-w-none">
             {navItems.map(({ label, path }) => (
               <NavigationMenuItem key={path}>
                 <NavigationMenuLink
