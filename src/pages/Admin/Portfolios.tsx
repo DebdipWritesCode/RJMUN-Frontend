@@ -16,7 +16,9 @@ const Portfolios = () => {
   const [editingId, setEditingId] = useState<string | null>(null);
 
   // NEW: Track expanded committees
-  const [expandedCommittees, setExpandedCommittees] = useState<Record<string, boolean>>({});
+  const [expandedCommittees, setExpandedCommittees] = useState<
+    Record<string, boolean>
+  >({});
 
   const fetchPortfolios = async () => {
     try {
@@ -106,8 +108,8 @@ const Portfolios = () => {
                 </div>
 
                 {editingId === committee._id && (
-                  <div className="absolute inset-0 z-20 flex items-center justify-center bg-white/90 backdrop-blur-sm p-4 overflow-y-auto">
-                    <div className="w-full max-w-xl">
+                  <div className="absolute top-0 left-0 right-0 z-50 flex justify-center bg-white/90 backdrop-blur-sm p-4 overflow-y-scroll h-full">
+                    <div className="w-full max-w-xl mb-10 relative">
                       <PortfolioForm
                         initialPortfolios={committee.portfolios}
                         committeeId={committee._id}

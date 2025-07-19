@@ -63,21 +63,19 @@ const PortfoliosForm: React.FC<PortfoliosFormProps> = ({
   };
 
   return (
-    <div className="relative">
+    <div className="">
       {/* Decorative Background */}
       {/* <div className="absolute -top-4 -left-4 w-24 h-24 bg-gradient-to-r from-blue-400 to-purple-400 rounded-full mix-blend-multiply filter blur-xl opacity-20"></div> */}
 
-      <div className="relative bg-white/80 backdrop-blur-lg border border-white/20 rounded-2xl shadow-xl p-8">
-        {/* Form */}
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-          {/* Textarea */}
-          <div className="space-y-2">
+      <div className=" bg-white backdrop-blur-lg border border-white rounded-2xl p-8 h-full">
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-6 absolute top-0 left-0 py-5">
+          <div className="space-y-2 w-full">
             <label className="text-sm font-medium text-gray-700">
               Portfolios (one per line)
             </label>
             <Textarea
               placeholder="e.g. Design\nMarketing\nDevelopment"
-              className="bg-white/50 border-gray-200/50 focus:border-blue-500 focus:bg-white transition-all duration-200 rounded-xl min-h-[140px] resize-none"
+              className="bg-white border-gray-400/50 focus:border-blue-500  transition-all duration-200 rounded-xl min-h-[140px] resize-none whitespace-nowrap max-w-[300px]"
               {...register("portfolios")}
             />
             {errors.portfolios && (
@@ -88,7 +86,6 @@ const PortfoliosForm: React.FC<PortfoliosFormProps> = ({
             )}
           </div>
 
-          {/* Action Buttons */}
           <div className="flex gap-4 pt-6 border-t border-gray-200/50">
             <Button
               type="submit"
