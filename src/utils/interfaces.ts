@@ -13,6 +13,7 @@ export interface TeamMember {
   _id: string;
   name: string;
   position: string;
+  type: "super" | "head" | "manager";
   image?: string;
   imageMimeType?: string;
 }

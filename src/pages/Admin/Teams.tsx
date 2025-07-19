@@ -9,6 +9,7 @@ interface TeamMember {
   _id: string;
   name: string;
   position: string;
+  type: "super" | "head" | "manager";
   imageUrl?: string;
 }
 
@@ -117,6 +118,9 @@ const Teams = () => {
                 </h2>
                 <p className="text-gray-600 text-sm mb-4 line-clamp-3">
                   Position: {member.position}
+                </p>
+                <p className="text-gray-600 text-sm mb-4 line-clamp-3">
+                  Type: {member.type}
                 </p>
               </div>
 

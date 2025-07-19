@@ -7,10 +7,17 @@ import { Button } from "@/components/ui/button";
 import { toast } from "react-toastify";
 import { useState } from "react";
 import { Save, X, Upload, Eye } from "lucide-react";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+} from "@/components/ui/select";
 
 const schema = z.object({
   name: z.string().min(1, "Name is required"),
   position: z.string().min(1, "Position is required"),
+  type: z.enum(["super", "head", "manager"]),
   image: z.any().optional(),
 });
 
@@ -21,6 +28,7 @@ interface TeamMemberFormProps {
     _id: string;
     name: string;
     position: string;
+    type: "super" | "head" | "manager";
   };
   onClose: () => void;
 }
@@ -39,6 +47,7 @@ const TeamMemberForm: React.FC<TeamMemberFormProps> = ({
     defaultValues: {
       name: initialData?.name || "",
       position: initialData?.position || "",
+      type: initialData?.type || "manager",
     },
   });
 
@@ -48,6 +57,7 @@ const TeamMemberForm: React.FC<TeamMemberFormProps> = ({
     const formData = new FormData();
     formData.append("name", data.name);
     formData.append("position", data.position);
+    formData.append("type", data.type);
     if (data.image && data.image[0]) formData.append("image", data.image[0]);
 
     try {
@@ -73,7 +83,7 @@ const TeamMemberForm: React.FC<TeamMemberFormProps> = ({
     <div className="relative">
       {/* Background decorative elements */}
       <div className="absolute -top-4 -right-4 w-24 h-24 bg-gradient-to-r from-purple-400 to-pink-400 rounded-full mix-blend-multiply filter blur-xl opacity-20"></div>
-      
+
       <div className="relative bg-white/80 backdrop-blur-lg border border-white/20 rounded-2xl shadow-xl p-8">
         <div className="flex items-center justify-between mb-8">
           <div className="flex items-center gap-4">
@@ -85,7 +95,9 @@ const TeamMemberForm: React.FC<TeamMemberFormProps> = ({
                 {initialData ? "Edit Team Member" : "Add Team Member"}
               </h2>
               <p className="text-gray-600 text-sm mt-1">
-                {initialData ? "Update team member information" : "Create a new team member"}
+                {initialData
+                  ? "Update team member information"
+                  : "Create a new team member"}
               </p>
             </div>
           </div>
@@ -93,8 +105,7 @@ const TeamMemberForm: React.FC<TeamMemberFormProps> = ({
             type="button"
             variant="ghost"
             onClick={onClose}
-            className="rounded-full w-10 h-10 p-0 hover:bg-gray-100"
-          >
+            className="rounded-full w-10 h-10 p-0 hover:bg-gray-100">
             <X className="w-5 h-5" />
           </Button>
         </div>
@@ -137,6 +148,41 @@ const TeamMemberForm: React.FC<TeamMemberFormProps> = ({
               )}
             </div>
 
+            {/* Type Field */}
+            <div className="space-y-2">
+              <label className="text-sm font-medium text-gray-700">Type</label>
+              <Controller
+                name="type"
+                control={control}
+                render={({ field }) => (
+                  <Select value={field.value} onValueChange={field.onChange}>
+                    <SelectTrigger className="w-full bg-white border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-100 rounded-lg px-4 py-2 text-sm text-gray-700 shadow-sm transition-all duration-200">
+                      {field.value ? (
+                        {
+                          super: "Super",
+                          head: "Head",
+                          manager: "Manager",
+                        }[field.value]
+                      ) : (
+                        <span className="text-gray-400">Select a type</span>
+                      )}
+                    </SelectTrigger>
+                    <SelectContent className="bg-white border border-gray-200 rounded-lg shadow-lg">
+                      <SelectItem value="super">Super</SelectItem>
+                      <SelectItem value="head">Head</SelectItem>
+                      <SelectItem value="manager">Manager</SelectItem>
+                    </SelectContent>
+                  </Select>
+                )}
+              />
+              {errors.type && (
+                <p className="text-sm text-red-500 flex items-center gap-1">
+                  <span className="w-1 h-1 bg-red-500 rounded-full"></span>
+                  {errors.type.message}
+                </p>
+              )}
+            </div>
+
             {/* Image Upload */}
             <div className="space-y-2">
               <label className="text-sm font-medium text-gray-700">
@@ -173,31 +219,30 @@ const TeamMemberForm: React.FC<TeamMemberFormProps> = ({
               />
             </div>
           </div>
-  
-            {/* Image Preview */}
-            {preview && (
-              <div className="space-y-2">
-                <label className="text-sm font-medium text-gray-700 flex items-center gap-2">
-                  <Eye className="w-4 h-4" />
-                  Image Preview
-                </label>
-                <div className="bg-white/50 border border-gray-200/50 rounded-xl p-4">
-                  <img
-                    src={preview}
-                    alt="Preview"
-                    className="w-full max-w-md h-auto rounded-lg border shadow-sm"
-                  />
-                </div>
+
+          {/* Image Preview */}
+          {preview && (
+            <div className="space-y-2">
+              <label className="text-sm font-medium text-gray-700 flex items-center gap-2">
+                <Eye className="w-4 h-4" />
+                Image Preview
+              </label>
+              <div className="bg-white/50 border border-gray-200/50 rounded-xl p-4">
+                <img
+                  src={preview}
+                  alt="Preview"
+                  className="w-full max-w-md h-auto rounded-lg border shadow-sm"
+                />
               </div>
-            )}
-  
-            {/* Action Buttons */}
+            </div>
+          )}
+
+          {/* Action Buttons */}
           <div className="flex gap-4 pt-6 border-t border-gray-200/50">
             <Button
               type="submit"
               disabled={isSubmitting}
-              className="flex-1 bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white shadow-lg hover:shadow-xl transition-all duration-300 rounded-xl py-3 disabled:opacity-50 disabled:cursor-not-allowed"
-            >
+              className="flex-1 bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white shadow-lg hover:shadow-xl transition-all duration-300 rounded-xl py-3 disabled:opacity-50 disabled:cursor-not-allowed">
               {isSubmitting ? (
                 <div className="flex items-center gap-2">
                   <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
@@ -214,8 +259,7 @@ const TeamMemberForm: React.FC<TeamMemberFormProps> = ({
               type="button"
               variant="secondary"
               onClick={onClose}
-              className="bg-gray-100 hover:bg-gray-200 text-gray-700 border-gray-200 hover:border-gray-300 transition-all duration-200 rounded-xl px-8 py-3"
-            >
+              className="bg-gray-100 hover:bg-gray-200 text-gray-700 border-gray-200 hover:border-gray-300 transition-all duration-200 rounded-xl px-8 py-3">
               Cancel
             </Button>
           </div>

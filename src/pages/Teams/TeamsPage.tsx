@@ -3,14 +3,11 @@ import api from "@/api/axios";
 import type { TeamMember } from "@/utils/interfaces";
 import { Loader2 } from "lucide-react";
 import ProfileCard from "@/components/cards/ProfileCard";
-import EmptyFallback from "@/components/EmptyFallback"; // <-- Import
+import EmptyFallback from "@/components/EmptyFallback";
 
 const TeamsPage = () => {
   const [teams, setTeams] = useState<TeamMember[]>([]);
   const [loading, setLoading] = useState(true);
-
-  const FIRST_SPLIT_INDEX = 3;
-  const SECOND_SPLIT_INDEX = 7;
 
   useEffect(() => {
     const fetchTeams = async () => {
@@ -27,15 +24,9 @@ const TeamsPage = () => {
     fetchTeams();
   }, []);
 
-  const canSplitFirst = teams.length > FIRST_SPLIT_INDEX;
-  const canSplitSecond = teams.length >= SECOND_SPLIT_INDEX;
-  const canSplitThird = teams.length > SECOND_SPLIT_INDEX;
-
-  const firstGroup = canSplitFirst ? teams.slice(0, FIRST_SPLIT_INDEX) : teams;
-  const secondGroup = canSplitSecond
-    ? teams.slice(FIRST_SPLIT_INDEX, SECOND_SPLIT_INDEX)
-    : [];
-  const thirdGroup = canSplitThird ? teams.slice(SECOND_SPLIT_INDEX) : [];
+  const firstGroup = teams.filter((member) => member.type === "super");
+  const secondGroup = teams.filter((member) => member.type === "head");
+  const thirdGroup = teams.filter((member) => member.type === "manager");
 
   const renderTeamGroup = (group: TeamMember[]) => (
     <div className="flex md:flex-row flex-col md:gap-20 flex-wrap gap-20 justify-center">
