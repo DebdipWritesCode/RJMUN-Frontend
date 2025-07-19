@@ -24,7 +24,7 @@ const Hero = () => {
       ">
         <div className="absolute flex flex-col gap-3 items-center justify-center h-full px-5 sm:px-15 py-3 text-[#1c2d27]">
           <h3 className="text-3xl text-center">WELCOME TO</h3>
-          <h1 className="font-bold text-7xl text-center">RJMUN</h1>
+          <h1 className="font-bold text-6xl text-center sm:text-7xl">RJMUN</h1>
           <p className="mt-4 sm:mt-8 text-xl sm:text-center text-justify">
             Step into the arena of diplomacy, dialogue, and debate. At RJMUN, we
             don’t just simulate global affairs — we shape perspectives,
@@ -32,7 +32,7 @@ const Hero = () => {
             think, speak, and lead.
           </p>
           <Button
-            className="mt-4 sm:mt-8 text-[#d1c19e] bg-[#1c2d27] rounded-2xl text-2xl px-10 py-6"
+            className="mt-4 sm:mt-8 text-[#d1c19e] bg-[#1c2d27] rounded-2xl text-xl sm:text-2xl px-10 py-6"
             onClick={onRegisterClick}>
             REGISTER NOW
           </Button>
