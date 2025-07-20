@@ -45,7 +45,7 @@ const CouponForm: React.FC<CouponFormProps> = ({
   const onSubmit = async (data: CouponFormData) => {
     try {
       if (initialData?._id) {
-        await api.put(`/coupons/${initialData._id}`, data)
+        await api.patch(`/coupons/${initialData._id}`, data)
         toast.success("Coupon updated");
       } else {
         await api.post("/coupons", data);
