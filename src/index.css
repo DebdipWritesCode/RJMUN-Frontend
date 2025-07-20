@@ -40,12 +40,14 @@
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
   --color-primary-background: var(--primary-background);
+  --color-form-text: var(--form-text);
 }
 
 :root {
   --radius: 0.625rem;
   --background: oklch(1 0 0);
   --primary-background: #3f5a45;
+  --form-text: #c58b17;
   --foreground: oklch(0.145 0 0);
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.145 0 0);
