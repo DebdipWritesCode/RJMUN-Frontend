@@ -91,14 +91,23 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ portfolios }) => {
       };
 
       const response = await api.post("/registration/initiate", payload);
-      const { order, finalAmount, currency } = response.data;
+      const { order, finalAmount, currency, message, registrationId } =
+        response.data;
+
+      if (finalAmount <= 0 && registrationId) {
+        toast.success(message || "Registration completed successfully!");
+        navigate("/"); // redirect immediately
+        return;
+      }
 
       const options: RazorpayOrderOptions = {
         key: import.meta.env.VITE_RAZORPAY_KEY_ID,
         amount: finalAmount * 100,
         currency,
         name: "RJMUN 2.0 Registration Fee",
-        description: "Individual Delegate Registration for RJMUN 2.0 by" + ` ${formData.fullName}`,
+        description:
+          "Individual Delegate Registration for RJMUN 2.0 by" +
+          ` ${formData.fullName}`,
         order_id: order.id,
         handler: (_: any) => {
           toast.success(
