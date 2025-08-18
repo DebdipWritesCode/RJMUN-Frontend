@@ -66,12 +66,18 @@ const AllotmentTable: React.FC<AllotmentTableProps> = ({
     for (const a of allotments) {
       if (!a.allottedCommittee || !a.allottedPortfolio) continue;
 
-      const key = `${a.allottedCommittee}::${a.allottedPortfolio}`;
-      if (seen.has(key)) {
-        toast.error("Duplicate allotment found: " + key);
-        return;
+      const isPress =
+        a.allottedCommittee.toLowerCase().includes("international press") ||
+        a.allottedCommittee.toLowerCase().includes("ip");
+
+      if (!isPress) {
+        const key = `${a.allottedCommittee}::${a.allottedPortfolio}`;
+        if (seen.has(key)) {
+          toast.error("Duplicate allotment found: " + key);
+          return;
+        }
+        seen.add(key);
       }
-      seen.add(key);
     }
 
     try {
