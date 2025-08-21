@@ -226,7 +226,7 @@ const AllotmentTable: React.FC<AllotmentTableProps> = ({
         </TableBody>
       </Table>
 
-      <div className="flex justify-end gap-4 mt-6">
+      <div className="flex sm:flex-row flex-col justify-end gap-4 mt-6">
         <Button
           onClick={handleUpdateSheets}
           className="bg-green-600 hover:bg-green-700 text-white">
