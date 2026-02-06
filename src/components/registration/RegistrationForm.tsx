@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useForm, Controller, useWatch } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -11,6 +12,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { toast } from "react-toastify";
+import { Loader2 } from "lucide-react";
 import api from "@/api/axios";
 import { useRazorpay, type RazorpayOrderOptions } from "react-razorpay";
 import { useNavigate } from "react-router-dom";
@@ -69,6 +71,7 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ portfolios }) => {
   });
 
   const navigate = useNavigate();
+  const [isConfirmingPayment, setIsConfirmingPayment] = useState(false);
 
   const { Razorpay, error } = useRazorpay();
 
@@ -104,16 +107,36 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ portfolios }) => {
         key: import.meta.env.VITE_RAZORPAY_KEY_ID,
         amount: finalAmount * 100,
         currency,
-        name: "RJMUN 2.0 Registration Fee",
+        name: "RJMUN 3.0 Registration Fee",
         description:
-          "Individual Delegate Registration for RJMUN 2.0 by" +
+          "Individual Delegate Registration for RJMUN 3.0 by" +
           ` ${formData.fullName}`,
         order_id: order.id,
-        handler: (_: any) => {
-          toast.success(
-            "Payment successful! Registration will be confirmed shortly."
-          );
-          navigate("/");
+        handler: async (razorpayResponse: {
+          razorpay_order_id: string;
+          razorpay_payment_id: string;
+          razorpay_signature: string;
+        }) => {
+          setIsConfirmingPayment(true);
+          try {
+            const { data } = await api.post("/payment/confirm", {
+              orderId: razorpayResponse.razorpay_order_id,
+              paymentId: razorpayResponse.razorpay_payment_id,
+              signature: razorpayResponse.razorpay_signature,
+            });
+            const message =
+              data.registrationId != null
+                ? data.message ||
+                  `Registration confirmed! Your Registration ID: ${data.registrationId}`
+                : data.message || "Payment confirmed. Registration already processed.";
+            toast.success(message);
+            navigate("/");
+          } catch (err: any) {
+            setIsConfirmingPayment(false);
+            const msg =
+              err?.response?.data?.message || "Payment confirmation failed. Please contact support if the amount was deducted.";
+            toast.error(msg);
+          }
         },
         prefill: {
           name: formData.fullName,
@@ -136,6 +159,23 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ portfolios }) => {
   if (error) {
     toast.error("Failed to load Razorpay. Please try again later.");
   }
+
+  if (isConfirmingPayment) {
+    return (
+      <div className="max-w-xl mx-auto mt-10 bg-gray-100 p-8 rounded-xl shadow-lg text-form-text">
+        <div className="flex flex-col items-center justify-center py-12 px-4 text-center">
+          <Loader2 className="h-12 w-12 animate-spin text-[#1c2d27] mb-6" />
+          <h2 className="text-xl font-semibold text-[#1c2d27] mb-2">
+            Confirming your payment
+          </h2>
+          <p className="text-form-text/80 text-sm max-w-sm">
+            Please wait while we verify your payment and complete your registration. Do not close this page.
+          </p>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="max-w-xl mx-auto mt-10 bg-gray-100 p-8 rounded-xl shadow-lg text-form-text">
       <h2 className="text-2xl font-bold mb-6 text-[#1c2d27] text-center">
