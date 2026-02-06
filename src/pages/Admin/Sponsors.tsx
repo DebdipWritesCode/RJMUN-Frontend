@@ -4,13 +4,7 @@ import { Button } from "@/components/ui/button";
 import { toast } from "react-toastify";
 import { Plus, Edit, Trash2, Users } from "lucide-react";
 import SponsorForm from "@/components/admin/sponsors/SponsorForm";
-
-interface Sponsor {
-  _id: string;
-  name: string;
-  type: 'endorsement' | 'partner' | 'college';
-  imageUrl?: string;
-}
+import type { Sponsor } from "@/utils/interfaces";
 
 const Sponsors = () => {
   const [sponsors, setSponsors] = useState<Sponsor[]>([]);

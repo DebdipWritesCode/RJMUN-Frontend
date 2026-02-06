@@ -4,14 +4,7 @@ import { Button } from "@/components/ui/button";
 import { toast } from "react-toastify";
 import { Plus, Edit, Trash2, Users } from "lucide-react";
 import EBForm from "@/components/admin/ebs/EBForm";
-
-interface EB {
-  _id: string;
-  name: string;
-  position: string;
-  committee: string;
-  imageUrl?: string;
-}
+import type { EB } from "@/utils/interfaces";
 
 const EBs = () => {
   const [ebs, setEBs] = useState<EB[]>([]);

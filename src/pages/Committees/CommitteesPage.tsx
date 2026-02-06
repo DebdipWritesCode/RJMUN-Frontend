@@ -39,9 +39,9 @@ const CommitteesPage = () => {
             {committees.map((committee) => (
               <InfoCard key={committee._id} heading={committee.name}>
                 <div className="flex flex-col md:flex-row items-center gap-6">
-                  {committee.image && (
+                  {committee.imageUrl && (
                     <img
-                      src={`data:${committee.imageMimeType};base64,${committee.image}`}
+                      src={committee.imageUrl}
                       alt={`${committee.name} committee`}
                       className="w-full max-w-xs"
                     />

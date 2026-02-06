@@ -38,11 +38,7 @@ const SponsorsPage = () => {
             {group.map((sponsor) => (
               <img
                 key={sponsor._id}
-                src={
-                  sponsor.image && sponsor.imageMimeType
-                    ? `data:${sponsor.imageMimeType};base64,${sponsor.image}`
-                    : "/default-logo.png"
-                }
+                src={sponsor.imageUrl ?? "/default-logo.png"}
                 alt={sponsor.name}
                 className="w-full h-auto mt-6"
               />

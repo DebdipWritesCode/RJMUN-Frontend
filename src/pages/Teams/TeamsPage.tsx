@@ -35,11 +35,7 @@ const TeamsPage = () => {
           key={member._id}
           heading={member.name}
           subheading={member.position}
-          imageSrc={
-            member.image && member.imageMimeType
-              ? `data:${member.imageMimeType};base64,${member.image}`
-              : "/default-profile.png"
-          }
+          imageSrc={member.imageUrl ?? "/default-profile.png"}
         />
       ))}
     </div>

@@ -4,14 +4,7 @@ import { Button } from "@/components/ui/button";
 import { toast } from "react-toastify";
 import { Plus, Edit, Trash2, Users } from "lucide-react";
 import TeamMemberForm from "@/components/admin/team-members/TeamMemberForm";
-
-interface TeamMember {
-  _id: string;
-  name: string;
-  position: string;
-  type: "super" | "head" | "manager";
-  imageUrl?: string;
-}
+import type { TeamMember } from "@/utils/interfaces";
 
 const Teams = () => {
   const [teamMembers, setTeamMembers] = useState<TeamMember[]>([]);

@@ -4,8 +4,7 @@ export interface EB {
   name: string;
   position: string;
   committee: string;
-  image?: string; // base64 or URL (after conversion)
-  imageMimeType?: string;
+  imageUrl?: string | null;
 }
 
 // Team Member
@@ -14,8 +13,7 @@ export interface TeamMember {
   name: string;
   position: string;
   type: "super" | "head" | "manager";
-  image?: string;
-  imageMimeType?: string;
+  imageUrl?: string | null;
 }
 
 // Committee
@@ -24,8 +22,7 @@ export interface Committee {
   name: string;
   agenda: string;
   backgroundGuideURL?: string;
-  image?: string;
-  imageMimeType?: string;
+  imageUrl?: string | null;
   portfolios?: string[];
 }
 
@@ -36,8 +33,7 @@ export interface Sponsor {
   _id: string;
   name: string;
   type: SponsorType;
-  image?: string;
-  imageMimeType?: string;
+  imageUrl?: string | null;
 }
 
 // FAQ

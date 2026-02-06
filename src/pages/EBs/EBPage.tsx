@@ -46,7 +46,7 @@ const EBPage = () => {
               key={member._id}
               heading={member.name}
               subheading={`${member.committee} - ${member.position}`}
-              imageSrc={`data:${member.imageMimeType};base64,${member.image}`}
+              imageSrc={member.imageUrl ?? "/default-profile.png"}
             />
           ))}
         </div>

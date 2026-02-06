@@ -3,15 +3,8 @@ import api from "@/api/axios";
 import { Button } from "@/components/ui/button";
 import { toast } from "react-toastify";
 import CommitteeForm from "@/components/admin/committees/CommitteeForm";
+import type { Committee } from "@/utils/interfaces";
 import { Plus, Edit, Trash2, ExternalLink, Users } from "lucide-react";
-
-interface Committee {
-  _id: string;
-  name: string;
-  agenda: string;
-  backgroundGuideURL?: string;
-  imageUrl?: string;
-}
 
 const Committees = () => {
   const [committees, setCommittees] = useState<Committee[]>([]);
