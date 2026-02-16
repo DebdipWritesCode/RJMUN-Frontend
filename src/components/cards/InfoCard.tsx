@@ -8,10 +8,10 @@ const InfoCard: React.FC<InfoCardProps> = ({ heading, children }) => {
 
   return (
     <div
-      className="rounded-xl bg-cover bg-center p-6 text-white"
+      className="rounded-xl bg-cover bg-center p-6 text-primary-foreground"
       style={{ backgroundImage: `url('/images/ContainerBG.png')` }}>
       <div className="mx-auto max-w-4xl text-center relative flex flex-col items-center">
-        <h2 className="mb-4 absolute top-[-50px] inline-block rounded-3xl border-6 border-[#b1aa8c] bg-[#1C1F26] px-8 py-3 sm:text-4xl text-2xl font-semibold">
+        <h2 className="mb-4 absolute top-[-50px] inline-block rounded-3xl border-6 border-muted-warm bg-primary text-primary-foreground px-8 py-3 sm:text-4xl text-2xl font-semibold">
           {heading}
         </h2>
         <div

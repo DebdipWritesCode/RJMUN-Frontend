@@ -30,7 +30,7 @@ const EBPage = () => {
       <img src="./images/EB2.png" alt="EB" className="sm:h-[600px] h-[400px]" />
 
       {/* Heading */}
-      <h1 className="font-bold sm:text-[100px] text-[40px] sm:mb-20 mb-15 text-center">
+      <h1 className="font-bold sm:text-[100px] text-primary text-[40px] sm:mb-20 mb-15 text-center">
         EXECUTIVE BOARD
       </h1>
 

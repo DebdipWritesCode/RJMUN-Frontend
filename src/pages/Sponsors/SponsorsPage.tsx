@@ -59,7 +59,7 @@ const SponsorsPage = () => {
         </div>
       ) : (
         <div className="flex flex-col items-center w-full">
-          <h1 className="font-bold sm:text-[100px] text-[40px] mb-10 text-center">
+          <h1 className="font-bold sm:text-[100px] text-primary text-[40px] mb-10 text-center">
             SPONSORS
           </h1>
 

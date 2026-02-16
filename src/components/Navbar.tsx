@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import {
   NavigationMenu,
   NavigationMenuItem,
@@ -24,8 +24,11 @@ const navItems = [
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
-
+  const { pathname } = useLocation();
   const navigate = useNavigate();
+
+  const isActive = (path: string) =>
+    path === "/" ? pathname === "/" : pathname === path || pathname.startsWith(path + "/");
 
   const onLogoClick = () => {
     navigate("/");
@@ -35,10 +38,10 @@ const Navbar = () => {
   const closeDialog = () => setIsOpen(false);
 
   return (
-    <nav className="w-full py-6 px-4 bg-primary-background shadow-lg shadow-gray-900">
+    <nav className="w-full py-6 px-4 bg-background shadow-lg shadow-background/30">
       {/* Desktop Menu */}
       <div className="hidden md:flex justify-between items-center">
-        <div className="bg-green-500 rounded-3xl px-3">
+        <div className="bg-gradient-to-br from-yellow-400 to-orange-500 rounded-3xl px-3 py-3">
           <img
             onClick={onLogoClick}
             src="./images/event-logo.png"
@@ -53,7 +56,9 @@ const Navbar = () => {
                 <NavigationMenuLink
                   asChild
                   className={navigationMenuTriggerStyle()}>
-                  <Link className="bg-primary-background" to={path}>
+                  <Link
+                    to={path}
+                    className={`bg-background text-primary ${isActive(path) ? "bg-accent text-accent-foreground" : ""}`}>
                     {label}
                   </Link>
                 </NavigationMenuLink>
@@ -65,26 +70,32 @@ const Navbar = () => {
 
       {/* Mobile Menu */}
       <div className="flex justify-between items-center md:hidden">
-        <div onClick={onLogoClick} className="text-xl font-bold cursor-pointer">
+        <div onClick={onLogoClick} className="text-xl text-primary font-bold cursor-pointer">
           RJMUN
         </div>
         <Dialog open={isOpen} onOpenChange={setIsOpen}>
           <DialogTrigger className="focus:outline-none">
-            <MenuIcon className="w-6 h-6" />
+            <MenuIcon className="w-6 h-6 text-primary" />
           </DialogTrigger>
-          <DialogContent className="p-6 space-y-4">
-            <DialogTitle className="text-xl font-semibold mb-2">
+          <DialogContent className="!bg-white dark:!bg-zinc-900 p-6 space-y-4 border border-border/50 shadow-xl max-w-[min(calc(100%-2rem),20rem)] left-4 right-auto translate-x-0 translate-y-[-50%] top-[50%]">
+            <DialogTitle className="text-xl font-semibold mb-2 text-foreground">
               Menu
             </DialogTitle>
-            {navItems.map(({ label, path }) => (
-              <Link
-                to={path}
-                key={path}
-                onClick={closeDialog}
-                className="block text-lg font-medium hover:underline">
-                {label}
-              </Link>
-            ))}
+            <nav className="flex flex-col gap-2">
+              {navItems.map(({ label, path }) => (
+                <Link
+                  to={path}
+                  key={path}
+                  onClick={closeDialog}
+                  className={`block rounded-lg border px-4 py-3 text-base font-medium transition-colors hover:bg-muted hover:border-primary/30 active:bg-muted/80 ${
+                    isActive(path)
+                      ? "border-primary/30 bg-accent text-accent-foreground"
+                      : "border-border bg-muted/40 text-foreground"
+                  }`}>
+                  {label}
+                </Link>
+              ))}
+            </nav>
           </DialogContent>
         </Dialog>
       </div>

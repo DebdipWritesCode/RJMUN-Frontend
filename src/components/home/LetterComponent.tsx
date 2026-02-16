@@ -12,7 +12,7 @@ const LetterComponent: React.FC<LetterComponentProps> = ({
 }) => {
   return (
     <div
-      className={`text-justify bg-[#c0b8a2] sm:mt-8 mt-[-20px] font-bold font-serif text-lg text-primary-background ${className}`}
+      className={`text-justify bg-warm-tan sm:mt-8 mt-[-20px] font-bold font-serif text-lg text-primary-background ${className}`}
     >
       <ReactMarkdown
         components={{

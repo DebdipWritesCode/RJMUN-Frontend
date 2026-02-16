@@ -144,7 +144,7 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ portfolios }) => {
           contact: formData.phone,
         },
         theme: {
-          color: "#3399cc",
+          color: getComputedStyle(document.documentElement).getPropertyValue("--payment-theme").trim() || "#3399cc",
         },
       };
 
@@ -162,10 +162,10 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ portfolios }) => {
 
   if (isConfirmingPayment) {
     return (
-      <div className="max-w-xl mx-auto mt-10 bg-gray-100 p-8 rounded-xl shadow-lg text-form-text">
+      <div className="max-w-xl mx-auto mt-10 bg-muted p-8 rounded-xl shadow-lg text-form-text">
         <div className="flex flex-col items-center justify-center py-12 px-4 text-center">
-          <Loader2 className="h-12 w-12 animate-spin text-[#1c2d27] mb-6" />
-          <h2 className="text-xl font-semibold text-[#1c2d27] mb-2">
+          <Loader2 className="h-12 w-12 animate-spin text-primary mb-6" />
+          <h2 className="text-xl font-semibold text-primary mb-2">
             Confirming your payment
           </h2>
           <p className="text-form-text/80 text-sm max-w-sm">
@@ -177,8 +177,8 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ portfolios }) => {
   }
 
   return (
-    <div className="max-w-xl mx-auto mt-10 bg-gray-100 p-8 rounded-xl shadow-lg text-form-text">
-      <h2 className="text-2xl font-bold mb-6 text-[#1c2d27] text-center">
+    <div className="max-w-xl mx-auto mt-10 bg-muted p-8 rounded-xl shadow-lg text-form-text">
+      <h2 className="text-2xl font-bold mb-6 text-primary text-center">
         Delegate Application Form
       </h2>
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
@@ -470,7 +470,7 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ portfolios }) => {
         <Button
           type="submit"
           disabled={isSubmitting}
-          className="w-full bg-[#1c2d27] text-white font-semibold py-3 rounded-xl shadow-md transition-all duration-300 disabled:opacity-50">
+          className="w-full bg-primary text-primary-foreground font-semibold py-3 rounded-xl shadow-md transition-all duration-300 disabled:opacity-50">
           {isSubmitting ? "Submitting..." : "Submit Application"}
         </Button>
       </form>

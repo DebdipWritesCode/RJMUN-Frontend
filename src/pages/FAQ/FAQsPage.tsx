@@ -36,7 +36,7 @@ const FAQsPage = () => {
         </div>
       ) : (
         <div className="flex flex-col items-center w-full max-w-4xl">
-          <h1 className="font-bold sm:text-[100px] text-[40px] sm:mb-20 mb-10 text-center">
+          <h1 className="font-bold sm:text-[100px] text-primary text-[40px] sm:mb-20 mb-10 text-center">
             Frequently Asked Questions
           </h1>
 
@@ -50,18 +50,18 @@ const FAQsPage = () => {
                 <AccordionItem
                   key={faq._id}
                   value={faq._id}
-                  className="rounded-lg overflow-hidden border-none bg-[#1c2d27] text-white shadow-md">
-                  <AccordionTrigger className="px-6 py-4 text-lg font-semibold hover:no-underline hover:bg-[#2B2F36] transition-colors data-[state=open]:rounded-b-none">
+                  className="rounded-lg overflow-hidden border-none bg-primary text-primary-foreground shadow-md">
+                  <AccordionTrigger className="px-6 py-4 text-lg font-semibold hover:no-underline hover:opacity-90 transition-colors data-[state=open]:rounded-b-none">
                     {faq.question}
                   </AccordionTrigger>
-                  <AccordionContent className="bg-[#d1c19e] text-[#1c2d27] px-6 py-4 text-base leading-relaxed text-balance">
+                  <AccordionContent className="bg-accent-soft text-primary px-6 py-4 text-base leading-relaxed text-balance">
                     <p>{faq.answer}</p>
                   </AccordionContent>
                 </AccordionItem>
               ))}
             </Accordion>
           ) : (
-            <p className="text-lg text-gray-500 text-center">
+            <p className="text-lg text-muted-foreground text-center">
               No FAQs available at the moment.
             </p>
           )}

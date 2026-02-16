@@ -13,14 +13,10 @@ import {
 
 import { Instagram, Mail } from "lucide-react";
 
-const TEXT_COLOR = "#CCF1FF";
-const BG_COLOR = "#121212";
-
 const Footer = () => {
   return (
     <footer
-      style={{ backgroundColor: BG_COLOR, color: TEXT_COLOR }}
-      className="py-8 px-6 md:px-20 mt-8">
+      className="bg-footer-bg text-footer-text py-8 px-6 md:px-20 mt-8">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-10">
         <div className="flex flex-col items-start gap-3">
           <img src={EVENT_LOGO_PATH} alt="Event Logo" className="w-20 h-auto" />
@@ -48,10 +44,10 @@ const Footer = () => {
               target="_blank"
               rel="noopener noreferrer"
               aria-label="Instagram">
-              <Instagram size={20} color={TEXT_COLOR} />
+              <Instagram size={20} className="text-footer-text" />
             </a>
             <a href={`mailto:${EVENT_MAIL}`} aria-label="Email">
-              <Mail size={20} color={TEXT_COLOR} />
+              <Mail size={20} className="text-footer-text" />
             </a>
           </div>
         </div>
@@ -69,7 +65,7 @@ const Footer = () => {
         </div>
       </div>
 
-      <div className="text-center text-xs text-green-400 mt-10">
+      <div className="text-center text-xs text-accent mt-10">
         <a href="/terms" className="hover:underline">
           Terms and Conditions
         </a>

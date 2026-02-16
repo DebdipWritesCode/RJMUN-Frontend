@@ -32,7 +32,7 @@ const CommitteesPage = () => {
         <EmptyFallback />
       ) : (
         <div>
-          <h1 className="font-bold sm:text-[100px] text-[40px] sm:mb-20 mb-15 text-center">
+          <h1 className="font-bold text-primary sm:text-[100px] text-[40px] sm:mb-20 mb-15 text-center">
             COMMITTEES
           </h1>
           <div className="flex flex-col gap-15">
@@ -48,7 +48,7 @@ const CommitteesPage = () => {
                   )}
 
                   <div className="text-left space-y-4 flex flex-col justify-between h-full">
-                    <p className="sm:text-2xl text-xl font-bold sm:text-justify text-center bg-[#c0b8a2] text-primary-background">
+                    <p className="sm:text-2xl text-xl font-bold sm:text-justify text-center bg-warm-tan text-primary">
                       {committee.agenda}
                     </p>
 
@@ -57,7 +57,7 @@ const CommitteesPage = () => {
                         href={committee.backgroundGuideURL}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="inline-block px-4 py-2 mt-2 text-white bg-[#1C1F26] hover:bg-black rounded-2xl transition"
+                        className="inline-block px-4 py-2 mt-2 text-primary-foreground bg-primary hover:opacity-90 rounded-2xl transition text-center"
                       >
                         View Background Guide
                       </a>

@@ -13,7 +13,7 @@ const Hero = () => {
       {/* Main Box */}
       <div
         className="
-        bg-[#9e9776]
+        bg-warm-tan
         w-[90%] max-w-[680px]
         h-[600px] lg:h-[500px]
         rounded-2xl shadow-2xl
@@ -22,7 +22,7 @@ const Hero = () => {
         relative
         main-box
       ">
-        <div className="absolute flex flex-col gap-3 items-center justify-center h-full px-5 sm:px-15 py-3 text-[#1c2d27]">
+        <div className="absolute flex flex-col gap-3 items-center justify-center h-full px-5 sm:px-15 py-3 text-primary">
           <h3 className="text-3xl text-center">WELCOME TO</h3>
           <h1 className="font-bold text-6xl text-center sm:text-7xl">RJMUN</h1>
           <p className="mt-4 sm:mt-8 text-xl sm:text-center text-justify">
@@ -32,7 +32,7 @@ const Hero = () => {
             think, speak, and lead.
           </p>
           <Button
-            className="mt-4 sm:mt-8 text-[#d1c19e] bg-[#1c2d27] rounded-2xl text-xl sm:text-2xl px-10 py-6"
+            className="mt-4 sm:mt-8 text-surface-warm bg-primary rounded-2xl text-xl sm:text-2xl px-10 py-6"
             onClick={onRegisterClick}>
             REGISTER NOW
           </Button>

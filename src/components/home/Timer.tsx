@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 
 const Timer = () => {
   // Target time in UTC: 2025-09-11 18:30:00Z (12 Sep 2025, 00:00 IST)
-  const targetDateUTC = new Date('2025-09-11T18:30:00Z');
+  const targetDateUTC = new Date('2026-06-11T18:30:00Z');
 
   const calculateTimeLeft = () => {
     const nowUTC = new Date();
@@ -36,7 +36,7 @@ const Timer = () => {
   const timeSize = 'sm:text-[100px] text-[35px] sm:gap-30 gap-5';
 
   return (
-    <div className={`text-[#1c2d27] rounded-lg mt-20 flex font-mono ${timeSize} text-center font-bold time-size`}>
+    <div className={`text-primary rounded-lg mt-20 flex font-mono ${timeSize} text-center font-bold time-size`}>
       <div>
         <div>{formatNumber(timeLeft.days)}</div>
         <div className={`${timetextSize} text-center font-bold tracking-wide text-time-size`}>DAYS</div>
