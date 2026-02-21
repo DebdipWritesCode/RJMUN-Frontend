@@ -4,6 +4,7 @@ import type { EB } from "@/utils/interfaces";
 import { Loader2 } from "lucide-react";
 import ProfileCard from "@/components/cards/ProfileCard";
 import EmptyFallback from "@/components/EmptyFallback"; // Import fallback component
+import { EBS_PATH } from "@/utils/constants";
 
 const EBPage = () => {
   const [ebMembers, setEbMembers] = useState<EB[]>([]);
@@ -27,7 +28,7 @@ const EBPage = () => {
   return (
     <div className="flex flex-col items-center justify-center min-h-[200px]">
       {/* Always show the image */}
-      <img src="./images/EB2.png" alt="EB" className="sm:h-[600px] h-[400px]" />
+      <img src={EBS_PATH} alt="EB" className="sm:h-[600px] h-[400px]" />
 
       {/* Heading */}
       <h1 className="font-bold sm:text-[100px] text-primary text-[40px] sm:mb-20 mb-15 text-center">

@@ -35,3 +35,5 @@ export const EVENT_HERO_MIC_PATH =
   "https://res.cloudinary.com/dch2ga5us/image/upload/v1771649496/Mic2_crgptm.png";
 export const EVENT_COMMITTEES_PATH =
   "https://res.cloudinary.com/dch2ga5us/image/upload/v1771650585/Committees2_czrzs8.png"
+export const EBS_PATH =
+  "https://res.cloudinary.com/dch2ga5us/image/upload/v1771653887/EB2_zysmjc.png"
