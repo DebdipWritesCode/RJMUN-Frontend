@@ -15,6 +15,10 @@ import RegisterLanding from "../pages/Register/RegisterLanding";
 import NewRegistration from "../pages/Register/NewRegistration";
 import CheckAllotment from "../pages/Register/CheckAllotment";
 
+import FestRegistrationPage from "../pages/FestRegister/FestRegistrationPage";
+import FestSuccessPage from "../pages/FestRegister/FestSuccessPage";
+import FestStatusPage from "../pages/FestRegister/FestStatusPage";
+
 import AdminLayout from "../layouts/AdminLayout";
 import AdminLogin from "../pages/Admin/AdminLogin";
 import AdminDashboard from "../pages/Admin/Dashboard";
@@ -24,6 +28,8 @@ import AdminTeams from "../pages/Admin/Teams";
 import AdminSponsors from "../pages/Admin/Sponsors";
 import AdminFAQ from "../pages/Admin/FAQs";
 import Coupons from "@/pages/Admin/Coupons";
+import AdminFestDays from "../pages/Admin/FestDays";
+import AdminFestOffers from "../pages/Admin/FestOffers";
 import Portfolios from "@/pages/Admin/Portfolios";
 import Allotments from "@/pages/Admin/Allotments";
 
@@ -49,6 +55,10 @@ const Router = () => {
         <Route path="/register" element={<RegisterLanding />} />
         <Route path="/register/new" element={<NewRegistration />} />
         <Route path="/register/check" element={<CheckAllotment />} />
+
+        <Route path="/fest/register" element={<FestRegistrationPage />} />
+        <Route path="/fest/success" element={<FestSuccessPage />} />
+        <Route path="/fest/status" element={<FestStatusPage />} />
       </Route>
 
       <Route path="/admin" element={<AdminLogin />} />
@@ -62,6 +72,8 @@ const Router = () => {
           <Route path="/admin/sponsors" element={<AdminSponsors />} />
           <Route path="/admin/faq" element={<AdminFAQ />} />
           <Route path="/admin/coupons" element={<Coupons />} />
+          <Route path="/admin/fest-days" element={<AdminFestDays />} />
+          <Route path="/admin/fest-offers" element={<AdminFestOffers />} />
           <Route path="/admin/portfolios" element={<Portfolios />} />
           <Route path="/admin/allotments" element={<Allotments />} />
         </Route>

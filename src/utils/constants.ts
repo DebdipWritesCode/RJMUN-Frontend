@@ -1,6 +1,6 @@
 export const INSTITUTION_ADDRESS = "V83J+54X, Shiv Krupa Colony, PWD Colony"
 export const INSTITUTION_NAME = "RJ International School";
-export const EVENT_NAME = "RJMUN 2.0";
+export const EVENT_NAME = "RJMUN 3.0";
 export const EVENT_YEAR = "2025";
 export const EVENT_DATE = "12-14 September 2025";
 export const EVENT_CITY = "Chhatrapati Sambhajinagar";
@@ -27,4 +27,11 @@ export const EVENT_CONTACTS = [
     phone: "+91 96993 75537",
   },
 ];
-export const EVENT_LOGO_PATH = "./images/event-logo.png";
+export const EVENT_LOGO_PATH =
+  "https://res.cloudinary.com/dch2ga5us/image/upload/v1771649269/event-logo_sy944f.png";
+export const EVENT_HERO_FLAGS_PATH =
+  "https://res.cloudinary.com/dch2ga5us/image/upload/v1771649495/Flags2_ljaqml.png";
+export const EVENT_HERO_MIC_PATH =
+  "https://res.cloudinary.com/dch2ga5us/image/upload/v1771649496/Mic2_crgptm.png";
+export const EVENT_COMMITTEES_PATH =
+  "https://res.cloudinary.com/dch2ga5us/image/upload/v1771650585/Committees2_czrzs8.png"

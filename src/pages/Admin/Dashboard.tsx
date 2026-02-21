@@ -9,6 +9,8 @@ import {
   Building,
   HelpCircle,
   FileSpreadsheet,
+  Calendar,
+  Percent,
 } from "lucide-react";
 
 const Dashboard = () => {
@@ -21,6 +23,8 @@ const Dashboard = () => {
     { label: "Manage Sponsors", path: "/admin/sponsors", icon: Building },
     { label: "Manage FAQs", path: "/admin/faq", icon: HelpCircle },
     { label: "Manage Coupons", path: "/admin/coupons", icon: Tag },
+    { label: "Manage Fest Days", path: "/admin/fest-days", icon: Calendar },
+    { label: "Fest Multi-day Offers", path: "/admin/fest-offers", icon: Percent },
     { label: "Manage Portfolios", path: "/admin/portfolios", icon: BotIcon },
     {
       label: "Manage Allotments",

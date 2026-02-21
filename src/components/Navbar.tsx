@@ -10,6 +10,7 @@ import {
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { MenuIcon } from "lucide-react";
 import { DialogTitle } from "@radix-ui/react-dialog";
+import { EVENT_LOGO_PATH } from "@/utils/constants";
 
 const navItems = [
   { label: "Home", path: "/" },
@@ -44,7 +45,7 @@ const Navbar = () => {
         <div className="bg-gradient-to-br from-yellow-400 to-orange-500 rounded-3xl px-3 py-3">
           <img
             onClick={onLogoClick}
-            src="./images/event-logo.png"
+            src={EVENT_LOGO_PATH}
             className="h-[60px] w-[90px] cursor-pointer"
             alt="RJMUN Logo"
           />

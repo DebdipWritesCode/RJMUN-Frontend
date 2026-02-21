@@ -5,6 +5,7 @@ import Timer from "@/components/home/Timer";
 import LetterComponent from "@/components/home/LetterComponent";
 import { letterFromPrincipal, letterFromSecGen } from "@/utils/letter";
 import { about } from "@/utils/about";
+import { EVENT_COMMITTEES_PATH } from "@/utils/constants";
 
 const HomePage = () => {
   return (
@@ -17,7 +18,7 @@ const HomePage = () => {
           heading="Committees"
           children={
             <img
-              src="/images/Committees2.png"
+              src={EVENT_COMMITTEES_PATH}
               alt="Committees"
               className="w-full h-auto sm:mt-6 mt-[-70px]"
             />

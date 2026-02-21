@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router-dom";
+import { EVENT_HERO_FLAGS_PATH, EVENT_HERO_MIC_PATH } from "@/utils/constants";
 import { Button } from "../ui/button";
 
 const Hero = () => {
@@ -39,7 +40,7 @@ const Hero = () => {
         </div>
         {/* Flags image - hide on small screens */}
         <img
-          src="./images/Flags2.png"
+          src={EVENT_HERO_FLAGS_PATH}
           className="
             hidden md:block
             absolute
@@ -54,7 +55,7 @@ const Hero = () => {
 
         {/* Mic image - hide on small screens */}
         <img
-          src="./images/Mic2.png"
+          src={EVENT_HERO_MIC_PATH}
           className="
             hidden md:block
             absolute
@@ -63,7 +64,7 @@ const Hero = () => {
             h-[600px]
             z-20
           "
-          alt="Mic"
+          alt="Microphone and book"
         />
       </div>
     </div>

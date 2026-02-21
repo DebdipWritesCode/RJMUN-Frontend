@@ -42,3 +42,23 @@ export interface FAQ {
   question: string;
   answer: string;
 }
+
+// Fest Day (admin CRUD + user list)
+export interface FestDay {
+  _id: string;
+  date: string;
+  name: string;
+  events: string[];
+  price: number;
+  imageUrl?: string;
+  imagePublicId?: string;
+}
+
+// Multi-day offers: keys = number of days (as string), values = percentage off
+export type FestDayOffers = Record<string, number>;
+
+// Day registration – public days + offers
+export interface DayRegistrationDaysResponse {
+  days: FestDay[];
+  offers: FestDayOffers;
+}
