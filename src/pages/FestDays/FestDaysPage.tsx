@@ -166,16 +166,29 @@ const FestDaysPage = () => {
                   {selectedDay.events.map((event, idx) => (
                     <div
                       key={idx}
-                      className="bg-gradient-to-br from-gray-50 to-gray-100 rounded-xl p-5 border border-gray-200 hover:shadow-md transition-shadow"
+                      className="bg-white rounded-xl border border-gray-200 hover:shadow-md transition-shadow overflow-hidden"
                     >
-                      <p className="font-semibold text-gray-800 text-lg mb-2">
-                        {event.title}
-                      </p>
-                      {event.description && (
-                        <p className="text-gray-600 leading-relaxed">
-                          {event.description}
-                        </p>
+                      {/* Event Image */}
+                      {event.imageUrl && (
+                        <div className="h-40 bg-gradient-to-br from-gray-100 to-gray-200 overflow-hidden">
+                          <img
+                            src={event.imageUrl}
+                            alt={event.title}
+                            className="w-full h-full object-cover"
+                          />
+                        </div>
                       )}
+                      {/* Event Content */}
+                      <div className="p-5">
+                        <p className="font-semibold text-gray-800 text-lg mb-2">
+                          {event.title}
+                        </p>
+                        {event.description && (
+                          <p className="text-gray-600 leading-relaxed text-sm">
+                            {event.description}
+                          </p>
+                        )}
+                      </div>
                     </div>
                   ))}
                 </div>

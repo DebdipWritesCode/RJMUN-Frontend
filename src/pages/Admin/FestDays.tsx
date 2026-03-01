@@ -115,6 +115,32 @@ const FestDays = () => {
                 <div className="text-xs text-gray-600 bg-blue-50 rounded-lg p-2 mb-3">
                   <span className="font-medium">{day.events?.length ?? 0} event(s)</span>
                 </div>
+
+                {/* Display Events with Optional Images */}
+                {day.events && day.events.length > 0 && (
+                  <div className="mt-4 pt-4 border-t border-gray-200">
+                    <h4 className="font-semibold text-sm text-gray-700 mb-2">Events:</h4>
+                    <div className="grid grid-cols-2 gap-2">
+                      {day.events.map((event, idx) => (
+                        <div key={idx} className="bg-gray-100 rounded-lg p-2 text-xs hover:bg-gray-200 transition-colors">
+                          {event.imageUrl && (
+                            <img
+                              src={event.imageUrl}
+                              alt={event.title}
+                              className="w-full h-16 object-cover rounded mb-1"
+                            />
+                          )}
+                          <p className="font-medium text-gray-800">{event.title}</p>
+                          {event.description && (
+                            <p className="text-gray-600 text-xs line-clamp-1 mt-0.5">
+                              {event.description}
+                            </p>
+                          )}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
               </div>
               <div className="px-6 pb-6 flex gap-3">
                 <Button

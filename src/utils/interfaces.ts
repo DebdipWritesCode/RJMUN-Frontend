@@ -47,6 +47,8 @@ export interface FAQ {
 export interface FestDayEvent {
   title: string;
   description?: string;
+  imageUrl?: string;        // NEW: URL to the event image on Cloudinary
+  imagePublicId?: string;    // NEW: Public ID for deletion/updates
 }
 
 export interface FestDay {
