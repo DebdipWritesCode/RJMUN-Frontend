@@ -44,14 +44,21 @@ export interface FAQ {
 }
 
 // Fest Day (admin CRUD + user list)
+export interface FestDayEvent {
+  title: string;
+  description?: string;
+}
+
 export interface FestDay {
   _id: string;
   date: string;
   name: string;
-  events: string[];
+  /** Plain text description for the fest day */
+  description: string;
   price: number;
   imageUrl?: string;
   imagePublicId?: string;
+  events?: FestDayEvent[];
 }
 
 // Multi-day offers: keys = number of days (as string), values = percentage off

@@ -222,12 +222,15 @@ const FestRegistrationForm: React.FC<FestRegistrationFormProps> = ({
                   <IndianRupee className="w-4 h-4" />
                   {day.price}
                 </div>
-                {day.events?.length > 0 && (
-                  <ul className="text-xs text-gray-500 mt-1 list-disc list-inside line-clamp-2">
-                    {day.events.slice(0, 2).map((e, i) => (
-                      <li key={i}>{e}</li>
-                    ))}
-                  </ul>
+                {day.description && (
+                  <div className="text-xs text-gray-500 mt-1 line-clamp-2">
+                    {day.description}
+                  </div>
+                )}
+                {day.events && day.events.length > 0 && (
+                  <div className="text-xs text-amber-700 font-medium mt-2">
+                    {day.events.length} event(s) scheduled
+                  </div>
                 )}
               </div>
               {day.imageUrl && (

@@ -1,19 +1,18 @@
-import { useForm, Controller } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import api from "@/api/axios";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Textarea } from "@/components/ui/textarea";
 import { toast } from "react-toastify";
-import { useState } from "react";
-import { Save, X, Upload, Eye, Calendar } from "lucide-react";
-import type { FestDay } from "@/utils/interfaces";
+import { useState, useEffect } from "react";
+import { Save, X, Upload, Eye, Calendar, Plus, Trash2 } from "lucide-react";
+import type { FestDay, FestDayEvent } from "@/utils/interfaces";
 
 const schema = z.object({
   date: z.string().min(1, "Date is required"),
   name: z.string().min(1, "Name is required"),
-  eventsText: z.string().min(1, "At least one event is required"),
+  description: z.string(),
   price: z.number().min(0, "Price must be 0 or more"),
   image: z.any().optional(),
 });
@@ -28,34 +27,67 @@ interface FestDayFormProps {
 const FestDayForm: React.FC<FestDayFormProps> = ({ initialData, onClose }) => {
   const {
     register,
-    control,
     handleSubmit,
+    reset,
     formState: { errors, isSubmitting },
   } = useForm<FestDayFormData>({
     resolver: zodResolver(schema),
     defaultValues: {
       date: initialData?.date ?? "",
       name: initialData?.name ?? "",
-      eventsText: initialData?.events?.join("\n") ?? "",
+      description: initialData?.description ?? "",
       price: initialData?.price ?? 0,
     },
   });
 
+  // When switching to a different fest day (e.g. Edit another day), sync form with new initialData
+  useEffect(() => {
+    reset({
+      date: initialData?.date ?? "",
+      name: initialData?.name ?? "",
+      description: initialData?.description ?? "",
+      price: initialData?.price ?? 0,
+    });
+    setEvents(initialData?.events ?? []);
+  }, [initialData?._id, reset, initialData]);
+
   const [preview, setPreview] = useState<string | null>(null);
+  const [events, setEvents] = useState<FestDayEvent[]>(initialData?.events ?? []);
+  const [newEventTitle, setNewEventTitle] = useState("");
+  const [newEventDescription, setNewEventDescription] = useState("");
+
+  const addEvent = () => {
+    if (!newEventTitle.trim()) {
+      toast.error("Event title is required");
+      return;
+    }
+    setEvents([...events, { title: newEventTitle, description: newEventDescription }]);
+    setNewEventTitle("");
+    setNewEventDescription("");
+  };
+
+  const removeEvent = (index: number) => {
+    setEvents(events.filter((_, i) => i !== index));
+  };
 
   const onSubmit = async (data: FestDayFormData) => {
-    const events = data.eventsText
-      .split("\n")
-      .map((s) => s.trim())
-      .filter(Boolean);
     const formData = new FormData();
     formData.append("date", data.date);
     formData.append("name", data.name);
-    formData.append("events", JSON.stringify(events));
+    formData.append("description", data.description ?? "");
     formData.append("price", String(data.price));
+    formData.append("events", JSON.stringify(events));
     if (data.image?.[0]) formData.append("image", data.image[0]);
 
     try {
+      console.log("Submitting fest day with data:", {
+        date: data.date,
+        name: data.name,
+        description: data.description,
+        price: data.price,
+        events,
+        image: data.image?.[0],
+      });
       if (initialData?._id) {
         await api.put(`/fest-days/${initialData._id}`, formData, {
           headers: { "Content-Type": "multipart/form-data" },
@@ -146,45 +178,89 @@ const FestDayForm: React.FC<FestDayFormProps> = ({ initialData, onClose }) => {
           </div>
 
           <div className="space-y-2">
-            <label className="text-sm font-medium text-gray-700">Events (one per line)</label>
-            <Textarea
-              placeholder="Event 1&#10;Event 2&#10;Event 3"
-              {...register("eventsText")}
-              className="bg-white/50 border-gray-200/50 focus:border-blue-500 focus:bg-white rounded-xl min-h-[100px] resize-none"
+            <label className="text-sm font-medium text-gray-700">Description</label>
+            <textarea
+              {...register("description")}
+              placeholder="Enter a simple text description"
+              className="w-full min-h-[120px] px-4 py-3 bg-white/50 border border-gray-200/50 focus:border-blue-500 focus:bg-white focus:outline-none rounded-xl resize-none"
             />
-            {errors.eventsText && (
-              <p className="text-sm text-red-500 flex items-center gap-1">
-                <span className="w-1 h-1 bg-red-500 rounded-full" />
-                {errors.eventsText.message}
-              </p>
+          </div>
+
+          <div className="space-y-3 border-t border-gray-200/50 pt-6">
+            <div className="flex items-center justify-between">
+              <label className="text-sm font-medium text-gray-700">Events</label>
+              <span className="text-xs text-gray-500">{events.length} event(s)</span>
+            </div>
+
+            {/* Existing Events */}
+            {events.length > 0 && (
+              <div className="space-y-3 bg-gray-50/50 rounded-xl p-4 border border-gray-200/30">
+                {events.map((event, index) => (
+                  <div key={index} className="bg-white rounded-lg p-4 flex items-start justify-between gap-4 border border-gray-200/50">
+                    <div className="flex-1 min-w-0">
+                      <p className="font-medium text-gray-800 break-words">{event.title}</p>
+                      {event.description && (
+                        <p className="text-sm text-gray-600 mt-1 break-words">{event.description}</p>
+                      )}
+                    </div>
+                    <Button
+                      type="button"
+                      variant="destructive"
+                      size="sm"
+                      onClick={() => removeEvent(index)}
+                      className="flex-shrink-0"
+                    >
+                      <Trash2 className="w-4 h-4" />
+                    </Button>
+                  </div>
+                ))}
+              </div>
             )}
+
+            {/* Add New Event */}
+            <div className="bg-gray-50/50 rounded-xl p-4 border border-gray-200/30 space-y-3">
+              <p className="text-xs font-medium text-gray-600 uppercase">Add Event</p>
+              <input
+                type="text"
+                value={newEventTitle}
+                onChange={(e) => setNewEventTitle(e.target.value)}
+                placeholder="Event title"
+                className="w-full px-4 py-2 bg-white border border-gray-200/50 focus:border-blue-500 focus:bg-white focus:outline-none rounded-lg text-sm"
+              />
+              <textarea
+                value={newEventDescription}
+                onChange={(e) => setNewEventDescription(e.target.value)}
+                placeholder="Event description (optional)"
+                className="w-full min-h-[60px] px-4 py-2 bg-white border border-gray-200/50 focus:border-blue-500 focus:bg-white focus:outline-none rounded-lg resize-none text-sm"
+              />
+              <Button
+                type="button"
+                onClick={addEvent}
+                className="w-full bg-blue-500 hover:bg-blue-600 text-white rounded-lg py-2 flex items-center justify-center gap-2"
+              >
+                <Plus className="w-4 h-4" />
+                Add Event
+              </Button>
+            </div>
           </div>
 
           <div className="space-y-2">
             <label className="text-sm font-medium text-gray-700">Image (optional)</label>
-            <Controller
-              name="image"
-              control={control}
-              render={({ field }) => (
-                <div className="space-y-4">
-                  <div className="relative">
-                    <Input
-                      type="file"
-                      accept="image/*"
-                      onChange={(e) => {
-                        const file = e.target.files?.[0];
-                        if (file) {
-                          field.onChange(e.target.files);
-                          setPreview(URL.createObjectURL(file));
-                        }
-                      }}
-                      className="bg-white/50 border-gray-200/50 rounded-xl file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-gradient-to-r file:from-blue-500 file:to-purple-600 file:text-white hover:file:from-blue-600 hover:file:to-purple-700"
-                    />
-                    <Upload className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none" />
-                  </div>
-                </div>
-              )}
-            />
+            <div className="relative">
+              <Input
+                type="file"
+                accept="image/*"
+                {...register("image")}
+                onChange={(e) => {
+                  const file = e.target.files?.[0];
+                  if (file) {
+                    setPreview(URL.createObjectURL(file));
+                  }
+                }}
+                className="bg-white/50 border-gray-200/50 rounded-xl file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-gradient-to-r file:from-blue-500 file:to-purple-600 file:text-white hover:file:from-blue-600 hover:file:to-purple-700"
+              />
+              <Upload className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none" />
+            </div>
           </div>
 
           {preview && (

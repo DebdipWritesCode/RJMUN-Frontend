@@ -19,6 +19,7 @@ const navItems = [
   { label: "Teams", path: "/teams" },
   { label: "Sponsors", path: "/sponsors" },
   { label: "FAQ", path: "/faq" },
+  { label: "Fest Days", path: "/fest-days" },
   { label: "CA Portal", path: "/why-ca" },
   { label: "Register", path: "/register" },
 ];

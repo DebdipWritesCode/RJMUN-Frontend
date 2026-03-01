@@ -50,7 +50,7 @@ const FestDays = () => {
                     Manage Fest Days
                   </h1>
                   <p className="text-gray-600 text-sm mt-1">
-                    Create and manage fest days (date, name, events, price, image)
+                    Create and manage fest days (date, name, description, price, image)
                   </p>
                 </div>
               </div>
@@ -107,13 +107,14 @@ const FestDays = () => {
                   <IndianRupee className="w-4 h-4" />
                   {day.price}
                 </p>
-                {day.events?.length > 0 && (
-                  <ul className="text-gray-600 text-sm list-disc list-inside line-clamp-3">
-                    {day.events.slice(0, 3).map((e, i) => (
-                      <li key={i}>{e}</li>
-                    ))}
-                  </ul>
+                {day.description && (
+                  <div className="line-clamp-3 text-gray-700 text-sm mb-3">
+                    {day.description}
+                  </div>
                 )}
+                <div className="text-xs text-gray-600 bg-blue-50 rounded-lg p-2 mb-3">
+                  <span className="font-medium">{day.events?.length ?? 0} event(s)</span>
+                </div>
               </div>
               <div className="px-6 pb-6 flex gap-3">
                 <Button

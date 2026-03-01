@@ -10,6 +10,7 @@ import FAQPage from "../pages/FAQ/FAQsPage";
 import CAPortalPage from "../pages/CA/CAPortalPage";
 import WhyCA from "@/pages/CA/WhyCA";
 import Terms from "@/pages/Terms/Terms";
+import FestDaysPage from "@/pages/FestDays/FestDaysPage";
 
 import RegisterLanding from "../pages/Register/RegisterLanding";
 import NewRegistration from "../pages/Register/NewRegistration";
@@ -48,6 +49,7 @@ const Router = () => {
         <Route path="/teams" element={<TeamsPage />} />
         <Route path="/sponsors" element={<SponsorsPage />} />
         <Route path="/faq" element={<FAQPage />} />
+        <Route path="/fest-days" element={<FestDaysPage />} />
         <Route path="/ca" element={<CAPortalPage />} />
         <Route path="/why-ca" element={<WhyCA />} />
         <Route path="/terms" element={<Terms />} />
