@@ -30,7 +30,7 @@ export const EVENT_CONTACTS = [
 export const EVENT_LOGO_PATH =
   "https://res.cloudinary.com/dch2ga5us/image/upload/v1771649269/event-logo_sy944f.png";
 export const EVENT_HERO_FLAGS_PATH =
-  "https://res.cloudinary.com/dch2ga5us/image/upload/v1771649495/Flags2_ljaqml.png";
+  "https://res.cloudinary.com/dch2ga5us/image/upload/v1772352180/6_gekq14.png";
 export const EVENT_HERO_MIC_PATH =
   "https://res.cloudinary.com/dch2ga5us/image/upload/v1772345830/graduated_student_showing_her_diploma_p8ijsv.png";
 export const EVENT_COMMITTEES_PATH =
