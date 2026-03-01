@@ -32,7 +32,7 @@ export const EVENT_LOGO_PATH =
 export const EVENT_HERO_FLAGS_PATH =
   "https://res.cloudinary.com/dch2ga5us/image/upload/v1771649495/Flags2_ljaqml.png";
 export const EVENT_HERO_MIC_PATH =
-  "https://res.cloudinary.com/dch2ga5us/image/upload/v1771649496/Mic2_crgptm.png";
+  "https://res.cloudinary.com/dch2ga5us/image/upload/v1772345830/graduated_student_showing_her_diploma_p8ijsv.png";
 export const EVENT_COMMITTEES_PATH =
   "https://res.cloudinary.com/dch2ga5us/image/upload/v1771650585/Committees2_czrzs8.png"
 export const EBS_PATH =
