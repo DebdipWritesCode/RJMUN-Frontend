@@ -48,7 +48,7 @@ const CommitteesPage = () => {
                   )}
 
                   <div className="text-left space-y-4 flex flex-col justify-between h-full">
-                    <p className="sm:text-2xl text-xl font-bold sm:text-justify text-center bg-warm-tan text-primary">
+                    <p className="sm:text-2xl text-xl font-bold sm:text-justify text-center bg-letter-surface text-letter-text">
                       {committee.agenda}
                     </p>
 
@@ -57,7 +57,7 @@ const CommitteesPage = () => {
                         href={committee.backgroundGuideURL}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="inline-block px-4 py-2 mt-2 text-primary-foreground bg-primary hover:opacity-90 rounded-2xl transition text-center"
+                        className="inline-block px-4 py-2 mt-2 text-primary-foreground bg-primary hover:opacity-90 rounded-2xl transition text-center font-bold"
                       >
                         View Background Guide
                       </a>
