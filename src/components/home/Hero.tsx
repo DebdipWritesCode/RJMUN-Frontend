@@ -1,6 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { EVENT_HERO_FLAGS_PATH, EVENT_HERO_MIC_PATH } from "@/utils/constants";
-import { Button } from "../ui/button";
+// import { EVENT_HERO_FLAGS_PATH, EVENT_HERO_MIC_PATH } from "@/utils/constants";
 
 const Hero = () => {
   const navigate = useNavigate();
@@ -14,57 +13,106 @@ const Hero = () => {
       {/* Main Box */}
       <div
         className="
-        bg-warm-tan
+        bg-black/20
+        border-2
         w-[90%] max-w-[680px]
         h-[600px] lg:h-[500px]
         rounded-2xl shadow-2xl
         shadow-black
-        z-10
         relative
         main-box
-      ">
+      "
+        style={{ borderColor: "#f0d07e" }}>
         <div className="absolute flex flex-col gap-3 items-center justify-center h-full px-5 sm:px-15 py-3 text-primary">
-          <h3 className="text-3xl text-center">WELCOME TO</h3>
-          <h1 className="font-bold text-6xl text-center sm:text-7xl">RJMUN</h1>
-          <p className="mt-4 sm:mt-8 text-xl sm:text-center text-justify">
+          <h3 className="text-3xl text-center" style={{ fontFamily: '"Cinzel", serif', fontWeight: 600 }}>
+            WELCOME TO
+          </h3>
+          <h1 className="font-bold text-6xl text-center sm:text-7xl" style={{ fontFamily: '"Cinzel", serif', fontWeight: 600 }}>
+            RJMUN
+          </h1>
+          <p
+            className="mt-4 sm:mt-8 text-xl sm:text-center text-justify shadow-2xl"
+            style={{
+              textShadow: `
+    0 2px 4px rgba(0,0,0,0.9),
+    0 6px 12px rgba(0,0,0,0.8),
+    0 0 25px rgba(0,0,0,0.9)
+  `,
+  fontFamily: '"Cinzel", serif',
+  fontWeight: 600,
+            }}>
             Step into the arena of diplomacy, dialogue, and debate. At RJMUN, we
             don’t just simulate global affairs — we shape perspectives,
-            challenge narratives, and empower voices. This is your platform to
-            think, speak, and lead.
+            challenge narratives.
           </p>
-          <Button
-            className="mt-4 sm:mt-8 text-surface-warm bg-primary rounded-2xl text-xl sm:text-2xl px-10 py-6"
+          <button
+            className="mt-4 sm:mt-8"
             onClick={onRegisterClick}>
-            REGISTER NOW
-          </Button>
+            <img
+              src="/images/Register.png"
+              alt="Register Now"
+              className="hover:opacity-80 transition-opacity h-25"
+            />
+          </button>
         </div>
-        {/* Flags image - hide on small screens */}
+        {/* Left Character image - hide on small screens */}
         <img
-          src={EVENT_HERO_FLAGS_PATH}
+          src="/images/left.png"
           className="
             hidden md:block
             absolute
-            top-[60px]
-            left-[-280px]
-            h-[550px]
+            top-[80px]
+            left-[-320px]
+            h-[500px]
+            w-[500px]
             z-20
-            rotate-[-10deg]
           "
-          alt="Flags"
+          alt="Left Character"
         />
 
-        {/* Mic image - hide on small screens */}
+        {/* Right Character image - hide on small screens */}
         <img
-          src={EVENT_HERO_MIC_PATH}
+          src="/images/right.png"
           className="
             hidden md:block
             absolute
             top-[-80px]
-            right-[-250px]
+            right-[-180px]
             h-[600px]
             z-20
           "
-          alt="Microphone and book"
+          alt="Right Character"
+        />
+
+        <img
+          src="/images/sun.png"
+          onClick={onRegisterClick}
+          className="
+            hidden md:block
+            absolute
+            top-[200px]
+            right-[20px]
+            h-[600px]
+            opacity-50
+            z-20
+            pointer-events-none
+          "
+          alt="Upper Sun"
+        />
+
+        <img
+          src="/images/sun.png"
+          className="
+            hidden md:block
+            absolute
+            top-[-300px]
+            right-[20px]
+            h-[600px]
+            opacity-50
+            z-20
+            pointer-events-none
+          "
+          alt="Lower Sun"
         />
       </div>
     </div>

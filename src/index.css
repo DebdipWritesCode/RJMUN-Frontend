@@ -1,3 +1,4 @@
+@import url("https://fonts.googleapis.com/css2?family=Cinzel:wght@400..900&display=swap");
 @import "tailwindcss";
 @import "tw-animate-css";
 
@@ -47,31 +48,33 @@
   --color-muted-warm: var(--muted-warm);
   --color-footer-bg: var(--footer-bg);
   --color-footer-text: var(--footer-text);
+  --color-card-label-bg: var(--card-label-bg);
+  --color-card-label-text: var(--card-label-text);
+  --color-card-label-border: var(--card-label-border);
+  --color-letter-surface: var(--letter-surface);
+  --color-letter-text: var(--letter-text);
+  --color-letter-border: var(--letter-border);
 }
 
 :root {
   --radius: 0.625rem;
 
   /* Background Gradient Theme */
-  --background: linear-gradient(
-    135deg,
-    #fff0d1 0%,
-    #dbeaff 100%
-  );
+  --background: url('/images/actual_bg.png') center/cover fixed;
 
   /* Main Text */
-  --foreground: #2a2a2a;
+  --foreground: #f8c94c;
 
   /* Cards (warm neutral glass feel) */
   --card: rgba(255, 255, 255, 0.65);
-  --card-foreground: #2a2a2a;
+  --card-foreground: #f8c94c;
 
   /* Popover */
   --popover: #ffffff;
-  --popover-foreground: #2a2a2a;
+  --popover-foreground: #f8c94c;
 
   /* Primary (Elegant Deep Navy instead of Green) */
-  --primary: #1e2a38;
+  --primary: #f8c94c;
   --primary-foreground: #ffffff;
 
   /* Secondary (Soft Blue Tint) */
@@ -117,6 +120,14 @@
 
   /* Theme-derived (warm / UI) */
 /* Hero Surface Colors (Aligned with Gradient) */
+
+  --card-label-bg: #0b1f3a;
+  --card-label-text: #f8c94c;
+  --card-label-border: #f8c94c;
+
+  --letter-surface: rgba(255, 255, 255, 0.08);
+  --letter-text: #eef5ff;
+  --letter-border: rgba(248, 201, 76, 0.25);
 
   --warm-tan: rgba(255, 255, 255, 0.65);   /* glass white */
   --surface-warm: #fdf6e8;                 /* soft cream blend */

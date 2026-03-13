@@ -12,7 +12,7 @@ const LetterComponent: React.FC<LetterComponentProps> = ({
 }) => {
   return (
     <div
-      className={`text-justify bg-warm-tan sm:mt-8 mt-[-20px] font-bold font-serif text-lg text-primary-background ${className}`}
+      className={`text-justify bg-letter-surface backdrop-blur-sm border border-letter-border rounded-lg sm:mt-8 mt-[-20px] font-serif text-lg text-letter-text p-6 ${className}`}
     >
       <ReactMarkdown
         components={{
@@ -20,7 +20,9 @@ const LetterComponent: React.FC<LetterComponentProps> = ({
             <p className="mb-4 leading-relaxed">{children}</p>
           ),
           strong: ({ children }) => (
-            <strong className="font-semibold">{children}</strong>
+            <strong className="font-semibold text-card-label-text">
+              {children}
+            </strong>
           ),
           em: ({ children }) => <em className="italic">{children}</em>,
         }}

@@ -30,7 +30,9 @@ const Navbar = () => {
   const navigate = useNavigate();
 
   const isActive = (path: string) =>
-    path === "/" ? pathname === "/" : pathname === path || pathname.startsWith(path + "/");
+    path === "/"
+      ? pathname === "/"
+      : pathname === path || pathname.startsWith(path + "/");
 
   const onLogoClick = () => {
     navigate("/");
@@ -43,11 +45,11 @@ const Navbar = () => {
     <nav className="w-full py-6 px-4 bg-background shadow-lg shadow-background/30">
       {/* Desktop Menu */}
       <div className="hidden md:flex justify-between items-center">
-        <div className="bg-gradient-to-br from-yellow-400 to-orange-500 rounded-3xl px-3 py-3">
+        <div className="rounded-3xl">
           <img
             onClick={onLogoClick}
             src={EVENT_LOGO_PATH}
-            className="h-[60px] w-[90px] cursor-pointer"
+            className="h-[80px] w-[100px] cursor-pointer"
             alt="RJMUN Logo"
           />
         </div>
@@ -68,11 +70,17 @@ const Navbar = () => {
             ))}
           </NavigationMenuList>
         </NavigationMenu>
+        <img
+          src="/images/Line.png"
+          className="absolute h-5 left-1/2 -translate-x-1/2 top-[100px]"
+        />
       </div>
 
       {/* Mobile Menu */}
       <div className="flex justify-between items-center md:hidden">
-        <div onClick={onLogoClick} className="text-xl text-primary font-bold cursor-pointer">
+        <div
+          onClick={onLogoClick}
+          className="text-xl text-primary font-bold cursor-pointer">
           RJMUN
         </div>
         <Dialog open={isOpen} onOpenChange={setIsOpen}>
