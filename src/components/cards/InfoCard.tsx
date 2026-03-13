@@ -1,3 +1,5 @@
+import { CONTAINER_BG_PATH, SUN_PATH } from "@/utils/constants";
+
 interface InfoCardProps {
   heading: string;
   children: React.ReactNode;
@@ -11,7 +13,7 @@ const InfoCard: React.FC<InfoCardProps> = ({ heading, children }) => {
     <div
       className="rounded-xl bg-cover bg-center p-6 text-primary-foreground border-2 relative"
       style={{
-        backgroundImage: `url('/images/ContainerBG.png')`,
+        backgroundImage: `url(${CONTAINER_BG_PATH})`,
         borderColor: "#f8c94c",
         fontFamily: '"Cinzel", serif',
       }}>
@@ -27,7 +29,7 @@ const InfoCard: React.FC<InfoCardProps> = ({ heading, children }) => {
       </div>
 
       <img
-        src="/images/sun.png"
+        src={SUN_PATH}
         className="
             absolute
             top-[-320px]

@@ -10,7 +10,7 @@ import {
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { MenuIcon } from "lucide-react";
 import { DialogTitle } from "@radix-ui/react-dialog";
-import { EVENT_LOGO_PATH } from "@/utils/constants";
+import { EVENT_LOGO_PATH, NAVBAR_LINE_PATH } from "@/utils/constants";
 
 const navItems = [
   { label: "Home", path: "/" },
@@ -71,7 +71,8 @@ const Navbar = () => {
           </NavigationMenuList>
         </NavigationMenu>
         <img
-          src="/images/Line.png"
+          src={NAVBAR_LINE_PATH}
+          alt="Decorative Line"
           className="absolute h-5 left-1/2 -translate-x-1/2 top-[100px]"
         />
       </div>

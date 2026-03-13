@@ -1,3 +1,5 @@
+import { CONTAINER_BG_PATH } from "@/utils/constants";
+
 interface ProfileCardProps {
   imageSrc: string;
   heading: string;
@@ -13,7 +15,7 @@ const ProfileCard: React.FC<ProfileCardProps> = ({
     <div
       className="rounded-xl bg-cover bg-center p-4 text-center relative flex justify-center text-primary-foreground mb-3 w-[300px] h-[300px] transition-transform duration-500 transform hover:scale-106 border-2"
       style={{
-        backgroundImage: `url('/images/ContainerBG.png')`,
+        backgroundImage: `url(${CONTAINER_BG_PATH})`,
         borderColor: "#f8c94c",
         fontFamily: '"Cinzel", serif',
       }}

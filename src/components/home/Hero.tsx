@@ -1,5 +1,10 @@
 import { useNavigate } from "react-router-dom";
-// import { EVENT_HERO_FLAGS_PATH, EVENT_HERO_MIC_PATH } from "@/utils/constants";
+import {
+  EVENT_LEFT_IMG_PATH,
+  EVENT_RIGHT_IMG_PATH,
+  REGISTER_PATH,
+  SUN_PATH,
+} from "@/utils/constants";
 
 const Hero = () => {
   const navigate = useNavigate();
@@ -24,10 +29,14 @@ const Hero = () => {
       "
         style={{ borderColor: "#f0d07e" }}>
         <div className="absolute flex flex-col gap-3 items-center justify-center h-full px-5 sm:px-15 py-3 text-primary">
-          <h3 className="text-3xl text-center" style={{ fontFamily: '"Cinzel", serif', fontWeight: 600 }}>
+          <h3
+            className="text-3xl text-center"
+            style={{ fontFamily: '"Cinzel", serif', fontWeight: 600 }}>
             WELCOME TO
           </h3>
-          <h1 className="font-bold text-6xl text-center sm:text-7xl" style={{ fontFamily: '"Cinzel", serif', fontWeight: 600 }}>
+          <h1
+            className="font-bold text-6xl text-center sm:text-7xl"
+            style={{ fontFamily: '"Cinzel", serif', fontWeight: 600 }}>
             RJMUN
           </h1>
           <p
@@ -38,18 +47,16 @@ const Hero = () => {
     0 6px 12px rgba(0,0,0,0.8),
     0 0 25px rgba(0,0,0,0.9)
   `,
-  fontFamily: '"Cinzel", serif',
-  fontWeight: 600,
+              fontFamily: '"Cinzel", serif',
+              fontWeight: 600,
             }}>
             Step into the arena of diplomacy, dialogue, and debate. At RJMUN, we
             don’t just simulate global affairs — we shape perspectives,
             challenge narratives.
           </p>
-          <button
-            className="mt-4 sm:mt-8"
-            onClick={onRegisterClick}>
+          <button className="mt-4 sm:mt-8" onClick={onRegisterClick}>
             <img
-              src="/images/Register.png"
+              src={REGISTER_PATH}
               alt="Register Now"
               className="hover:opacity-80 transition-opacity h-25"
             />
@@ -57,7 +64,7 @@ const Hero = () => {
         </div>
         {/* Left Character image - hide on small screens */}
         <img
-          src="/images/left.png"
+          src={EVENT_LEFT_IMG_PATH}
           className="
             hidden md:block
             absolute
@@ -72,7 +79,7 @@ const Hero = () => {
 
         {/* Right Character image - hide on small screens */}
         <img
-          src="/images/right.png"
+          src={EVENT_RIGHT_IMG_PATH}
           className="
             hidden md:block
             absolute
@@ -85,7 +92,7 @@ const Hero = () => {
         />
 
         <img
-          src="/images/sun.png"
+          src={SUN_PATH}
           onClick={onRegisterClick}
           className="
             hidden md:block
@@ -101,7 +108,7 @@ const Hero = () => {
         />
 
         <img
-          src="/images/sun.png"
+          src={SUN_PATH}
           className="
             hidden md:block
             absolute

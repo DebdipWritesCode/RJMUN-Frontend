@@ -29,11 +29,19 @@ export const EVENT_CONTACTS = [
 ];
 export const EVENT_LOGO_PATH =
   "https://res.cloudinary.com/dch2ga5us/image/upload/v1771649269/event-logo_sy944f.png";
-export const EVENT_HERO_FLAGS_PATH =
-  "https://res.cloudinary.com/dch2ga5us/image/upload/v1772352180/6_gekq14.png";
-export const EVENT_HERO_MIC_PATH =
-  "https://res.cloudinary.com/dch2ga5us/image/upload/v1772345830/graduated_student_showing_her_diploma_p8ijsv.png";
+export const EVENT_LEFT_IMG_PATH =
+  "https://res.cloudinary.com/dch2ga5us/image/upload/v1773397726/left_bumgt7.png";
+export const EVENT_RIGHT_IMG_PATH =
+  "https://res.cloudinary.com/dch2ga5us/image/upload/v1773397727/right_a5zsrn.png";
 export const EVENT_COMMITTEES_PATH =
   "https://res.cloudinary.com/dch2ga5us/image/upload/v1771650585/Committees2_czrzs8.png"
 export const EBS_PATH =
-  "https://res.cloudinary.com/dch2ga5us/image/upload/v1771653887/EB2_zysmjc.png"
+  "https://res.cloudinary.com/dch2ga5us/image/upload/v1773397917/EB2_yretwz.png"
+export const NAVBAR_LINE_PATH =
+  "https://res.cloudinary.com/dch2ga5us/image/upload/v1773397173/Line_mbwfde.png"
+export const CONTAINER_BG_PATH =
+  "https://res.cloudinary.com/dch2ga5us/image/upload/v1773397315/ContainerBG_wxrrvc.png"
+export const SUN_PATH =
+  "https://res.cloudinary.com/dch2ga5us/image/upload/v1773397436/sun_ni5cce.png"
+export const REGISTER_PATH =
+  "https://res.cloudinary.com/dch2ga5us/image/upload/v1773397574/Register_b2zpot.png"
