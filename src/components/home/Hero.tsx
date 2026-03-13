@@ -100,7 +100,7 @@ const Hero = () => {
             top-[200px]
             right-[20px]
             h-[600px]
-            opacity-50
+            opacity-30
             z-20
             pointer-events-none
           "
@@ -115,7 +115,7 @@ const Hero = () => {
             top-[-300px]
             right-[20px]
             h-[600px]
-            opacity-50
+            opacity-30
             z-20
             pointer-events-none
           "
