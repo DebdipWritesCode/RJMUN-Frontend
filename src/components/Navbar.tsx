@@ -88,21 +88,23 @@ const Navbar = () => {
           <DialogTrigger className="focus:outline-none">
             <MenuIcon className="w-6 h-6 text-primary" />
           </DialogTrigger>
-          <DialogContent className="!bg-white dark:!bg-zinc-900 p-6 space-y-4 border border-border/50 shadow-xl max-w-[min(calc(100%-2rem),20rem)] left-4 right-auto translate-x-0 translate-y-[-50%] top-[50%]">
-            <DialogTitle className="text-xl font-semibold mb-2 text-foreground">
+          <DialogContent className="!bg-[#0b1f3a]/95 backdrop-blur-lg p-6 space-y-4 border border-[#f8c94c]/40 shadow-xl max-w-[min(calc(100%-2rem),20rem)] left-4 right-auto translate-x-0 translate-y-[-50%] top-[50%] rounded-xl">
+            <DialogTitle className="text-xl font-semibold mb-2 text-[#f8c94c]">
               Menu
             </DialogTitle>
-            <nav className="flex flex-col gap-2">
+
+            <nav className="flex flex-col gap-3">
               {navItems.map(({ label, path }) => (
                 <Link
                   to={path}
                   key={path}
                   onClick={closeDialog}
-                  className={`block rounded-lg border px-4 py-3 text-base font-medium transition-colors hover:bg-muted hover:border-primary/30 active:bg-muted/80 ${
-                    isActive(path)
-                      ? "border-primary/30 bg-accent text-accent-foreground"
-                      : "border-border bg-muted/40 text-foreground"
-                  }`}>
+                  className={`block rounded-xl border px-4 py-3 text-base font-medium transition-all duration-200
+        ${
+          isActive(path)
+            ? "bg-[#f8c94c] text-[#0b1f3a] border-[#f8c94c] shadow-[0_0_8px_rgba(248,201,76,0.4)]"
+            : "bg-[#0b1f3a]/70 text-[#f8c94c] border-[#f8c94c]/30 hover:bg-[#0b1f3a]"
+        }`}>
                   {label}
                 </Link>
               ))}
