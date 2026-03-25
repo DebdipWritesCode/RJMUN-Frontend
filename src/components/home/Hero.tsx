@@ -35,9 +35,9 @@ const Hero = () => {
             WELCOME TO
           </h3>
           <h1
-            className="font-bold text-6xl text-center sm:text-7xl"
+            className="font-bold text-3xl text-center sm:text-7xl"
             style={{ fontFamily: '"Cinzel", serif', fontWeight: 600 }}>
-            RJMUN
+            DESTINIQUE
           </h1>
           <p
             className="mt-4 sm:mt-8 text-xl sm:text-center text-justify shadow-2xl"
@@ -50,9 +50,9 @@ const Hero = () => {
               fontFamily: '"Cinzel", serif',
               fontWeight: 600,
             }}>
-            Step into the arena of diplomacy, dialogue, and debate. At RJMUN, we
-            don’t just simulate global affairs — we shape perspectives,
-            challenge narratives.
+            DESTINIQUE is a career fest helping students and parents explore
+            future paths through insights and interactive sessions,
+            guiding informed decisions and a bright future.
           </p>
           <button className="mt-4 sm:mt-8" onClick={onRegisterClick}>
             <img
