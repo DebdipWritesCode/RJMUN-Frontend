@@ -17,14 +17,14 @@ export const EVENT_CONTACTS = [
     phone: "+91 93401 87056",
   },
   {
-    name: "Bhargav Bidkar",
+    name: "Anshika Duggad",
     role: "Secretary General",
-    phone: "+91 78208 34044",
+    phone: "+91 94230 08080",
   },
   {
-    name: "Aarohi Deolgaonkar",
+    name: "Shrushti Deore",
     role: "Deputy Secretary General",
-    phone: "+91 96993 75537",
+    phone: "+91 72489 97679",
   },
 ];
 export const EVENT_LOGO_PATH =
