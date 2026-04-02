@@ -10,6 +10,11 @@ import FAQPage from "../pages/FAQ/FAQsPage";
 import CAPortalPage from "../pages/CA/CAPortalPage";
 import WhyCA from "@/pages/CA/WhyCA";
 import Terms from "@/pages/Terms/Terms";
+import AboutPage from "@/pages/About/AboutPage";
+import ContactPage from "@/pages/Contact/ContactPage";
+import PrivacyPolicyPage from "@/pages/PrivacyPolicy/PrivacyPolicyPage";
+import RefundPolicyPage from "@/pages/RefundPolicy/RefundPolicyPage";
+import PricingPage from "@/pages/Pricing/PricingPage";
 import FestDaysPage from "@/pages/FestDays/FestDaysPage";
 
 import RegisterLanding from "../pages/Register/RegisterLanding";
@@ -53,6 +58,11 @@ const Router = () => {
         <Route path="/ca" element={<CAPortalPage />} />
         <Route path="/why-ca" element={<WhyCA />} />
         <Route path="/terms" element={<Terms />} />
+        <Route path="/about" element={<AboutPage />} />
+        <Route path="/contact" element={<ContactPage />} />
+        <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
+        <Route path="/refund-policy" element={<RefundPolicyPage />} />
+        <Route path="/pricing" element={<PricingPage />} />
 
         <Route path="/register" element={<RegisterLanding />} />
         <Route path="/register/new" element={<NewRegistration />} />

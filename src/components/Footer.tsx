@@ -65,9 +65,24 @@ const Footer = () => {
         </div>
       </div>
 
-      <div className="text-center text-xs text-accent mt-10">
+      <div className="flex flex-wrap justify-center gap-x-4 gap-y-2 text-xs text-accent mt-10">
+        <a href="/about" className="hover:underline">
+          About Us
+        </a>
+        <a href="/pricing" className="hover:underline">
+          Pricing
+        </a>
+        <a href="/contact" className="hover:underline">
+          Contact Us
+        </a>
         <a href="/terms" className="hover:underline">
           Terms and Conditions
+        </a>
+        <a href="/privacy-policy" className="hover:underline">
+          Privacy Policy
+        </a>
+        <a href="/refund-policy" className="hover:underline">
+          Cancellation & Refund Policy
         </a>
       </div>
     </footer>

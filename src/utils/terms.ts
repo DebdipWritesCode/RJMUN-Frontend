@@ -1,5 +1,5 @@
 export const definition = `
-The term "Team" or "Teams" refers to the event organizing team of RJMUN, mainly including but not limited to members of RJ International School. The term "Event" refers to RJMUN 2.0 MUN Conference from 12th to 14th September 2025 at RJ International School.
+The term "Team" or "Teams" refers to the event organizing team of RJMUN, mainly including but not limited to members of RJ International School. The term "Event" refers to RJMUN 3.0 MUN Conference from 12th to 14th September 2025 at RJ International School.
 `;
 
 export const paymentPoints = [
