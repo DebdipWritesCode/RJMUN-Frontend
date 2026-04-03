@@ -43,6 +43,7 @@ const FestRegistrationForm: React.FC<FestRegistrationFormProps> = ({
   const [selectedDayIds, setSelectedDayIds] = useState<Set<string>>(new Set());
   const navigate = useNavigate();
   const [paymentScreenshot, setPaymentScreenshot] = useState<File | null>(null);
+  const [screenshotError, setScreenshotError] = useState<string | null>(null);
 
   const {
     register,
@@ -75,9 +76,10 @@ const FestRegistrationForm: React.FC<FestRegistrationFormProps> = ({
       return;
     }
     if (!paymentScreenshot) {
-      toast.error("Please upload a screenshot of your payment");
+      setScreenshotError("Payment screenshot is required.");
       return;
     }
+    setScreenshotError(null);
 
     const data = {
       firstName: formData.firstName,
@@ -95,7 +97,9 @@ const FestRegistrationForm: React.FC<FestRegistrationFormProps> = ({
         fd.append("couponCode", formData.couponCode.trim());
       }
 
-      const response = await api.post("/day-registration/register-with-qr", fd);
+      const response = await api.post("/day-registration/register-with-qr", fd, {
+        headers: { "Content-Type": undefined },
+      });
       const { message: msg, registrationId } = response.data;
       toast.success(msg || "Registration completed successfully!");
       navigate("/fest/success", { state: { registrationId, email: formData.email } });
@@ -261,11 +265,15 @@ const FestRegistrationForm: React.FC<FestRegistrationFormProps> = ({
             <input
               type="file"
               accept="image/*"
-              onChange={(e) =>
-                setPaymentScreenshot(e.target.files?.[0] ?? null)
-              }
+              onChange={(e) => {
+                setPaymentScreenshot(e.target.files?.[0] ?? null);
+                setScreenshotError(null);
+              }}
               className="block w-full text-sm text-form-text file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-primary file:text-primary-foreground hover:file:opacity-90 cursor-pointer"
             />
+            {screenshotError && (
+              <p className="text-sm text-red-500 mt-1">{screenshotError}</p>
+            )}
           </div>
         </div>
 

@@ -70,6 +70,7 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ portfolios }) => {
 
   const navigate = useNavigate();
   const [paymentScreenshot, setPaymentScreenshot] = useState<File | null>(null);
+  const [screenshotError, setScreenshotError] = useState<string | null>(null);
 
   const watchCommittee1 = useWatch({ control, name: "committeePreference1" });
   const watchCommittee2 = useWatch({ control, name: "committeePreference2" });
@@ -82,9 +83,10 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ portfolios }) => {
 
   const onSubmit = async (formData: RegistrationFormData) => {
     if (!paymentScreenshot) {
-      toast.error("Please upload a screenshot of your payment");
+      setScreenshotError("Payment screenshot is required.");
       return;
     }
+    setScreenshotError(null);
 
     try {
       const { couponCode, ...data } = formData;
@@ -96,7 +98,9 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ portfolios }) => {
         fd.append("couponCode", couponCode.trim());
       }
 
-      const response = await api.post("/registration/register-with-qr", fd);
+      const response = await api.post("/registration/register-with-qr", fd, {
+        headers: { "Content-Type": undefined },
+      });
       const { message, registrationId } = response.data;
       toast.success(
         message || `Registration successful! Your ID: ${registrationId}`
@@ -419,11 +423,15 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ portfolios }) => {
             <input
               type="file"
               accept="image/*"
-              onChange={(e) =>
-                setPaymentScreenshot(e.target.files?.[0] ?? null)
-              }
+              onChange={(e) => {
+                setPaymentScreenshot(e.target.files?.[0] ?? null);
+                setScreenshotError(null);
+              }}
               className="block w-full text-sm text-form-text file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-primary file:text-primary-foreground hover:file:opacity-90 cursor-pointer"
             />
+            {screenshotError && (
+              <p className="text-sm text-red-500 mt-1">{screenshotError}</p>
+            )}
           </div>
         </div>
 
