@@ -12,9 +12,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { toast } from "react-toastify";
-import { Loader2 } from "lucide-react";
 import api from "@/api/axios";
-import { useRazorpay, type RazorpayOrderOptions } from "react-razorpay";
 import { useNavigate } from "react-router-dom";
 
 export interface RegistrationFormProps {
@@ -71,9 +69,7 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ portfolios }) => {
   });
 
   const navigate = useNavigate();
-  const [isConfirmingPayment, setIsConfirmingPayment] = useState(false);
-
-  const { Razorpay, error } = useRazorpay();
+  const [paymentScreenshot, setPaymentScreenshot] = useState<File | null>(null);
 
   const watchCommittee1 = useWatch({ control, name: "committeePreference1" });
   const watchCommittee2 = useWatch({ control, name: "committeePreference2" });
@@ -85,96 +81,33 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ portfolios }) => {
   };
 
   const onSubmit = async (formData: RegistrationFormData) => {
+    if (!paymentScreenshot) {
+      toast.error("Please upload a screenshot of your payment");
+      return;
+    }
+
     try {
       const { couponCode, ...data } = formData;
 
-      const payload = {
-        data,
-        ...(couponCode && { couponCode }),
-      };
-
-      const response = await api.post("/registration/initiate", payload);
-      const { order, finalAmount, currency, message, registrationId } =
-        response.data;
-
-      if (finalAmount <= 0 && registrationId) {
-        toast.success(message || "Registration completed successfully!");
-        navigate("/"); // redirect immediately
-        return;
+      const fd = new FormData();
+      fd.append("data", JSON.stringify(data));
+      fd.append("paymentScreenshot", paymentScreenshot);
+      if (couponCode?.trim()) {
+        fd.append("couponCode", couponCode.trim());
       }
 
-      const options: RazorpayOrderOptions = {
-        key: import.meta.env.VITE_RAZORPAY_KEY_ID,
-        amount: finalAmount * 100,
-        currency,
-        name: "RJMUN 3.0 Registration Fee",
-        description:
-          "Individual Delegate Registration for RJMUN 3.0 by" +
-          ` ${formData.fullName}`,
-        order_id: order.id,
-        handler: async (razorpayResponse: {
-          razorpay_order_id: string;
-          razorpay_payment_id: string;
-          razorpay_signature: string;
-        }) => {
-          setIsConfirmingPayment(true);
-          try {
-            const { data } = await api.post("/payment/confirm", {
-              orderId: razorpayResponse.razorpay_order_id,
-              paymentId: razorpayResponse.razorpay_payment_id,
-              signature: razorpayResponse.razorpay_signature,
-            });
-            const message =
-              data.registrationId != null
-                ? data.message ||
-                  `Registration confirmed! Your Registration ID: ${data.registrationId}`
-                : data.message || "Payment confirmed. Registration already processed.";
-            toast.success(message);
-            navigate("/");
-          } catch (err: any) {
-            setIsConfirmingPayment(false);
-            const msg =
-              err?.response?.data?.message || "Payment confirmation failed. Please contact support if the amount was deducted.";
-            toast.error(msg);
-          }
-        },
-        prefill: {
-          name: formData.fullName,
-          email: formData.email,
-          contact: formData.phone,
-        },
-        theme: {
-          color: getComputedStyle(document.documentElement).getPropertyValue("--payment-theme").trim() || "#3399cc",
-        },
-      };
-
-      const rzpInstance = new Razorpay(options);
-      rzpInstance.open();
+      const response = await api.post("/registration/register-with-qr", fd);
+      const { message, registrationId } = response.data;
+      toast.success(
+        message || `Registration successful! Your ID: ${registrationId}`
+      );
+      navigate("/");
     } catch (err: any) {
       toast.error(
         err?.response?.data?.message || "Failed to submit application"
       );
     }
   };
-  if (error) {
-    toast.error("Failed to load Razorpay. Please try again later.");
-  }
-
-  if (isConfirmingPayment) {
-    return (
-      <div className="max-w-xl mx-auto mt-10 bg-muted p-8 rounded-xl shadow-lg text-form-text">
-        <div className="flex flex-col items-center justify-center py-12 px-4 text-center">
-          <Loader2 className="h-12 w-12 animate-spin text-primary mb-6" />
-          <h2 className="text-xl font-semibold text-primary mb-2">
-            Confirming your payment
-          </h2>
-          <p className="text-form-text/80 text-sm max-w-sm">
-            Please wait while we verify your payment and complete your registration. Do not close this page.
-          </p>
-        </div>
-      </div>
-    );
-  }
 
   return (
     <div className="max-w-xl mx-auto mt-10 bg-muted p-8 rounded-xl shadow-lg text-form-text">
@@ -464,6 +397,34 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ portfolios }) => {
             {...register("couponCode")}
             placeholder="Enter coupon code if any"
           />
+        </div>
+
+        {/* QR Payment */}
+        <div className="rounded-xl border border-border bg-background p-5 space-y-4">
+          <p className="text-sm font-medium text-center">
+            Scan the QR code below and pay the registration fee, then upload a
+            screenshot of the payment.
+          </p>
+          <div className="flex justify-center">
+            <img
+              src="/payment.jpeg"
+              alt="Payment QR code"
+              className="w-56 h-56 object-contain rounded-lg"
+            />
+          </div>
+          <div>
+            <label className="block mb-1 text-sm font-medium">
+              Payment Screenshot <span className="text-red-500">*</span>
+            </label>
+            <input
+              type="file"
+              accept="image/*"
+              onChange={(e) =>
+                setPaymentScreenshot(e.target.files?.[0] ?? null)
+              }
+              className="block w-full text-sm text-form-text file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-primary file:text-primary-foreground hover:file:opacity-90 cursor-pointer"
+            />
+          </div>
         </div>
 
         {/* Submit Button */}

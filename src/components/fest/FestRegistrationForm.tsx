@@ -5,9 +5,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { toast } from "react-toastify";
-import { Loader2, IndianRupee, Calendar, Tag } from "lucide-react";
+import { IndianRupee, Calendar, Tag } from "lucide-react";
 import api from "@/api/axios";
-import { useRazorpay, type RazorpayOrderOptions } from "react-razorpay";
 import { useNavigate } from "react-router-dom";
 import type { FestDay, FestDayOffers } from "@/utils/interfaces";
 
@@ -19,7 +18,7 @@ const schema = z.object({
   couponCode: z.string().optional().or(z.literal("")),
 });
 
-type FormData = z.infer<typeof schema>;
+type FestFormData = z.infer<typeof schema>;
 
 export interface FestRegistrationFormProps {
   days: FestDay[];
@@ -43,14 +42,13 @@ const FestRegistrationForm: React.FC<FestRegistrationFormProps> = ({
 }) => {
   const [selectedDayIds, setSelectedDayIds] = useState<Set<string>>(new Set());
   const navigate = useNavigate();
-  const [isConfirmingPayment, setIsConfirmingPayment] = useState(false);
-  const { Razorpay, error } = useRazorpay();
+  const [paymentScreenshot, setPaymentScreenshot] = useState<File | null>(null);
 
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
-  } = useForm<FormData>({
+  } = useForm<FestFormData>({
     resolver: zodResolver(schema),
     defaultValues: { couponCode: "" },
   });
@@ -70,122 +68,43 @@ const FestRegistrationForm: React.FC<FestRegistrationFormProps> = ({
     });
   };
 
-  const onSubmit = async (formData: FormData) => {
+  const onSubmit = async (formData: FestFormData) => {
     const ids = Array.from(selectedDayIds);
     if (ids.length === 0) {
       toast.error("Select at least one day");
       return;
     }
+    if (!paymentScreenshot) {
+      toast.error("Please upload a screenshot of your payment");
+      return;
+    }
 
-    const payload = {
-      data: {
-        firstName: formData.firstName,
-        lastName: formData.lastName,
-        email: formData.email,
-        phone: formData.phone,
-        selectedDayIds: ids,
-      },
-      ...(formData.couponCode?.trim() && {
-        couponCode: formData.couponCode.trim(),
-      }),
+    const data = {
+      firstName: formData.firstName,
+      lastName: formData.lastName,
+      email: formData.email,
+      phone: formData.phone,
+      selectedDayIds: ids,
     };
 
     try {
-      const response = await api.post("/day-registration/initiate", payload);
-      const {
-        order,
-        finalAmount = 0,
-        currency = "INR",
-        message: msg,
-        registrationId,
-      } = response.data;
-
-      if (finalAmount <= 0 && registrationId) {
-        toast.success(msg || "Registration completed successfully!");
-        navigate("/fest/success", { state: { registrationId, email: formData.email } });
-        return;
+      const fd = new FormData();
+      fd.append("data", JSON.stringify(data));
+      fd.append("paymentScreenshot", paymentScreenshot);
+      if (formData.couponCode?.trim()) {
+        fd.append("couponCode", formData.couponCode.trim());
       }
 
-      const options: RazorpayOrderOptions = {
-        key: import.meta.env.VITE_RAZORPAY_KEY_ID,
-        amount: order.amount,
-        currency: order.currency ?? currency,
-        name: "Fest Day Registration",
-        description: `Fest registration for ${formData.firstName} ${formData.lastName}`,
-        order_id: order.id,
-        handler: async (razorpayResponse: {
-          razorpay_order_id: string;
-          razorpay_payment_id: string;
-          razorpay_signature: string;
-        }) => {
-          setIsConfirmingPayment(true);
-          try {
-            const { data } = await api.post("/payment/confirm", {
-              orderId: razorpayResponse.razorpay_order_id,
-              paymentId: razorpayResponse.razorpay_payment_id,
-              signature: razorpayResponse.razorpay_signature,
-            });
-            const message =
-              data.registrationId != null
-                ? data.message ||
-                  `Registration confirmed! Your Registration ID: ${data.registrationId}`
-                : data.message || "Payment confirmed. Registration already processed.";
-            toast.success(message);
-            navigate("/fest/success", {
-              state: {
-                registrationId: data.registrationId,
-                email: data.email ?? formData.email,
-              },
-            });
-          } catch (err: any) {
-            setIsConfirmingPayment(false);
-            const msg =
-              err?.response?.data?.message ||
-              "Payment confirmation failed. Please contact support if the amount was deducted.";
-            toast.error(msg);
-          }
-        },
-        prefill: {
-          name: `${formData.firstName} ${formData.lastName}`,
-          email: formData.email,
-          contact: formData.phone,
-        },
-        theme: {
-          color:
-            getComputedStyle(document.documentElement)
-              .getPropertyValue("--payment-theme")
-              .trim() || "#f59e0b",
-        },
-      };
-
-      const rzpInstance = new Razorpay(options);
-      rzpInstance.open();
+      const response = await api.post("/day-registration/register-with-qr", fd);
+      const { message: msg, registrationId } = response.data;
+      toast.success(msg || "Registration completed successfully!");
+      navigate("/fest/success", { state: { registrationId, email: formData.email } });
     } catch (err: any) {
       toast.error(
-        err?.response?.data?.message || "Failed to initiate registration"
+        err?.response?.data?.message || "Failed to submit registration"
       );
     }
   };
-
-  if (error) {
-    toast.error("Failed to load payment. Please try again later.");
-  }
-
-  if (isConfirmingPayment) {
-    return (
-      <div className="max-w-xl mx-auto mt-10 bg-muted p-8 rounded-xl shadow-lg text-form-text">
-        <div className="flex flex-col items-center justify-center py-12 px-4 text-center">
-          <Loader2 className="h-12 w-12 animate-spin text-primary mb-6" />
-          <h2 className="text-xl font-semibold text-primary mb-2">
-            Confirming your payment
-          </h2>
-          <p className="text-form-text/80 text-sm max-w-sm">
-            Please wait while we verify your payment and complete your registration.
-          </p>
-        </div>
-      </div>
-    );
-  }
 
   return (
     <div className="max-w-2xl mx-auto mt-10 bg-muted p-8 rounded-xl shadow-lg text-form-text">
@@ -321,12 +240,41 @@ const FestRegistrationForm: React.FC<FestRegistrationFormProps> = ({
           </label>
           <Input {...register("couponCode")} placeholder="Enter coupon if you have one" />
         </div>
+
+        {/* QR Payment */}
+        <div className="rounded-xl border border-border bg-background p-5 space-y-4">
+          <p className="text-sm font-medium text-center">
+            Scan the QR code below and pay the registration fee, then upload a
+            screenshot of the payment.
+          </p>
+          <div className="flex justify-center">
+            <img
+              src="/payment.jpeg"
+              alt="Payment QR code"
+              className="w-56 h-56 object-contain rounded-lg"
+            />
+          </div>
+          <div>
+            <label className="block mb-1 text-sm font-medium">
+              Payment Screenshot <span className="text-red-500">*</span>
+            </label>
+            <input
+              type="file"
+              accept="image/*"
+              onChange={(e) =>
+                setPaymentScreenshot(e.target.files?.[0] ?? null)
+              }
+              className="block w-full text-sm text-form-text file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-primary file:text-primary-foreground hover:file:opacity-90 cursor-pointer"
+            />
+          </div>
+        </div>
+
         <Button
           type="submit"
           disabled={isSubmitting || selectedDayIds.size === 0}
           className="w-full bg-primary text-primary-foreground font-semibold py-3 rounded-xl disabled:opacity-50"
         >
-          {isSubmitting ? "Processing..." : "Proceed to payment"}
+          {isSubmitting ? "Submitting..." : "Submit Registration"}
         </Button>
       </form>
     </div>
