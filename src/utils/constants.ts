@@ -22,9 +22,9 @@ export const EVENT_CONTACTS = [
     phone: "+91 94230 08080",
   },
   {
-    name: "Shrushti Deore",
+    name: "Aditi Kashid",
     role: "Deputy Secretary General",
-    phone: "+91 72489 97679",
+    phone: "+91 92253 09866",
   },
 ];
 export const EVENT_LOGO_PATH =
