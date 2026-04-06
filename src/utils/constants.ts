@@ -34,7 +34,7 @@ export const EVENT_LEFT_IMG_PATH =
 export const EVENT_RIGHT_IMG_PATH =
   "https://res.cloudinary.com/dch2ga5us/image/upload/v1773397727/right_a5zsrn.png";
 export const EVENT_COMMITTEES_PATH =
-  "https://res.cloudinary.com/dch2ga5us/image/upload/v1774459227/t1_tp8kxn.png"
+  "https://res.cloudinary.com/dch2ga5us/image/upload/v1775456882/Group_11_2_xasi1b.png"
 export const EBS_PATH =
   "https://res.cloudinary.com/dch2ga5us/image/upload/v1773397917/EB2_yretwz.png"
 export const NAVBAR_LINE_PATH =
