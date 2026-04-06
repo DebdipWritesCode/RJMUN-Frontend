@@ -245,22 +245,27 @@ const FestRegistrationForm: React.FC<FestRegistrationFormProps> = ({
           <Input {...register("couponCode")} placeholder="Enter coupon if you have one" />
         </div>
 
-        {/* QR Payment */}
+        {/* Razorpay Payment */}
         <div className="rounded-xl border border-border bg-background p-5 space-y-4">
           <p className="text-sm font-medium text-center">
-            Scan the QR code below and pay the registration fee, then upload a
-            screenshot of the payment.
+            Click the button below to complete your payment via Razorpay, then upload a
+            screenshot of the payment receipt.
           </p>
-          <div className="flex justify-center">
-            <img
-              src="/payment.jpeg"
-              alt="Payment QR code"
-              className="w-56 h-56 object-contain rounded-lg"
-            />
-          </div>
+          <Button
+            type="button"
+            onClick={() => {
+              window.open("https://rzp.io/rzp/RgMwms9", "_blank");
+            }}
+            className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-xl transition-colors"
+          >
+            Pay with Razorpay
+          </Button>
+          <p className="text-xs text-gray-600 text-center">
+            A new window will open. Complete your payment and return to upload the receipt.
+          </p>
           <div>
             <label className="block mb-1 text-sm font-medium">
-              Payment Screenshot <span className="text-red-500">*</span>
+              Payment Receipt Screenshot <span className="text-red-500">*</span>
             </label>
             <input
               type="file"
