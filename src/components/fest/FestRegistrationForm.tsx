@@ -5,7 +5,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { toast } from "react-toastify";
-import { IndianRupee, Calendar, Tag, Loader2, AlertCircle } from "lucide-react";
+import { IndianRupee, Calendar, Tag, Loader2, AlertCircle, Check } from "lucide-react";
 import api from "@/api/axios";
 import { useNavigate } from "react-router-dom";
 import type { FestDay, FestDayOffers } from "@/utils/interfaces";
@@ -50,6 +50,7 @@ const FestRegistrationForm: React.FC<FestRegistrationFormProps> = ({
   offers,
 }) => {
   const [selectedDayIds, setSelectedDayIds] = useState<Set<string>>(new Set());
+  const [selectedActivitiesPerDay, setSelectedActivitiesPerDay] = useState<Record<string, number[]>>({});
   const navigate = useNavigate();
   const [paymentScreenshot, setPaymentScreenshot] = useState<File | null>(null);
   const [screenshotError, setScreenshotError] = useState<string | null>(null);
@@ -84,6 +85,7 @@ const FestRegistrationForm: React.FC<FestRegistrationFormProps> = ({
       const response = await api.post<AmountData>("/day-registration/calculate-amount", {
         selectedDayIds: ids,
         couponCode: couponCode?.trim() || undefined,
+        selectedActivitiesPerDay: selectedActivitiesPerDay,
       });
       setAmountData(response.data);
     } catch (err: any) {
@@ -94,7 +96,7 @@ const FestRegistrationForm: React.FC<FestRegistrationFormProps> = ({
     } finally {
       setIsCalculatingAmount(false);
     }
-  }, [selectedDayIds, couponCode]);
+  }, [selectedDayIds, couponCode, selectedActivitiesPerDay]);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -113,9 +115,53 @@ const FestRegistrationForm: React.FC<FestRegistrationFormProps> = ({
   const toggleDay = (id: string) => {
     setSelectedDayIds((prev) => {
       const next = new Set(prev);
-      if (next.has(id)) next.delete(id);
-      else next.add(id);
+      if (next.has(id)) {
+        next.delete(id);
+        // Clear activities for this day when deselected
+        setSelectedActivitiesPerDay((prevActivities) => {
+          const updated = { ...prevActivities };
+          delete updated[id];
+          return updated;
+        });
+      } else {
+        next.add(id);
+        // Initialize empty activity array for this day
+        setSelectedActivitiesPerDay((prevActivities) => ({
+          ...prevActivities,
+          [id]: [],
+        }));
+      }
       return next;
+    });
+  };
+
+  const isActivityLimitReached = (dayId: string): boolean => {
+    return (selectedActivitiesPerDay[dayId]?.length ?? 0) >= 3;
+  };
+
+  const isActivitySelected = (dayId: string, activityIndex: number): boolean => {
+    return (selectedActivitiesPerDay[dayId] ?? []).includes(activityIndex);
+  };
+
+  const toggleActivity = (dayId: string, activityIndex: number) => {
+    setSelectedActivitiesPerDay((prev) => {
+      const current = prev[dayId] ?? [];
+      let updated: number[];
+
+      if (current.includes(activityIndex)) {
+        updated = current.filter((idx) => idx !== activityIndex);
+      } else {
+        if (current.length >= 3) {
+          toast.error("Maximum 3 activities allowed per day");
+          return prev;
+        }
+        updated = [...current, activityIndex];
+      }
+
+      return {
+        ...prev,
+        [dayId]: updated,
+      };
     });
   };
 
@@ -137,6 +183,7 @@ const FestRegistrationForm: React.FC<FestRegistrationFormProps> = ({
       email: formData.email,
       phone: formData.phone,
       selectedDayIds: ids,
+      selectedActivitiesPerDay: selectedActivitiesPerDay,
     };
 
     try {
@@ -222,6 +269,78 @@ const FestRegistrationForm: React.FC<FestRegistrationFormProps> = ({
           </p>
         )}
       </div>
+
+      {/* Activities Selection */}
+      {selectedDays.length > 0 && (
+        <div className="mb-8">
+          <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
+            <Calendar className="w-5 h-5" />
+            Select Activities (Optional - Max 3 per day)
+          </h3>
+          <div className="space-y-4">
+            {selectedDays.map((day) => (
+              <div key={day._id} className="p-4 bg-white rounded-xl border border-gray-200">
+                <div className="flex items-center justify-between mb-3">
+                  <h4 className="font-semibold text-gray-800">{day.name}</h4>
+                  <span className="text-xs bg-amber-100 text-amber-800 px-2 py-1 rounded">
+                    {selectedActivitiesPerDay[day._id]?.length ?? 0}/3 selected
+                  </span>
+                </div>
+
+                {!day.events || day.events.length === 0 ? (
+                  <p className="text-sm text-gray-500 italic">No activities scheduled for this day</p>
+                ) : (
+                  <div className="space-y-2">
+                    {day.events.map((event, idx) => (
+                      <label
+                        key={idx}
+                        className={`flex items-start gap-3 p-3 rounded-lg border-2 cursor-pointer transition-all ${
+                          isActivitySelected(day._id, idx)
+                            ? "border-amber-500 bg-amber-50"
+                            : "border-gray-200 hover:border-gray-300"
+                        } ${
+                          isActivityLimitReached(day._id) && !isActivitySelected(day._id, idx)
+                            ? "opacity-50 cursor-not-allowed"
+                            : ""
+                        }`}
+                      >
+                        <input
+                          type="checkbox"
+                          checked={isActivitySelected(day._id, idx)}
+                          onChange={() => toggleActivity(day._id, idx)}
+                          disabled={
+                            isActivityLimitReached(day._id) &&
+                            !isActivitySelected(day._id, idx)
+                          }
+                          className="mt-1 h-4 w-4 rounded border-gray-300 text-amber-600 focus:ring-amber-500 cursor-pointer"
+                        />
+                        <div className="flex-1 min-w-0">
+                          <div className="font-medium text-gray-800 flex items-center gap-2">
+                            {event.title}
+                            {isActivitySelected(day._id, idx) && (
+                              <Check className="w-4 h-4 text-amber-600" />
+                            )}
+                          </div>
+                          {event.description && (
+                            <p className="text-xs text-gray-600 mt-1">{event.description}</p>
+                          )}
+                        </div>
+                        {event.imageUrl && (
+                          <img
+                            src={event.imageUrl}
+                            alt={event.title}
+                            className="w-14 h-14 object-cover rounded flex-shrink-0"
+                          />
+                        )}
+                      </label>
+                    ))}
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
 
       {/* Pricing summary */}
       {selectedDays.length > 0 && (
