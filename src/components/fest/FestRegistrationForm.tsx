@@ -25,17 +25,6 @@ export interface FestRegistrationFormProps {
   offers: FestDayOffers;
 }
 
-function computeDisplayPricing(
-  selectedDays: FestDay[],
-  offers: FestDayOffers
-): { subtotal: number; discountPercent: number; afterDiscount: number } {
-  const subtotal = selectedDays.reduce((s, d) => s + d.price, 0);
-  const k = selectedDays.length;
-  const discountPercent = k >= 2 ? offers[String(k)] ?? 0 : 0;
-  const afterDiscount = subtotal * (1 - discountPercent / 100);
-  return { subtotal, discountPercent, afterDiscount };
-}
-
 interface AmountData {
   subtotal: number;
   discountFromMultiDay: number;
@@ -107,10 +96,6 @@ const FestRegistrationForm: React.FC<FestRegistrationFormProps> = ({
   }, [calculateAmount]);
 
   const selectedDays = days.filter((d) => selectedDayIds.has(d._id));
-  const { subtotal, discountPercent, afterDiscount } = computeDisplayPricing(
-    selectedDays,
-    offers
-  );
 
   const toggleDay = (id: string) => {
     setSelectedDayIds((prev) => {
