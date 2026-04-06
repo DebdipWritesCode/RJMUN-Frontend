@@ -1,11 +1,11 @@
-import { useState } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { toast } from "react-toastify";
-import { IndianRupee, Calendar, Tag } from "lucide-react";
+import { IndianRupee, Calendar, Tag, Loader2, AlertCircle } from "lucide-react";
 import api from "@/api/axios";
 import { useNavigate } from "react-router-dom";
 import type { FestDay, FestDayOffers } from "@/utils/interfaces";
@@ -36,6 +36,15 @@ function computeDisplayPricing(
   return { subtotal, discountPercent, afterDiscount };
 }
 
+interface AmountData {
+  subtotal: number;
+  discountFromMultiDay: number;
+  discountFromCoupon: number;
+  finalAmount: number;
+  coupon: { code: string; discountAmount: number } | null;
+  currency: string;
+}
+
 const FestRegistrationForm: React.FC<FestRegistrationFormProps> = ({
   days,
   offers,
@@ -44,15 +53,56 @@ const FestRegistrationForm: React.FC<FestRegistrationFormProps> = ({
   const navigate = useNavigate();
   const [paymentScreenshot, setPaymentScreenshot] = useState<File | null>(null);
   const [screenshotError, setScreenshotError] = useState<string | null>(null);
+  const [isCalculatingAmount, setIsCalculatingAmount] = useState(false);
+  const [amountData, setAmountData] = useState<AmountData | null>(null);
+  const [amountError, setAmountError] = useState<string | null>(null);
 
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
+    watch,
   } = useForm<FestFormData>({
     resolver: zodResolver(schema),
     defaultValues: { couponCode: "" },
   });
+
+  const couponCode = watch("couponCode");
+
+  const calculateAmount = useCallback(async () => {
+    const ids = Array.from(selectedDayIds);
+    if (ids.length === 0) {
+      setAmountData(null);
+      setAmountError(null);
+      return;
+    }
+
+    setIsCalculatingAmount(true);
+    setAmountError(null);
+
+    try {
+      const response = await api.post<AmountData>("/day-registration/calculate-amount", {
+        selectedDayIds: ids,
+        couponCode: couponCode?.trim() || undefined,
+      });
+      setAmountData(response.data);
+    } catch (err: any) {
+      const errorMsg =
+        err?.response?.data?.message || "Failed to calculate amount";
+      setAmountError(errorMsg);
+      setAmountData(null);
+    } finally {
+      setIsCalculatingAmount(false);
+    }
+  }, [selectedDayIds, couponCode]);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      calculateAmount();
+    }, 300); // Debounce to avoid too many API calls
+
+    return () => clearTimeout(timer);
+  }, [calculateAmount]);
 
   const selectedDays = days.filter((d) => selectedDayIds.has(d._id));
   const { subtotal, discountPercent, afterDiscount } = computeDisplayPricing(
@@ -176,29 +226,52 @@ const FestRegistrationForm: React.FC<FestRegistrationFormProps> = ({
       {/* Pricing summary */}
       {selectedDays.length > 0 && (
         <div className="mb-6 p-4 bg-white rounded-xl border border-gray-200">
-          <h3 className="font-semibold mb-2 flex items-center gap-2">
+          <div className="flex items-center gap-2 mb-3">
             <IndianRupee className="w-4 h-4" />
-            Pricing
-          </h3>
-          <div className="text-sm space-y-1">
-            <div className="flex justify-between">
-              <span>Subtotal ({selectedDays.length} day(s))</span>
-              <span>₹{subtotal}</span>
-            </div>
-            {discountPercent > 0 && (
-              <div className="flex justify-between text-green-700">
-                <span>Multi-day discount ({discountPercent}%)</span>
-                <span>-₹{(subtotal - afterDiscount).toFixed(0)}</span>
-              </div>
-            )}
-            <div className="flex justify-between font-semibold pt-2 border-t">
-              <span>Amount before coupon</span>
-              <span>₹{afterDiscount.toFixed(0)}</span>
-            </div>
-            <p className="text-gray-500 text-xs mt-1">
-              Coupon (if any) will be applied at checkout.
-            </p>
+            <h3 className="font-semibold">Price Breakdown</h3>
+            {isCalculatingAmount && <Loader2 className="w-4 h-4 animate-spin text-amber-600" />}
           </div>
+
+          {amountError ? (
+            <div className="flex items-center gap-2 p-3 bg-red-50 border border-red-200 rounded-lg text-red-700">
+              <AlertCircle className="w-4 h-4 flex-shrink-0" />
+              <p className="text-sm">{amountError}</p>
+            </div>
+          ) : amountData ? (
+            <div className="text-sm space-y-2">
+              <div className="flex justify-between py-2 border-b">
+                <span className="text-gray-700">Subtotal ({selectedDays.length} day{selectedDays.length !== 1 ? "s" : ""})</span>
+                <span className="font-medium">₹{selectedDays.reduce((sum, day) => sum + day.price, 0)}</span>
+              </div>
+
+              {amountData.discountFromMultiDay > 0 && (
+                <div className="flex justify-between py-2 border-b text-green-700">
+                  <span>Multi-day discount</span>
+                  <span className="font-medium">-₹{amountData.discountFromMultiDay}</span>
+                </div>
+              )}
+
+              {amountData.discountFromCoupon > 0 && (
+                <div className="flex justify-between py-2 border-b text-green-700">
+                  <span>Coupon discount ({amountData.coupon?.code})</span>
+                  <span className="font-medium">-₹{amountData.discountFromCoupon}</span>
+                </div>
+              )}
+
+              <div className="flex justify-between pt-3 font-bold bg-amber-50 p-2 rounded-lg">
+                <span className="text-lg">Total Amount</span>
+                <span className="text-lg text-amber-700">₹{amountData.finalAmount}</span>
+              </div>
+
+              {(amountData.discountFromMultiDay > 0 || amountData.discountFromCoupon > 0) && (
+                <p className="text-xs text-green-700 pt-1">
+                  You saved: ₹{amountData.discountFromMultiDay + amountData.discountFromCoupon}
+                </p>
+              )}
+            </div>
+          ) : (
+            <p className="text-sm text-gray-500">Select days to see pricing</p>
+          )}
         </div>
       )}
 
@@ -251,14 +324,46 @@ const FestRegistrationForm: React.FC<FestRegistrationFormProps> = ({
             Click the button below to complete your payment via Razorpay, then upload a
             screenshot of the payment receipt.
           </p>
+          
+          {/* Payment Amount Box - Always Visible */}
+          <div className="bg-amber-50 border border-amber-200 rounded-lg p-3 sm:p-4 min-h-24 sm:min-h-20 flex flex-col items-center justify-center">
+            <p className="text-xs sm:text-sm text-gray-600 text-center mb-2">Payment Amount</p>
+            <p className="text-center text-lg sm:text-xl md:text-2xl font-bold break-words max-w-full px-2">
+              {isCalculatingAmount ? (
+                <span className="text-amber-600 flex items-center justify-center gap-2">
+                  <Loader2 className="w-4 h-4 sm:w-5 sm:h-5 animate-spin" />
+                  <span>Calculating...</span>
+                </span>
+              ) : amountError ? (
+                <span className="text-red-600">Invalid Coupon</span>
+              ) : amountData?.finalAmount === 0 ? (
+                <span className="text-green-600 text-sm sm:text-base md:text-lg">🎉 Your registration is free!</span>
+              ) : amountData ? (
+                <span className="text-amber-700">₹{amountData.finalAmount}</span>
+              ) : (
+                <span className="text-gray-500 text-xs sm:text-sm">Select days to continue</span>
+              )}
+            </p>
+          </div>
+
           <Button
             type="button"
+            disabled={isCalculatingAmount || !amountData || !!amountError || selectedDayIds.size === 0 || amountData?.finalAmount === 0}
             onClick={() => {
-              window.open("https://rzp.io/rzp/RgMwms9", "_blank");
+              if (amountData) {
+                window.open("https://rzp.io/rzp/RgMwms9", "_blank");
+              }
             }}
-            className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-xl transition-colors"
+            className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-xl transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
           >
-            Pay with Razorpay
+            {isCalculatingAmount ? (
+              <>
+                <Loader2 className="w-4 h-4 animate-spin" />
+                Calculating...
+              </>
+            ) : (
+              "Pay with Razorpay"
+            )}
           </Button>
           <p className="text-xs text-gray-600 text-center">
             A new window will open. Complete your payment and return to upload the receipt.
@@ -284,10 +389,17 @@ const FestRegistrationForm: React.FC<FestRegistrationFormProps> = ({
 
         <Button
           type="submit"
-          disabled={isSubmitting || selectedDayIds.size === 0}
-          className="w-full bg-primary text-primary-foreground font-semibold py-3 rounded-xl disabled:opacity-50"
+          disabled={isSubmitting || isCalculatingAmount || selectedDayIds.size === 0 || !paymentScreenshot}
+          className="w-full bg-primary text-primary-foreground font-semibold py-3 rounded-xl disabled:opacity-50 flex items-center justify-center gap-2"
         >
-          {isSubmitting ? "Submitting..." : "Submit Registration"}
+          {isSubmitting ? (
+            <>
+              <Loader2 className="w-4 h-4 animate-spin" />
+              Submitting...
+            </>
+          ) : (
+            "Submit Registration"
+          )}
         </Button>
       </form>
     </div>

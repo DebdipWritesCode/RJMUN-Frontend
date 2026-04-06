@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useForm, Controller, useWatch } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -12,6 +12,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { toast } from "react-toastify";
+import { Loader2, AlertCircle, IndianRupee } from "lucide-react";
 import api from "@/api/axios";
 import { useNavigate } from "react-router-dom";
 
@@ -55,12 +56,21 @@ const schema = z
 
 type RegistrationFormData = z.infer<typeof schema>;
 
+interface AmountData {
+  baseAmount: number;
+  discountFromCoupon: number;
+  finalAmount: number;
+  coupon: { code: string; discountAmount: number } | null;
+  currency: string;
+}
+
 const RegistrationForm: React.FC<RegistrationFormProps> = ({ portfolios }) => {
   const {
     register,
     handleSubmit,
     control,
     formState: { errors, isSubmitting },
+    watch,
   } = useForm<RegistrationFormData>({
     resolver: zodResolver(schema),
     defaultValues: {
@@ -71,15 +81,46 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ portfolios }) => {
   const navigate = useNavigate();
   const [paymentScreenshot, setPaymentScreenshot] = useState<File | null>(null);
   const [screenshotError, setScreenshotError] = useState<string | null>(null);
+  const [isCalculatingAmount, setIsCalculatingAmount] = useState(false);
+  const [amountData, setAmountData] = useState<AmountData | null>(null);
+  const [amountError, setAmountError] = useState<string | null>(null);
 
   const watchCommittee1 = useWatch({ control, name: "committeePreference1" });
   const watchCommittee2 = useWatch({ control, name: "committeePreference2" });
+  const couponCode = watch("couponCode");
 
   const getPortfoliosByCommittee = (committeeName: string | undefined) => {
     return (
       portfolios.find((p) => p.committee === committeeName)?.portfolios ?? []
     );
   };
+
+  const calculateAmount = useCallback(async () => {
+    setIsCalculatingAmount(true);
+    setAmountError(null);
+
+    try {
+      const response = await api.post<AmountData>("/registration/calculate-amount", {
+        couponCode: couponCode?.trim() || undefined,
+      });
+      setAmountData(response.data);
+    } catch (err: any) {
+      const errorMsg =
+        err?.response?.data?.message || "Failed to calculate amount";
+      setAmountError(errorMsg);
+      setAmountData(null);
+    } finally {
+      setIsCalculatingAmount(false);
+    }
+  }, [couponCode]);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      calculateAmount();
+    }, 300); // Debounce to avoid too many API calls
+
+    return () => clearTimeout(timer);
+  }, [calculateAmount]);
 
   const onSubmit = async (formData: RegistrationFormData) => {
     if (!paymentScreenshot) {
@@ -403,20 +444,95 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ portfolios }) => {
           />
         </div>
 
+        {/* Pricing summary */}
+        <div className="mb-6 p-4 bg-white rounded-xl border border-gray-200">
+          <div className="flex items-center gap-2 mb-3">
+            <IndianRupee className="w-4 h-4" />
+            <h3 className="font-semibold">Amount Breakdown</h3>
+            {isCalculatingAmount && <Loader2 className="w-4 h-4 animate-spin text-amber-600" />}
+          </div>
+
+          {amountError ? (
+            <div className="flex items-center gap-2 p-3 bg-red-50 border border-red-200 rounded-lg text-red-700">
+              <AlertCircle className="w-4 h-4 flex-shrink-0" />
+              <p className="text-sm">{amountError}</p>
+            </div>
+          ) : amountData ? (
+            <div className="text-sm space-y-2">
+              <div className="flex justify-between py-2 border-b">
+                <span className="text-gray-700">Base Amount</span>
+                <span className="font-medium">₹{amountData.baseAmount}</span>
+              </div>
+
+              {amountData.discountFromCoupon > 0 && (
+                <div className="flex justify-between py-2 border-b text-green-700">
+                  <span>Coupon discount ({amountData.coupon?.code})</span>
+                  <span className="font-medium">-₹{amountData.discountFromCoupon}</span>
+                </div>
+              )}
+
+              <div className="flex justify-between pt-3 font-bold bg-amber-50 p-2 rounded-lg">
+                <span className="text-lg">Total Amount</span>
+                <span className="text-lg text-amber-700">₹{amountData.finalAmount}</span>
+              </div>
+
+              {amountData.discountFromCoupon > 0 && (
+                <p className="text-xs text-green-700 pt-1">
+                  You saved: ₹{amountData.discountFromCoupon}
+                </p>
+              )}
+            </div>
+          ) : (
+            <p className="text-sm text-gray-500">Loading pricing...</p>
+          )}
+        </div>
+
         {/* Razorpay Payment */}
         <div className="rounded-xl border border-border bg-background p-5 space-y-4">
           <p className="text-sm font-medium text-center">
             Click the button below to complete your payment via Razorpay, then upload a
             screenshot of the payment receipt.
           </p>
+          
+          {/* Payment Amount Box - Always Visible */}
+          <div className="bg-amber-50 border border-amber-200 rounded-lg p-3 sm:p-4 min-h-24 sm:min-h-20 flex flex-col items-center justify-center">
+            <p className="text-xs sm:text-sm text-gray-600 text-center mb-2">Payment Amount</p>
+            <p className="text-center text-lg sm:text-xl md:text-2xl font-bold break-words max-w-full px-2">
+              {isCalculatingAmount ? (
+                <span className="text-amber-600 flex items-center justify-center gap-2">
+                  <Loader2 className="w-4 h-4 sm:w-5 sm:h-5 animate-spin" />
+                  <span>Calculating...</span>
+                </span>
+              ) : amountError ? (
+                <span className="text-red-600">Invalid Coupon</span>
+              ) : amountData?.finalAmount === 0 ? (
+                <span className="text-green-600 text-sm sm:text-base md:text-lg">🎉 Your registration is free!</span>
+              ) : amountData ? (
+                <span className="text-amber-700">₹{amountData.finalAmount}</span>
+              ) : (
+                <span className="text-gray-500 text-xs sm:text-sm">Loading pricing...</span>
+              )}
+            </p>
+          </div>
+
           <Button
             type="button"
+            disabled={isCalculatingAmount || !amountData || !!amountError || amountData?.finalAmount === 0}
             onClick={() => {
-              window.open("https://rzp.io/rzp/RgMwms9", "_blank");
+              if (amountData) {
+                window.open("https://rzp.io/rzp/RgMwms9", "_blank");
+              }
             }}
-            className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-xl transition-colors"
+            className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-xl transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
           >
-            Pay with Razorpay
+            {isCalculatingAmount ? (
+              <>
+                <Loader2 className="w-4 h-4 animate-spin" />
+                Calculating...
+              </>
+            ) : (
+              "Pay with Razorpay"
+            )}
           </Button>
           <p className="text-xs text-gray-600 text-center">
             A new window will open. Complete your payment and return to upload the receipt.
@@ -443,9 +559,16 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ portfolios }) => {
         {/* Submit Button */}
         <Button
           type="submit"
-          disabled={isSubmitting}
-          className="w-full bg-primary text-primary-foreground font-semibold py-3 rounded-xl shadow-md transition-all duration-300 disabled:opacity-50">
-          {isSubmitting ? "Submitting..." : "Submit Application"}
+          disabled={isSubmitting || isCalculatingAmount || !paymentScreenshot}
+          className="w-full bg-primary text-primary-foreground font-semibold py-3 rounded-xl shadow-md transition-all duration-300 disabled:opacity-50 flex items-center justify-center gap-2">
+          {isSubmitting ? (
+            <>
+              <Loader2 className="w-4 h-4 animate-spin" />
+              Submitting...
+            </>
+          ) : (
+            "Submit Application"
+          )}
         </Button>
       </form>
     </div>
