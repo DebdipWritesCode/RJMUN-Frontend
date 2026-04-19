@@ -9,6 +9,7 @@ import { IndianRupee, Calendar, Tag, Loader2, AlertCircle, Check } from "lucide-
 import api from "@/api/axios";
 import { useNavigate } from "react-router-dom";
 import type { FestDay, FestDayOffers } from "@/utils/interfaces";
+import CouponPromo from "@/components/CouponPromo";
 
 const schema = z.object({
   firstName: z.string().min(1, "First name is required"),
@@ -414,7 +415,12 @@ const FestRegistrationForm: React.FC<FestRegistrationFormProps> = ({
             <p className="text-sm text-red-500 mt-1">{errors.phone.message}</p>
           )}
         </div>
-        <div>
+        <div className="space-y-2">
+          <CouponPromo
+            code="EARLYBIRDFEST100"
+            label="Early bird offer"
+            description="Use this code below to unlock your Fest discount."
+          />
           <label className="flex items-center gap-1 mb-1 text-sm font-medium">
             <Tag className="w-4 h-4" />
             Coupon code (optional)

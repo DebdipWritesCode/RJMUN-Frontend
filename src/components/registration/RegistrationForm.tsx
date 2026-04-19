@@ -15,6 +15,7 @@ import { toast } from "react-toastify";
 import { Loader2, AlertCircle, IndianRupee } from "lucide-react";
 import api from "@/api/axios";
 import { useNavigate } from "react-router-dom";
+import CouponPromo from "@/components/CouponPromo";
 
 export interface RegistrationFormProps {
   portfolios: {
@@ -434,7 +435,12 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ portfolios }) => {
         </div>
 
         {/* Optional Coupon Code */}
-        <div>
+        <div className="space-y-2">
+          <CouponPromo
+            code="EARLYBIRD100"
+            label="Early bird offer"
+            description="Use this code below to unlock your MUN discount."
+          />
           <label className="block mb-1 text-sm font-medium">
             Coupon Code (Optional)
           </label>
