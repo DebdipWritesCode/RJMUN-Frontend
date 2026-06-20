@@ -18,7 +18,7 @@ const Date = () => {
         className="text-primary sm:text-5xl text-2xl text-center font-semibold"
         style={{ fontFamily: '"Cinzel", serif', fontWeight: 600, letterSpacing: '0.03em' }}
       >
-        MUN on 25-27 June 2026
+        MUN on 4-6 September 2026
       </p>
     </div>
   )
