@@ -7,7 +7,7 @@ const Date = () => {
         className="font-bold text-primary sm:text-8xl text-4xl text-center leading-tight" 
         style={{ fontFamily: '"Cinzel", serif', fontWeight: 800, letterSpacing: '0.05em' }}
       >
-        25-30 June 2026
+        4-6 September 2026
       </p>
       
       {/* Divider/Accent */}
