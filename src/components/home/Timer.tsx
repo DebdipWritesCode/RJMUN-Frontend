@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 
 const Timer = () => {
   // Target time in UTC: 2026-06-25 00:00:00Z (25 Jun 2026, 00:00 IST)
-  const targetDateUTC = new Date('2026-06-24T18:30:00Z');
+  const targetDateUTC = new Date('2026-09-03T18:30:00Z');
 
   const calculateTimeLeft = () => {
     const nowUTC = new Date();
