@@ -1,12 +1,16 @@
 import { IndianRupee } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import { pricingItems, pricingNote, paymentMethods } from "@/utils/pricing";
+import {
+  festPricingItems,
+  pricingItems,
+  paymentMethods,
+} from "@/utils/pricing";
 
 const PricingPage = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="flex flex-col items-center max-w-4xl mx-auto px-6 py-12">
+    <div className="flex flex-col items-center max-w-4xl mx-auto px-6 py-12 bg-[#0b1f3a]/85 border border-[#f8c94c]/30 rounded-2xl shadow-xl">
       <h1 className="font-bold sm:text-[60px] text-primary text-[40px] sm:mb-20 mb-15 text-center">
         PRICING
       </h1>
@@ -41,10 +45,21 @@ const PricingPage = () => {
           <h3 className="text-lg sm:text-2xl font-semibold mb-6 text-primary">
             Fest Day Passes
           </h3>
-          <div className="border-l-2 border-[#f8c94c]/30 pl-6">
-            <p className="text-base leading-relaxed text-[#eef5ff]">
-              {pricingNote}
-            </p>
+          <div className="border-l-2 border-[#f8c94c]/30 pl-6 space-y-8">
+            {festPricingItems.map((item) => (
+              <div key={item.title}>
+                <h4 className="text-xl font-semibold mb-2 text-primary">
+                  {item.title}
+                </h4>
+                <p className="text-base leading-relaxed mb-4 text-[#eef5ff]">
+                  {item.description}
+                </p>
+                <div className="flex items-center gap-2 text-2xl font-bold text-[#f8c94c] bg-[#0b1f3a]/80 border border-[#f8c94c]/40 py-3 px-4 rounded-xl w-fit">
+                  <IndianRupee className="w-6 h-6" />
+                  {item.price}
+                </div>
+              </div>
+            ))}
             <button
               onClick={() => navigate("/fest-days")}
               className="mt-4 inline-block underline text-accent text-base hover:opacity-80 transition-opacity"

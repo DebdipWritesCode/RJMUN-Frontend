@@ -29,7 +29,7 @@ export const dataSharing = [
 ];
 
 export const yourRights = [
-  "You may request access to the personal data we hold about you by emailing us at rjmun2025@gmail.com.",
+  "You may request access to the personal data we hold about you by emailing us at xyaa.33@gmail.com.",
   "You may request correction or deletion of your personal information, subject to our need to retain certain records for event administration.",
   "You may withdraw consent for marketing communications at any time.",
 ];

@@ -69,6 +69,12 @@ const ContactPage = () => {
                     >
                       {contact.phone}
                     </a>
+                    <a
+                      href={`mailto:${contact.email}`}
+                      className="block text-base hover:text-accent transition-colors"
+                    >
+                      {contact.email}
+                    </a>
                   </div>
                 </li>
               ))}

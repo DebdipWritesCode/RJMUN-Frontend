@@ -6,12 +6,13 @@ import Footer from "@/components/Footer";
 const MainLayout = () => {
   return (
     <div
-      className="text-muted-warm flex flex-col w-full min-h-screen"
+      className="text-muted-warm flex flex-col w-full min-h-screen overflow-x-hidden"
       style={{
         background: "var(--background)",
         minHeight: "100vh",
         backgroundAttachment: "fixed",
-      }}>
+      }}
+    >
       <Navbar />
       <main className="flex-1 container mx-auto px-4 py-6 bg-opacity-80">
         <Outlet />

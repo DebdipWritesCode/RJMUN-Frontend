@@ -2,7 +2,7 @@ export const refundPolicyIntro = `This Cancellation and Refund Policy outlines t
 
 export const cancellationPoints = [
   "Once a registration is confirmed and payment is completed, the registration cannot be cancelled by the participant.",
-  "If you wish to request a cancellation due to exceptional circumstances (e.g., medical emergencies), you must contact the organizing team at rjmun2025@gmail.com within 48 hours of registration.",
+  "If you wish to request a cancellation due to exceptional circumstances (e.g., medical emergencies), you must contact the organizing team at xyaa.33@gmail.com within 48 hours of registration.",
   "The organizing team reserves the sole discretion to approve or deny cancellation requests based on the circumstances provided.",
   "If the event is cancelled by the organizers due to unforeseen circumstances, all registered participants will be eligible for a full refund.",
 ];
@@ -21,4 +21,4 @@ export const eventChanges = [
   "In case of partial cancellation (e.g., a specific fest day is cancelled), refunds for that portion will be handled on a case-by-case basis.",
 ];
 
-export const contactForRefunds = `For any queries related to cancellations or refunds, please reach out to us at rjmun2025@gmail.com or contact our team members listed on the Contact Us page. All refund requests must be submitted in writing via email.`;
+export const contactForRefunds = `For any queries related to cancellations or refunds, please reach out to us at xyaa.33@gmail.com or contact our team members listed on the Contact Us page. All refund requests must be submitted in writing via email.`;
