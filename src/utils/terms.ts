@@ -1,5 +1,5 @@
 export const definition = `
-The term "Team" or "Teams" refers to the event organizing team of RJMUN, mainly including but not limited to members of RJ International School. The term "Event" refers to RJMUN 3.0 MUN Conference from 12th to 14th September 2025 at RJ International School.
+The term "Team" or "Teams" refers to the event organizing team of RJMUN, mainly including but not limited to members of RJ International School. The term "Event" refers to RJMUN 3.0 and DESTINIQUE, taking place from 4th to 8th September 2026 at RJ International School.
 `;
 
 export const paymentPoints = [
@@ -16,11 +16,11 @@ export const codeOfConduct = [
   "Adhere to the appropriate dress code and behave professionally at all times",
   "Any form of discrimination, harassment will not be tolerated",
   "Engage constructively and respectfully in debates and discussions",
-]
+];
 
 export const miscellaneousPoints = [
   "Participants are requested to follow the above mentioned Code of Conduct and Terms and Conditions during the event and their presence in the event premises. Participants agree to abide by the rules and regulations set forth by the organizing team.",
   "The data collected during the registration process will be used for event-related communication and will not be shared with third parties without prior consent.",
   "Any participant found falsifying information during registration or otherwise will have their registration cancelled without refund, and face disciplinary action as deemed appropriate by the organizing team.",
-  "Portfolios and preferences should be filled accurately, ensuring preferences for both committees and portfolios are clearly stated. The organizing team will make every effort to accommodate preferences but cannot guarantee specific allocations.", 
-]
+  "Portfolios and preferences should be filled accurately, ensuring preferences for both committees and portfolios are clearly stated. The organizing team will make every effort to accommodate preferences but cannot guarantee specific allocations.",
+];

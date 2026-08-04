@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import api from "@/api/axios";
 import { toast } from "react-toastify";
 import type { FestDay } from "@/utils/interfaces";
+import { EVENT_THEME, FEST_DATE } from "@/utils/constants";
 import {
   Calendar,
   IndianRupee,
@@ -67,8 +68,8 @@ const FestDaysPage = () => {
               FEST DAYS
             </h1>
             <p className="text-[#eef5ff] text-lg max-w-2xl mx-auto">
-              Explore our exciting fest days packed with events, activities,
-              and experiences
+              {FEST_DATE} · {EVENT_THEME}. Explore interactive career
+              experiences designed for students and parents.
             </p>
           </div>
 
@@ -93,8 +94,8 @@ const FestDaysPage = () => {
           FEST DAYS
         </h1>
         <p className="text-[#eef5ff] text-lg max-w-2xl mx-auto">
-          Explore our exciting fest days packed with events, activities, and
-          experiences
+          {FEST_DATE} · {EVENT_THEME}. Explore interactive career experiences
+          designed for students and parents.
         </p>
       </div>
 

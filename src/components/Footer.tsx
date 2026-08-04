@@ -15,8 +15,7 @@ import { Instagram, Mail } from "lucide-react";
 
 const Footer = () => {
   return (
-    <footer
-      className="bg-footer-bg text-footer-text py-8 px-6 md:px-20 mt-8">
+    <footer className="bg-footer-bg text-footer-text py-8 px-6 md:px-20 mt-8">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-10">
         <div className="flex flex-col items-start gap-3">
           <img src={EVENT_LOGO_PATH} alt="Event Logo" className="w-20 h-auto" />
@@ -24,7 +23,8 @@ const Footer = () => {
             href="https://maps.app.goo.gl/jBKf68bn6moy17hm8"
             className="underline text-lg font-medium"
             target="_blank"
-            rel="noopener noreferrer">
+            rel="noopener noreferrer"
+          >
             Get Direction
           </a>
           <div className="text-sm leading-relaxed">
@@ -43,7 +43,8 @@ const Footer = () => {
               href={EVENT_INSTAGRAM}
               target="_blank"
               rel="noopener noreferrer"
-              aria-label="Instagram">
+              aria-label="Instagram"
+            >
               <Instagram size={20} className="text-footer-text" />
             </a>
             <a href={`mailto:${EVENT_MAIL}`} aria-label="Email">
@@ -59,6 +60,8 @@ const Footer = () => {
               <div key={index}>
                 {contact.name} ({contact.role}) :{" "}
                 <a href={`tel:${contact.phone}`}>{contact.phone}</a>
+                <br />
+                <a href={`mailto:${contact.email}`}>{contact.email}</a>
               </div>
             ))}
           </div>
