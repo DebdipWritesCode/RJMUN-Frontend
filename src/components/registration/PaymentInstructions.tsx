@@ -3,7 +3,6 @@ import {
   Landmark,
   Loader2,
   MessageCircle,
-  Upload,
 } from "lucide-react";
 import { formatInr } from "@/utils/registration-pricing";
 
@@ -11,29 +10,23 @@ interface PaymentInstructionsProps {
   amount?: number;
   amountError?: string | null;
   isCalculating: boolean;
-  inputId: string;
-  screenshotError?: string | null;
-  onScreenshotChange: (file: File | null) => void;
 }
 
 const PaymentInstructions = ({
   amount,
   amountError,
   isCalculating,
-  inputId,
-  screenshotError,
-  onScreenshotChange,
 }: PaymentInstructionsProps) => (
   <section
-    aria-labelledby={`${inputId}-title`}
+    aria-labelledby="payment-instructions-title"
     className="space-y-5 rounded-xl border border-slate-200 bg-white p-4 shadow-sm sm:p-6"
   >
     <div className="text-center">
       <p className="text-xs font-bold uppercase tracking-[0.18em] text-amber-700">
         Payment details
       </p>
-      <h3 id={`${inputId}-title`} className="mt-1 text-xl font-bold text-slate-900">
-        Scan the official QR and upload your receipt
+      <h3 id="payment-instructions-title" className="mt-1 text-xl font-bold text-slate-900">
+        Scan the official QR to complete payment
       </h3>
     </div>
 
@@ -97,41 +90,21 @@ const PaymentInstructions = ({
       </div>
     </div>
 
-    <div className="rounded-xl border border-slate-200 p-4">
-      <label htmlFor={inputId} className="flex items-center gap-2 text-sm font-bold text-slate-900">
-        <Upload aria-hidden="true" className="h-5 w-5 text-amber-700" />
-        Payment receipt screenshot <span className="text-red-600">*</span>
-      </label>
-      <p className="mt-1 text-xs leading-5 text-slate-600">
-        Complete the payment first, then upload a clear image of the receipt here.
+    <div className="flex flex-col items-center gap-3 rounded-xl border border-green-200 bg-green-50 p-4 text-center text-green-950 sm:flex-row sm:text-left">
+      <MessageCircle aria-hidden="true" className="h-6 w-6 shrink-0 text-green-700" />
+      <p className="flex-1 text-sm font-medium leading-6">
+        After payment, send your payment receipt on WhatsApp with the participant's
+        name and email address.
       </p>
-      <input
-        id={inputId}
-        type="file"
-        accept="image/png,image/jpeg,image/webp"
-        onChange={(event) => onScreenshotChange(event.target.files?.[0] ?? null)}
-        className="mt-3 block min-h-11 w-full cursor-pointer text-sm text-slate-700 file:mr-4 file:min-h-11 file:cursor-pointer file:rounded-lg file:border-0 file:bg-[#0b1f3a] file:px-4 file:py-2 file:font-semibold file:text-white hover:file:bg-[#16345c]"
-        aria-describedby={screenshotError ? `${inputId}-error` : undefined}
-      />
-      {screenshotError && (
-        <p id={`${inputId}-error`} role="alert" className="mt-2 text-sm font-medium text-red-700">
-          {screenshotError}
-        </p>
-      )}
-    </div>
-
-    <p className="flex flex-wrap items-center justify-center gap-2 text-center text-sm text-slate-700">
-      <MessageCircle aria-hidden="true" className="h-5 w-5 text-green-700" />
-      Payment help:
       <a
-        href="https://wa.me/919340187056"
+        href="https://wa.me/919340187056?text=Hello%2C%20I%20have%20completed%20my%20RJMUN%20payment%20and%20am%20sharing%20my%20payment%20receipt."
         target="_blank"
         rel="noreferrer"
-        className="min-h-11 content-center font-bold text-green-800 underline underline-offset-4"
+        className="inline-flex min-h-11 shrink-0 items-center justify-center rounded-lg bg-green-700 px-4 py-2 text-sm font-bold text-white transition-colors hover:bg-green-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-green-700 focus-visible:ring-offset-2"
       >
-        WhatsApp 9340187056
+        Send receipt on WhatsApp
       </a>
-    </p>
+    </div>
   </section>
 );
 

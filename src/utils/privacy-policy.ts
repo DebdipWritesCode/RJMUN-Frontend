@@ -2,7 +2,7 @@ export const privacyPolicyIntro = `This Privacy Policy describes how RJMUN 3.0 (
 
 export const informationWeCollect = [
   "Full name, email address, phone number, and school/institution name during registration.",
-  "Payment-related information such as receipt screenshots and transaction details submitted for registration verification. We do not collect or store credit/debit card details.",
+  "Payment-related information such as receipts and transaction details shared with the organizers for registration verification. We do not collect or store credit/debit card details.",
   "Committee and portfolio preferences submitted during MUN registration.",
   "Any additional information you voluntarily provide through forms or communication with organizers.",
 ];
@@ -17,7 +17,7 @@ export const howWeUseInfo = [
 
 export const dataProtection = [
   "We implement reasonable security measures to protect your personal information from unauthorized access, alteration, or disclosure.",
-  "Payment receipt screenshots are stored securely and used only to verify registration payments.",
+  "Payment receipts shared with the organizers are handled securely and used only to verify registration payments.",
   "Access to personal data is restricted to authorized members of the organizing team only.",
   "We do not sell, trade, or rent your personal information to any third parties.",
 ];

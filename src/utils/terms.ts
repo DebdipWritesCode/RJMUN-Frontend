@@ -4,7 +4,7 @@ The term "Team" or "Teams" refers to the event organizing team of RJMUN, mainly 
 
 export const paymentPoints = [
   "Payment for the event must be made using the official QR code or bank details shown on the RJMUN registration form.",
-  "Participants must pay the exact amount displayed and upload a clear screenshot of the payment receipt with their registration.",
+  "Participants must pay the exact amount displayed and send their payment receipt to the organizers on WhatsApp for verification.",
   "Registrations paid with an incorrect amount will not be considered, and those payments will not be refunded.",
   "Participants may be required to submit transaction IDs or additional payment details to the organizers if requested.",
   "All fees are non-refundable unless the event is cancelled by the organizers or some other valid reason is provided.",

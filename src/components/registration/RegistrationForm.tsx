@@ -85,8 +85,6 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ portfolios }) => {
   });
 
   const navigate = useNavigate();
-  const [paymentScreenshot, setPaymentScreenshot] = useState<File | null>(null);
-  const [screenshotError, setScreenshotError] = useState<string | null>(null);
   const [isCalculatingAmount, setIsCalculatingAmount] = useState(false);
   const [amountData, setAmountData] = useState<AmountData | null>(null);
   const [amountError, setAmountError] = useState<string | null>(null);
@@ -130,18 +128,11 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ portfolios }) => {
   }, [calculateAmount]);
 
   const onSubmit = async (formData: RegistrationFormData) => {
-    if (!paymentScreenshot) {
-      setScreenshotError("Payment screenshot is required.");
-      return;
-    }
-    setScreenshotError(null);
-
     try {
       const { couponCode, ...data } = formData;
 
       const fd = new FormData();
       fd.append("data", JSON.stringify(data));
-      fd.append("paymentScreenshot", paymentScreenshot);
       if (couponCode?.trim()) {
         fd.append("couponCode", couponCode.trim());
       }
@@ -517,18 +508,12 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ portfolios }) => {
           amount={amountData?.finalAmount}
           amountError={amountError}
           isCalculating={isCalculatingAmount}
-          inputId="mun-payment-receipt"
-          screenshotError={screenshotError}
-          onScreenshotChange={(file) => {
-            setPaymentScreenshot(file);
-            setScreenshotError(null);
-          }}
         />
 
         {/* Submit Button */}
         <Button
           type="submit"
-          disabled={isSubmitting || isCalculatingAmount || !paymentScreenshot}
+          disabled={isSubmitting || isCalculatingAmount}
           className="w-full bg-primary text-primary-foreground font-semibold py-3 rounded-xl shadow-md transition-all duration-300 disabled:opacity-50 flex items-center justify-center gap-2">
           {isSubmitting ? (
             <>
