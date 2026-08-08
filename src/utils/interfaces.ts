@@ -70,4 +70,10 @@ export type FestDayOffers = Record<string, number>;
 export interface DayRegistrationDaysResponse {
   days: FestDay[];
   offers: FestDayOffers;
+  pricing?: {
+    phase: "early_bird" | "regular";
+    earlyBirdEndsAt: string;
+    perDayAmount: number;
+    regularPerDayAmount: number;
+  };
 }

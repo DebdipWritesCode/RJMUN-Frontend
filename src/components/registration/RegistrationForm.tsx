@@ -15,7 +15,9 @@ import { toast } from "react-toastify";
 import { Loader2, AlertCircle, IndianRupee } from "lucide-react";
 import api from "@/api/axios";
 import { useNavigate } from "react-router-dom";
-import CouponPromo from "@/components/CouponPromo";
+import EarlyBirdPricingNotice from "@/components/registration/EarlyBirdPricingNotice";
+import PaymentInstructions from "@/components/registration/PaymentInstructions";
+import axios from "axios";
 
 export interface RegistrationFormProps {
   portfolios: {
@@ -59,10 +61,13 @@ type RegistrationFormData = z.infer<typeof schema>;
 
 interface AmountData {
   baseAmount: number;
+  regularAmount: number;
   discountFromCoupon: number;
   finalAmount: number;
   coupon: { code: string; discountAmount: number } | null;
   currency: string;
+  pricingPhase: "early_bird" | "regular";
+  earlyBirdEndsAt: string;
 }
 
 const RegistrationForm: React.FC<RegistrationFormProps> = ({ portfolios }) => {
@@ -105,9 +110,10 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ portfolios }) => {
         couponCode: couponCode?.trim() || undefined,
       });
       setAmountData(response.data);
-    } catch (err: any) {
-      const errorMsg =
-        err?.response?.data?.message || "Failed to calculate amount";
+    } catch (error: unknown) {
+      const errorMsg = axios.isAxiosError<{ message?: string }>(error)
+        ? error.response?.data?.message || "Failed to calculate amount"
+        : "Failed to calculate amount";
       setAmountError(errorMsg);
       setAmountData(null);
     } finally {
@@ -148,9 +154,11 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ portfolios }) => {
         message || `Registration successful! Your ID: ${registrationId}`
       );
       navigate("/");
-    } catch (err: any) {
+    } catch (error: unknown) {
       toast.error(
-        err?.response?.data?.message || "Failed to submit application"
+        axios.isAxiosError<{ message?: string }>(error)
+          ? error.response?.data?.message || "Failed to submit application"
+          : "Failed to submit application"
       );
     }
   };
@@ -160,6 +168,7 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ portfolios }) => {
       <h2 className="text-2xl font-bold mb-6 text-primary text-center">
         Delegate Application Form
       </h2>
+      <EarlyBirdPricingNotice tone="light" className="mb-6" />
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
         {/* Full Name */}
         <div>
@@ -436,18 +445,16 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ portfolios }) => {
 
         {/* Optional Coupon Code */}
         <div className="space-y-2">
-          <CouponPromo
-            code="EARLYBIRD100"
-            label="Early bird offer"
-            description="Use this code below to unlock your MUN discount."
-          />
           <label className="block mb-1 text-sm font-medium">
             Coupon Code (Optional)
           </label>
           <Input
             {...register("couponCode")}
-            placeholder="Enter coupon code if any"
+            placeholder="Enter an official partner code"
           />
+          <p className="text-xs leading-5 text-slate-600">
+            Early-bird pricing is automatic and does not require a coupon.
+          </p>
         </div>
 
         {/* Pricing summary */}
@@ -466,9 +473,22 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ portfolios }) => {
           ) : amountData ? (
             <div className="text-sm space-y-2">
               <div className="flex justify-between py-2 border-b">
-                <span className="text-gray-700">Base Amount</span>
+                <span className="text-gray-700">
+                  {amountData.pricingPhase === "early_bird"
+                    ? "Early-bird registration"
+                    : "Registration fee"}
+                </span>
                 <span className="font-medium">₹{amountData.baseAmount}</span>
               </div>
+
+              {amountData.pricingPhase === "early_bird" && (
+                <div className="flex justify-between py-2 border-b text-green-700">
+                  <span>Early-bird saving</span>
+                  <span className="font-medium">
+                    -₹{amountData.regularAmount - amountData.baseAmount}
+                  </span>
+                </div>
+              )}
 
               {amountData.discountFromCoupon > 0 && (
                 <div className="flex justify-between py-2 border-b text-green-700">
@@ -493,74 +513,17 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ portfolios }) => {
           )}
         </div>
 
-        {/* Razorpay Payment */}
-        <div className="rounded-xl border border-border bg-background p-5 space-y-4">
-          <p className="text-sm font-medium text-center">
-            Click the button below to complete your payment via Razorpay, then upload a
-            screenshot of the payment receipt.
-          </p>
-          
-          {/* Payment Amount Box - Always Visible */}
-          <div className="bg-amber-50 border border-amber-200 rounded-lg p-3 sm:p-4 min-h-24 sm:min-h-20 flex flex-col items-center justify-center">
-            <p className="text-xs sm:text-sm text-gray-600 text-center mb-2">Payment Amount</p>
-            <p className="text-center text-lg sm:text-xl md:text-2xl font-bold break-words max-w-full px-2">
-              {isCalculatingAmount ? (
-                <span className="text-amber-600 flex items-center justify-center gap-2">
-                  <Loader2 className="w-4 h-4 sm:w-5 sm:h-5 animate-spin" />
-                  <span>Calculating...</span>
-                </span>
-              ) : amountError ? (
-                <span className="text-red-600">Invalid Coupon</span>
-              ) : amountData?.finalAmount === 0 ? (
-                <span className="text-green-600 text-sm sm:text-base md:text-lg">🎉 Your registration is free!</span>
-              ) : amountData ? (
-                <span className="text-amber-700">₹{amountData.finalAmount}</span>
-              ) : (
-                <span className="text-gray-500 text-xs sm:text-sm">Loading pricing...</span>
-              )}
-            </p>
-          </div>
-
-          <Button
-            type="button"
-            disabled={isCalculatingAmount || !amountData || !!amountError || amountData?.finalAmount === 0}
-            onClick={() => {
-              if (amountData) {
-                window.open("https://rzp.io/rzp/RgMwms9", "_blank");
-              }
-            }}
-            className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-xl transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
-          >
-            {isCalculatingAmount ? (
-              <>
-                <Loader2 className="w-4 h-4 animate-spin" />
-                Calculating...
-              </>
-            ) : (
-              "Pay with Razorpay"
-            )}
-          </Button>
-          <p className="text-xs text-gray-600 text-center">
-            A new window will open. Complete your payment and return to upload the receipt.
-          </p>
-          <div>
-            <label className="block mb-1 text-sm font-medium">
-              Payment Receipt Screenshot <span className="text-red-500">*</span>
-            </label>
-            <input
-              type="file"
-              accept="image/*"
-              onChange={(e) => {
-                setPaymentScreenshot(e.target.files?.[0] ?? null);
-                setScreenshotError(null);
-              }}
-              className="block w-full text-sm text-form-text file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-primary file:text-primary-foreground hover:file:opacity-90 cursor-pointer"
-            />
-            {screenshotError && (
-              <p className="text-sm text-red-500 mt-1">{screenshotError}</p>
-            )}
-          </div>
-        </div>
+        <PaymentInstructions
+          amount={amountData?.finalAmount}
+          amountError={amountError}
+          isCalculating={isCalculatingAmount}
+          inputId="mun-payment-receipt"
+          screenshotError={screenshotError}
+          onScreenshotChange={(file) => {
+            setPaymentScreenshot(file);
+            setScreenshotError(null);
+          }}
+        />
 
         {/* Submit Button */}
         <Button

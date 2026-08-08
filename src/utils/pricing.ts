@@ -1,7 +1,8 @@
 export interface PricingItem {
   title: string;
   description: string;
-  price: string;
+  earlyBirdPrice: string;
+  regularPrice: string;
   note?: string;
 }
 
@@ -10,8 +11,9 @@ export const pricingItems: PricingItem[] = [
     title: "MUN Registration",
     description:
       "Full delegate registration for RJMUN 3.0, including the delegate kit, lunch, and high tea.",
-    price: "1,200",
-    note: "Priority registrations are available for ₹1,000 while the priority window is open.",
+    earlyBirdPrice: "1,000",
+    regularPrice: "1,200",
+    note: "Early-bird pricing ends at 12:00 AM IST on 18 August 2026.",
   },
 ];
 
@@ -20,19 +22,21 @@ export const festPricingItems: PricingItem[] = [
     title: "One-day DESTINIQUE Pass",
     description:
       "Entry to one DESTINIQUE fest day, including lunch and high tea.",
-    price: "500",
+    earlyBirdPrice: "400",
+    regularPrice: "500",
   },
   {
     title: "Two-day DESTINIQUE Pass",
     description:
       "Entry to both DESTINIQUE fest days, including lunch and high tea on both days.",
-    price: "1,000",
+    earlyBirdPrice: "800",
+    regularPrice: "1,000",
   },
 ];
 
 export const paymentMethods = [
-  "All payments are processed securely through Razorpay.",
-  "We accept UPI, credit cards, debit cards, net banking, and wallets.",
-  "You will receive a confirmation email with your registration ID upon successful payment.",
-  "For any payment-related issues, please contact us at xyaa.33@gmail.com.",
+  "Pay the exact amount shown on the registration form using the official QR code or bank details.",
+  "Upload a clear screenshot of the payment receipt to submit your registration.",
+  "A registration paid with an incorrect amount will not be considered, and the payment will not be refunded.",
+  "For payment help, WhatsApp 9340187056.",
 ];

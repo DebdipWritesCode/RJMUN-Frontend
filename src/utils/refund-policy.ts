@@ -9,9 +9,10 @@ export const cancellationPoints = [
 
 export const refundPoints = [
   "All registration fees are generally non-refundable once payment is successfully processed.",
+  "Payments made for an incorrect amount will not be accepted as a valid registration and will not be refunded. Participants must verify the exact amount shown on the registration form before paying.",
   "In the case of duplicate payments or technical errors during payment processing, a full refund will be initiated after verification. Participants must report such issues within 7 days of the transaction.",
   "Approved refunds will be processed within 7-10 business days and credited back to the original payment method used during registration.",
-  "Razorpay transaction/processing fees, if any, may be deducted from the refund amount.",
+  "Bank or payment-provider transaction fees, if any, may be deducted from an approved refund amount.",
   "No refunds will be issued for no-shows or failure to attend the event after successful registration.",
 ];
 
@@ -21,4 +22,4 @@ export const eventChanges = [
   "In case of partial cancellation (e.g., a specific fest day is cancelled), refunds for that portion will be handled on a case-by-case basis.",
 ];
 
-export const contactForRefunds = `For any queries related to cancellations or refunds, please reach out to us at xyaa.33@gmail.com or contact our team members listed on the Contact Us page. All refund requests must be submitted in writing via email.`;
+export const contactForRefunds = `For payment assistance, WhatsApp 9340187056. For cancellation or refund queries, email xyaa.33@gmail.com. All refund requests must be submitted in writing via email.`;

@@ -2,7 +2,7 @@ export const privacyPolicyIntro = `This Privacy Policy describes how RJMUN 3.0 (
 
 export const informationWeCollect = [
   "Full name, email address, phone number, and school/institution name during registration.",
-  "Payment-related information such as transaction IDs processed via Razorpay. We do not store your credit/debit card details — all payment data is handled securely by Razorpay.",
+  "Payment-related information such as receipt screenshots and transaction details submitted for registration verification. We do not collect or store credit/debit card details.",
   "Committee and portfolio preferences submitted during MUN registration.",
   "Any additional information you voluntarily provide through forms or communication with organizers.",
 ];
@@ -17,13 +17,13 @@ export const howWeUseInfo = [
 
 export const dataProtection = [
   "We implement reasonable security measures to protect your personal information from unauthorized access, alteration, or disclosure.",
-  "Payment transactions are processed through Razorpay's secure payment gateway, which is PCI-DSS compliant.",
+  "Payment receipt screenshots are stored securely and used only to verify registration payments.",
   "Access to personal data is restricted to authorized members of the organizing team only.",
   "We do not sell, trade, or rent your personal information to any third parties.",
 ];
 
 export const dataSharing = [
-  "We may share your information with Razorpay solely for the purpose of processing payments.",
+  "We may share payment details with the relevant bank or payment provider only when necessary to verify or resolve a transaction.",
   "We may disclose information if required by law or to protect the rights and safety of the organizing team and participants.",
   "Aggregate, anonymized data may be used for internal analysis and event improvement purposes.",
 ];
