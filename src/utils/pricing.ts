@@ -36,7 +36,7 @@ export const festPricingItems: PricingItem[] = [
 
 export const paymentMethods = [
   "Pay the exact amount shown on the registration form using the official QR code or bank details.",
-  "Upload a clear screenshot of the payment receipt to submit your registration.",
+  "After payment, send your payment receipt on WhatsApp with the participant's name and email address.",
   "A registration paid with an incorrect amount will not be considered, and the payment will not be refunded.",
   "For payment help, WhatsApp 9340187056.",
 ];

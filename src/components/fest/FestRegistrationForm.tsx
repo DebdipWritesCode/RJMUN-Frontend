@@ -54,8 +54,6 @@ const FestRegistrationForm: React.FC<FestRegistrationFormProps> = ({
   const [selectedDayIds, setSelectedDayIds] = useState<Set<string>>(new Set());
   const [selectedActivitiesPerDay, setSelectedActivitiesPerDay] = useState<Record<string, number[]>>({});
   const navigate = useNavigate();
-  const [paymentScreenshot, setPaymentScreenshot] = useState<File | null>(null);
-  const [screenshotError, setScreenshotError] = useState<string | null>(null);
   const [isCalculatingAmount, setIsCalculatingAmount] = useState(false);
   const [amountData, setAmountData] = useState<AmountData | null>(null);
   const [amountError, setAmountError] = useState<string | null>(null);
@@ -170,12 +168,6 @@ const FestRegistrationForm: React.FC<FestRegistrationFormProps> = ({
       toast.error("Select at least one day");
       return;
     }
-    if (!paymentScreenshot) {
-      setScreenshotError("Payment screenshot is required.");
-      return;
-    }
-    setScreenshotError(null);
-
     const data = {
       firstName: formData.firstName,
       lastName: formData.lastName,
@@ -188,7 +180,6 @@ const FestRegistrationForm: React.FC<FestRegistrationFormProps> = ({
     try {
       const fd = new FormData();
       fd.append("data", JSON.stringify(data));
-      fd.append("paymentScreenshot", paymentScreenshot);
       if (formData.couponCode?.trim()) {
         fd.append("couponCode", formData.couponCode.trim());
       }
@@ -461,17 +452,11 @@ const FestRegistrationForm: React.FC<FestRegistrationFormProps> = ({
           amount={amountData?.finalAmount}
           amountError={amountError}
           isCalculating={isCalculatingAmount}
-          inputId="fest-payment-receipt"
-          screenshotError={screenshotError}
-          onScreenshotChange={(file) => {
-            setPaymentScreenshot(file);
-            setScreenshotError(null);
-          }}
         />
 
         <Button
           type="submit"
-          disabled={isSubmitting || isCalculatingAmount || selectedDayIds.size === 0 || !paymentScreenshot}
+          disabled={isSubmitting || isCalculatingAmount || selectedDayIds.size === 0}
           className="w-full bg-primary text-primary-foreground font-semibold py-3 rounded-xl disabled:opacity-50 flex items-center justify-center gap-2"
         >
           {isSubmitting ? (
