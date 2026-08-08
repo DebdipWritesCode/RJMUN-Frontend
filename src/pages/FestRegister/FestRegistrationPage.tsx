@@ -4,6 +4,11 @@ import { toast } from "react-toastify";
 import FestRegistrationForm from "@/components/fest/FestRegistrationForm";
 import type { DayRegistrationDaysResponse } from "@/utils/interfaces";
 import { Loader2 } from "lucide-react";
+import {
+  EARLY_BIRD_ENDS_AT,
+  isEarlyBirdActive,
+  REGISTRATION_PRICES,
+} from "@/utils/registration-pricing";
 
 const FestRegistrationPage = () => {
   const [data, setData] = useState<DayRegistrationDaysResponse | null>(null);
@@ -14,7 +19,7 @@ const FestRegistrationPage = () => {
       try {
         const res = await api.get<DayRegistrationDaysResponse>("/day-registration/days");
         setData(res.data);
-      } catch (err) {
+      } catch {
         toast.error("Failed to load fest days. Please try again later.");
       } finally {
         setLoading(false);
@@ -45,9 +50,26 @@ const FestRegistrationPage = () => {
     );
   }
 
+  const earlyBirdFallback = isEarlyBirdActive();
+  const pricing = data.pricing ?? {
+    phase: earlyBirdFallback ? ("early_bird" as const) : ("regular" as const),
+    earlyBirdEndsAt: EARLY_BIRD_ENDS_AT,
+    perDayAmount: earlyBirdFallback
+      ? REGISTRATION_PRICES.fest.earlyBirdPerDay
+      : REGISTRATION_PRICES.fest.regularPerDay,
+    regularPerDayAmount: REGISTRATION_PRICES.fest.regularPerDay,
+  };
+  const days = data.pricing
+    ? data.days
+    : data.days.map((day) => ({ ...day, price: pricing.perDayAmount }));
+
   return (
     <div className="container mx-auto px-4 py-8">
-      <FestRegistrationForm days={data.days} offers={data.offers ?? {}} />
+      <FestRegistrationForm
+        days={days}
+        offers={data.offers ?? {}}
+        pricing={pricing}
+      />
     </div>
   );
 };

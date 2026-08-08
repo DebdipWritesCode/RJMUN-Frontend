@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { ChevronLeft } from "lucide-react";
-import CouponPromo from "@/components/CouponPromo";
+import EarlyBirdPricingNotice from "@/components/registration/EarlyBirdPricingNotice";
 
 const Landing = () => {
   const navigate = useNavigate();
@@ -21,20 +21,7 @@ const Landing = () => {
             Choose an option below to continue.
           </p>
 
-          <div className="w-full space-y-3">
-            <CouponPromo
-              variant="card"
-              code="EARLYBIRD100"
-              label="Early bird · MUN"
-              description="Use this code on MUN registration to unlock your discount."
-            />
-            <CouponPromo
-              variant="card"
-              code="EARLYBIRDFEST100"
-              label="Early bird · Fest"
-              description="Use this code on Fest registration to unlock your discount."
-            />
-          </div>
+          <EarlyBirdPricingNotice />
 
           <Button
             className="w-full bg-[#f8c94c] hover:bg-[#e6b73f] text-[#0b1f3a] text-lg py-6 font-semibold"
@@ -76,14 +63,7 @@ const Landing = () => {
           Choose an option below to continue.
         </p>
 
-        <div className="w-full">
-          <CouponPromo
-            variant="card"
-            code="EARLYBIRD100"
-            label="Early bird · MUN"
-            description="Apply this code on the next step to unlock your discount."
-          />
-        </div>
+        <EarlyBirdPricingNotice />
 
         <Button
           className="w-full bg-[#f8c94c] hover:bg-[#e6b73f] text-[#0b1f3a] text-lg py-6 font-semibold"

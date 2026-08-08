@@ -8,8 +8,14 @@ import { toast } from "react-toastify";
 import { IndianRupee, Calendar, Tag, Loader2, AlertCircle, Check } from "lucide-react";
 import api from "@/api/axios";
 import { useNavigate } from "react-router-dom";
-import type { FestDay, FestDayOffers } from "@/utils/interfaces";
-import CouponPromo from "@/components/CouponPromo";
+import type {
+  DayRegistrationDaysResponse,
+  FestDay,
+  FestDayOffers,
+} from "@/utils/interfaces";
+import EarlyBirdPricingNotice from "@/components/registration/EarlyBirdPricingNotice";
+import PaymentInstructions from "@/components/registration/PaymentInstructions";
+import axios from "axios";
 
 const schema = z.object({
   firstName: z.string().min(1, "First name is required"),
@@ -24,20 +30,26 @@ type FestFormData = z.infer<typeof schema>;
 export interface FestRegistrationFormProps {
   days: FestDay[];
   offers: FestDayOffers;
+  pricing: NonNullable<DayRegistrationDaysResponse["pricing"]>;
 }
 
 interface AmountData {
+  regularSubtotal: number;
   subtotal: number;
+  discountFromEarlyBird: number;
   discountFromMultiDay: number;
   discountFromCoupon: number;
   finalAmount: number;
   coupon: { code: string; discountAmount: number } | null;
   currency: string;
+  pricingPhase: "early_bird" | "regular";
+  earlyBirdEndsAt: string;
 }
 
 const FestRegistrationForm: React.FC<FestRegistrationFormProps> = ({
   days,
   offers,
+  pricing,
 }) => {
   const [selectedDayIds, setSelectedDayIds] = useState<Set<string>>(new Set());
   const [selectedActivitiesPerDay, setSelectedActivitiesPerDay] = useState<Record<string, number[]>>({});
@@ -78,9 +90,10 @@ const FestRegistrationForm: React.FC<FestRegistrationFormProps> = ({
         selectedActivitiesPerDay: selectedActivitiesPerDay,
       });
       setAmountData(response.data);
-    } catch (err: any) {
-      const errorMsg =
-        err?.response?.data?.message || "Failed to calculate amount";
+    } catch (error: unknown) {
+      const errorMsg = axios.isAxiosError<{ message?: string }>(error)
+        ? error.response?.data?.message || "Failed to calculate amount"
+        : "Failed to calculate amount";
       setAmountError(errorMsg);
       setAmountData(null);
     } finally {
@@ -186,9 +199,11 @@ const FestRegistrationForm: React.FC<FestRegistrationFormProps> = ({
       const { message: msg, registrationId } = response.data;
       toast.success(msg || "Registration completed successfully!");
       navigate("/fest/success", { state: { registrationId, email: formData.email } });
-    } catch (err: any) {
+    } catch (error: unknown) {
       toast.error(
-        err?.response?.data?.message || "Failed to submit registration"
+        axios.isAxiosError<{ message?: string }>(error)
+          ? error.response?.data?.message || "Failed to submit registration"
+          : "Failed to submit registration"
       );
     }
   };
@@ -198,13 +213,19 @@ const FestRegistrationForm: React.FC<FestRegistrationFormProps> = ({
       <h2 className="text-2xl font-bold mb-6 text-primary text-center">
         Fest Day Registration
       </h2>
+      <EarlyBirdPricingNotice tone="light" className="mb-8" />
 
       {/* Day selection */}
       <div className="mb-8">
-        <h3 className="text-lg font-semibold mb-3 flex items-center gap-2">
-          <Calendar className="w-5 h-5" />
-          Select days
-        </h3>
+        <div className="mb-3 flex flex-wrap items-center justify-between gap-2">
+          <h3 className="flex items-center gap-2 text-lg font-semibold">
+            <Calendar className="w-5 h-5" />
+            Select days
+          </h3>
+          <span className="rounded-full bg-amber-100 px-3 py-1 text-sm font-bold text-amber-900">
+            ₹{pricing.perDayAmount} per day
+          </span>
+        </div>
         <div className="grid gap-4 sm:grid-cols-2">
           {days.map((day) => (
             <label
@@ -345,9 +366,19 @@ const FestRegistrationForm: React.FC<FestRegistrationFormProps> = ({
           ) : amountData ? (
             <div className="text-sm space-y-2">
               <div className="flex justify-between py-2 border-b">
-                <span className="text-gray-700">Subtotal ({selectedDays.length} day{selectedDays.length !== 1 ? "s" : ""})</span>
+                <span className="text-gray-700">
+                  {amountData.pricingPhase === "early_bird" ? "Early-bird subtotal" : "Subtotal"}
+                  {` (${selectedDays.length} day${selectedDays.length !== 1 ? "s" : ""})`}
+                </span>
                 <span className="font-medium">₹{selectedDays.reduce((sum, day) => sum + day.price, 0)}</span>
               </div>
+
+              {amountData.discountFromEarlyBird > 0 && (
+                <div className="flex justify-between py-2 border-b text-green-700">
+                  <span>Early-bird saving</span>
+                  <span className="font-medium">-₹{amountData.discountFromEarlyBird}</span>
+                </div>
+              )}
 
               {amountData.discountFromMultiDay > 0 && (
                 <div className="flex justify-between py-2 border-b text-green-700">
@@ -368,9 +399,9 @@ const FestRegistrationForm: React.FC<FestRegistrationFormProps> = ({
                 <span className="text-lg text-amber-700">₹{amountData.finalAmount}</span>
               </div>
 
-              {(amountData.discountFromMultiDay > 0 || amountData.discountFromCoupon > 0) && (
+              {(amountData.discountFromEarlyBird > 0 || amountData.discountFromMultiDay > 0 || amountData.discountFromCoupon > 0) && (
                 <p className="text-xs text-green-700 pt-1">
-                  You saved: ₹{amountData.discountFromMultiDay + amountData.discountFromCoupon}
+                  You saved: ₹{amountData.discountFromEarlyBird + amountData.discountFromMultiDay + amountData.discountFromCoupon}
                 </p>
               )}
             </div>
@@ -416,86 +447,27 @@ const FestRegistrationForm: React.FC<FestRegistrationFormProps> = ({
           )}
         </div>
         <div className="space-y-2">
-          <CouponPromo
-            code="EARLYBIRDFEST100"
-            label="Early bird offer"
-            description="Use this code below to unlock your Fest discount."
-          />
           <label className="flex items-center gap-1 mb-1 text-sm font-medium">
             <Tag className="w-4 h-4" />
             Coupon code (optional)
           </label>
-          <Input {...register("couponCode")} placeholder="Enter coupon if you have one" />
+          <Input {...register("couponCode")} placeholder="Enter an official partner code" />
+          <p className="text-xs leading-5 text-slate-600">
+            Early-bird pricing is automatic and does not require a coupon.
+          </p>
         </div>
 
-        {/* Razorpay Payment */}
-        <div className="rounded-xl border border-border bg-background p-5 space-y-4">
-          <p className="text-sm font-medium text-center">
-            Click the button below to complete your payment via Razorpay, then upload a
-            screenshot of the payment receipt.
-          </p>
-          
-          {/* Payment Amount Box - Always Visible */}
-          <div className="bg-amber-50 border border-amber-200 rounded-lg p-3 sm:p-4 min-h-24 sm:min-h-20 flex flex-col items-center justify-center">
-            <p className="text-xs sm:text-sm text-gray-600 text-center mb-2">Payment Amount</p>
-            <p className="text-center text-lg sm:text-xl md:text-2xl font-bold break-words max-w-full px-2">
-              {isCalculatingAmount ? (
-                <span className="text-amber-600 flex items-center justify-center gap-2">
-                  <Loader2 className="w-4 h-4 sm:w-5 sm:h-5 animate-spin" />
-                  <span>Calculating...</span>
-                </span>
-              ) : amountError ? (
-                <span className="text-red-600">Invalid Coupon</span>
-              ) : amountData?.finalAmount === 0 ? (
-                <span className="text-green-600 text-sm sm:text-base md:text-lg">🎉 Your registration is free!</span>
-              ) : amountData ? (
-                <span className="text-amber-700">₹{amountData.finalAmount}</span>
-              ) : (
-                <span className="text-gray-500 text-xs sm:text-sm">Select days to continue</span>
-              )}
-            </p>
-          </div>
-
-          <Button
-            type="button"
-            disabled={isCalculatingAmount || !amountData || !!amountError || selectedDayIds.size === 0 || amountData?.finalAmount === 0}
-            onClick={() => {
-              if (amountData) {
-                window.open("https://rzp.io/rzp/RgMwms9", "_blank");
-              }
-            }}
-            className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-xl transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
-          >
-            {isCalculatingAmount ? (
-              <>
-                <Loader2 className="w-4 h-4 animate-spin" />
-                Calculating...
-              </>
-            ) : (
-              "Pay with Razorpay"
-            )}
-          </Button>
-          <p className="text-xs text-gray-600 text-center">
-            A new window will open. Complete your payment and return to upload the receipt.
-          </p>
-          <div>
-            <label className="block mb-1 text-sm font-medium">
-              Payment Receipt Screenshot <span className="text-red-500">*</span>
-            </label>
-            <input
-              type="file"
-              accept="image/*"
-              onChange={(e) => {
-                setPaymentScreenshot(e.target.files?.[0] ?? null);
-                setScreenshotError(null);
-              }}
-              className="block w-full text-sm text-form-text file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-primary file:text-primary-foreground hover:file:opacity-90 cursor-pointer"
-            />
-            {screenshotError && (
-              <p className="text-sm text-red-500 mt-1">{screenshotError}</p>
-            )}
-          </div>
-        </div>
+        <PaymentInstructions
+          amount={amountData?.finalAmount}
+          amountError={amountError}
+          isCalculating={isCalculatingAmount}
+          inputId="fest-payment-receipt"
+          screenshotError={screenshotError}
+          onScreenshotChange={(file) => {
+            setPaymentScreenshot(file);
+            setScreenshotError(null);
+          }}
+        />
 
         <Button
           type="submit"

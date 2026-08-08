@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "@/api/axios";
 import { toast } from "react-toastify";
-import type { FestDay } from "@/utils/interfaces";
+import type { DayRegistrationDaysResponse, FestDay } from "@/utils/interfaces";
 import { EVENT_THEME, FEST_DATE } from "@/utils/constants";
 import {
   Calendar,
@@ -22,8 +22,10 @@ const FestDaysPage = () => {
   useEffect(() => {
     const fetchDays = async () => {
       try {
-        const res = await api.get("/fest-days");
-        setDays(res.data);
+        const res = await api.get<DayRegistrationDaysResponse>(
+          "/day-registration/days"
+        );
+        setDays(res.data.days);
       } catch {
         toast.error("Failed to load fest days");
       } finally {

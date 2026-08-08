@@ -3,8 +3,10 @@ The term "Team" or "Teams" refers to the event organizing team of RJMUN, mainly 
 `;
 
 export const paymentPoints = [
-  "Payment for the event should be done only through the official website of RJMUN.",
-  "Participants may be required to submit transaction IDs or additional details to the organizers if requested.",
+  "Payment for the event must be made using the official QR code or bank details shown on the RJMUN registration form.",
+  "Participants must pay the exact amount displayed and upload a clear screenshot of the payment receipt with their registration.",
+  "Registrations paid with an incorrect amount will not be considered, and those payments will not be refunded.",
+  "Participants may be required to submit transaction IDs or additional payment details to the organizers if requested.",
   "All fees are non-refundable unless the event is cancelled by the organizers or some other valid reason is provided.",
   "Participants will receive an email confirmation upon successful payment. In the email there will be a registration ID which will be used for further communication and identification.",
   "Refunds related to technical issues or payment failures will be handled on a case-by-case basis, and participants must contact the organizers within 7 days of the issue. Refund in such cases is not guaranteed.",
