@@ -22,8 +22,9 @@ import type {
 import { toast } from "react-toastify";
 import api from "@/api/axios";
 import { Button } from "@/components/ui/button";
-import { useState } from "react";
-import { Loader2 } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import { useMemo, useState } from "react";
+import { Loader2, Search, X } from "lucide-react";
 
 interface AllotmentTableProps {
   registrants: RegistrantRow[];
@@ -39,6 +40,46 @@ const AllotmentTable: React.FC<AllotmentTableProps> = ({
   setAllotments,
 }) => {
   const [loading, setLoading] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+
+  const allotmentsByRegistrationId = useMemo(
+    () =>
+      new Map(
+        allotments.map((allotment) => [allotment.registrationId, allotment])
+      ),
+    [allotments]
+  );
+
+  const filteredRegistrants = useMemo(() => {
+    const normalizedQuery = searchQuery.trim().toLocaleLowerCase();
+
+    if (!normalizedQuery) {
+      return registrants;
+    }
+
+    return registrants.filter((registrant) => {
+      const allotment = allotmentsByRegistrationId.get(
+        registrant.registrationId
+      );
+      const searchableValues = [
+        registrant.registrationId,
+        registrant.fullName,
+        registrant.institution,
+        registrant.committeePreference1,
+        registrant.committeePreference2,
+        registrant.portfolioPreference1ForCommitteePreference1,
+        registrant.portfolioPreference2ForCommitteePreference1,
+        registrant.portfolioPreference1ForCommitteePreference2,
+        registrant.portfolioPreference2ForCommitteePreference2,
+        allotment?.allottedCommittee,
+        allotment?.allottedPortfolio,
+      ];
+
+      return searchableValues.some((value) =>
+        value?.toLocaleLowerCase().includes(normalizedQuery)
+      );
+    });
+  }, [allotmentsByRegistrationId, registrants, searchQuery]);
 
   const handleCommitteeChange = (registrationId: string, value: string) => {
     setAllotments((prev: UpdateAllotments[]) =>
@@ -87,7 +128,7 @@ const AllotmentTable: React.FC<AllotmentTableProps> = ({
       if (res.data.failed.length > 0) {
         toast.warn(`Failed for: ${res.data.failed.join(", ")}`);
       }
-    } catch (err) {
+    } catch {
       toast.error("Update failed");
     } finally {
       setLoading(false);
@@ -104,7 +145,7 @@ const AllotmentTable: React.FC<AllotmentTableProps> = ({
       if (res.data.failed.length) {
         toast.error(`Failed for: ${res.data.failed.join(", ")}`);
       }
-    } catch (err) {
+    } catch {
       toast.error("Failed to send allotment emails");
     } finally {
       setLoading(false);
@@ -141,6 +182,41 @@ const AllotmentTable: React.FC<AllotmentTableProps> = ({
 
   return (
     <div className="space-y-4">
+      <div className="rounded-lg border bg-white p-4 shadow-sm">
+        <label
+          htmlFor="allotment-search"
+          className="mb-2 block text-sm font-medium text-gray-700">
+          Search registrants
+        </label>
+        <div className="relative max-w-xl">
+          <Search
+            aria-hidden="true"
+            className="pointer-events-none absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-gray-400"
+          />
+          <Input
+            id="allotment-search"
+            type="search"
+            value={searchQuery}
+            onChange={(event) => setSearchQuery(event.target.value)}
+            placeholder="Search by name, registration ID, institution, committee, or portfolio"
+            autoComplete="off"
+            className="h-11 pl-10 pr-12"
+          />
+          {searchQuery && (
+            <button
+              type="button"
+              onClick={() => setSearchQuery("")}
+              aria-label="Clear registrant search"
+              className="absolute right-0 top-1/2 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-md text-gray-500 transition-colors hover:bg-gray-100 hover:text-gray-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500">
+              <X aria-hidden="true" className="h-5 w-5" />
+            </button>
+          )}
+        </div>
+        <p className="mt-2 text-sm text-gray-600" aria-live="polite">
+          Showing {filteredRegistrants.length} of {registrants.length} registrants
+        </p>
+      </div>
+
       <Table>
         <TableHeader>
           <TableRow>
@@ -153,9 +229,9 @@ const AllotmentTable: React.FC<AllotmentTableProps> = ({
           </TableRow>
         </TableHeader>
         <TableBody>
-          {registrants.map((reg, _) => {
-            const allotment = allotments.find(
-              (a) => a.registrationId === reg.registrationId
+          {filteredRegistrants.map((reg) => {
+            const allotment = allotmentsByRegistrationId.get(
+              reg.registrationId
             );
 
             return (
@@ -223,6 +299,19 @@ const AllotmentTable: React.FC<AllotmentTableProps> = ({
               </TableRow>
             );
           })}
+          {filteredRegistrants.length === 0 && (
+            <TableRow>
+              <TableCell colSpan={6} className="h-32 text-center">
+                <p className="font-medium text-gray-800">
+                  No registrants found
+                </p>
+                <p className="mt-1 text-sm text-gray-500">
+                  Try a different name, registration ID, institution,
+                  committee, or portfolio.
+                </p>
+              </TableCell>
+            </TableRow>
+          )}
         </TableBody>
       </Table>
 
