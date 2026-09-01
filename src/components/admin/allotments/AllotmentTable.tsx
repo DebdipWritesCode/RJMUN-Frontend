@@ -140,13 +140,30 @@ const AllotmentTable: React.FC<AllotmentTableProps> = ({
       setLoading(true);
       toast.info("Sending allotment emails...");
       const res = await api.post("/registration/send-allotment-emails");
-      console.log(res.data);
-      toast.success(`Sent ${res.data.sent} emails`);
-      if (res.data.failed.length) {
-        toast.error(`Failed for: ${res.data.failed.join(", ")}`);
+      const sent = Number(res.data.sent ?? 0);
+      const failedCount = Array.isArray(res.data.failed)
+        ? res.data.failed.length
+        : 0;
+
+      if (sent > 0) {
+        toast.success(`Sent ${sent} allotment emails`);
+      }
+
+      if (failedCount > 0 && sent === 0) {
+        toast.error(
+          `No emails were sent. The email service is temporarily unavailable for ${failedCount} registrations. Please wait and try again.`
+        );
+      } else if (failedCount > 0) {
+        toast.warn(
+          `${failedCount} allotment emails failed. Check the email addresses before retrying.`
+        );
+      } else if (sent === 0) {
+        toast.info("No updated allotments are waiting for email.");
       }
     } catch {
-      toast.error("Failed to send allotment emails");
+      toast.error(
+        "The allotment emails could not be sent. Please wait and try again."
+      );
     } finally {
       setLoading(false);
     }
